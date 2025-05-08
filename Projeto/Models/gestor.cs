@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace iTasks.Models
 {
     public enum Departamento{IT, Marketing, Administração}
-    class gestor: utilizador
+    class Gestor: Utilizador
     {
         public Departamento departamento { get; set; }
         public bool gereUtilizadores { get; set; }
 
-        public gestor(string nome, string username, string password, Departamento departamento, bool gereUtilizadores) : base(nome, username, password)
+        public Gestor(string nome, string username, string password, Departamento departamento, bool gereUtilizadores) : base(nome, username, password)
         {
             this.nome = nome;
             this.username = username;

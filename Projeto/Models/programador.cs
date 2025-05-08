@@ -12,11 +12,11 @@ namespace iTasks.Models
         Junior,
         Senior
     }
-    class programador: utilizador
+    class Programador: Utilizador
     {
         public NivelExperiencia nivelExperiencia { get; set; }
         public int idGestor { get; set; }
-        public programador(string nome, string username, string password, NivelExperiencia nivelExperiencia, int idGestor) : base(nome, username, password)
+        public Programador(string nome, string username, string password, NivelExperiencia nivelExperiencia, int idGestor) : base(nome, username, password)
         {
             this.nome = nome;
             this.username = username;

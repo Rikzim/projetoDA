@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace iTasks.Models
 {
-    class utilizador
+    class Utilizador
     {
         public int id { get; set; }
         public string nome { get; set; }
         public string username { get; set; }
         public string password { get; set; }
 
-        public utilizador(string nome, string username, string password)
+        public Utilizador(string nome, string username, string password)
         {
             this.nome = nome;
             this.username = username;
