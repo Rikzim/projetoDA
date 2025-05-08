@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="Models\Gestor.cs" />
     <Compile Include="Models\Programador.cs" />
+    <Compile Include="Models\Tarefa.cs" />
+    <Compile Include="Models\TipoTarefa.cs" />
     <Compile Include="Models\Utilizador.cs" />
     <Compile Include="Views\frmConsultarTarefasConcluidas.cs">
       <SubType>Form</SubType>
