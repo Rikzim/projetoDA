@@ -46,9 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\gestor.cs" />
-    <Compile Include="Models\programador.cs" />
-    <Compile Include="Models\utilizador.cs" />
+    <Compile Include="Models\Gestor.cs" />
+    <Compile Include="Models\Programador.cs" />
+    <Compile Include="Models\Utilizador.cs" />
     <Compile Include="Views\frmConsultarTarefasConcluidas.cs">
       <SubType>Form</SubType>
     </Compile>
