@@ -18,12 +18,6 @@ namespace iTasks
         public frmLogin()
         {
             InitializeComponent();
-
-            db = new BasedeDados();
-            var adminUser = new Gestor("Administrador", "admin", "admin", Departamento.Administração, true);
-            db.Utilizador.Add(adminUser);
-            db.SaveChanges();
-
         }
 
         private void btLogin_Click(object sender, EventArgs e)
