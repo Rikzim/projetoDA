@@ -57,6 +57,9 @@ namespace iTasks
 
             lstListaGestores.DataSource = null;
             lstListaGestores.DataSource = GestorController.ListarGestores();
+
+            // Atualiza os ID do gestor
+            txtIdGestor.Text = GestorController.countGestor().ToString();
         }
 
         private void btGravarProg_Click(object sender, EventArgs e)
@@ -65,7 +68,10 @@ namespace iTasks
             MessageBox.Show("Programador gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             lstListaProgramadores.DataSource = null;
-            lstListaProgramadores.DataSource = ProgramadorController.ListarProgramadores(); 
+            lstListaProgramadores.DataSource = ProgramadorController.ListarProgramadores();
+
+            // Atualiza os ID do programador
+            txtIdProg.Text = ProgramadorController.countProgramador().ToString();
         }
     }
 }

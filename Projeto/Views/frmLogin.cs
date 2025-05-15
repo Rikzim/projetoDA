@@ -21,10 +21,6 @@ namespace iTasks
             //Permite que o formulário receba eventos de tecla antes dos controles filhos
             this.KeyPreview = true;
             this.KeyPress += frmLogin_KeyPress;
-
-            db = new BasedeDados();
-
-
         }
 
         private void btLogin_Click(object sender, EventArgs e)

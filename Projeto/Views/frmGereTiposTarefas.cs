@@ -41,6 +41,9 @@ namespace iTasks
                 // Atualiza a lista
                 db.TipoTarefa.Load();
                 lstLista.DataSource = db.TipoTarefa.Local.ToBindingList();
+
+                // Preenche o campo de id
+                txtId.Text = TipoTarefaController.contaTipoTarefa();
             }
             else
             {
