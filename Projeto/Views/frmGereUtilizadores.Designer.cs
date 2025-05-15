@@ -36,14 +36,16 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lstListaGestores = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkGereUtilizadores = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtPasswordGestor = new System.Windows.Forms.TextBox();
+            this.cbDepartamento = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.txtUsernameGestor = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtPasswordGestor = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cbDepartamento = new System.Windows.Forms.ComboBox();
-            this.chkGereUtilizadores = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.cbGestorProg = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.btGravarProg = new System.Windows.Forms.Button();
             this.txtPasswordProg = new System.Windows.Forms.TextBox();
@@ -57,8 +59,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.txtNomeProg = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.cbGestorProg = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -73,6 +73,7 @@
             this.btGravarGestor.TabIndex = 37;
             this.btGravarGestor.Text = "Gravar Dados";
             this.btGravarGestor.UseVisualStyleBackColor = true;
+            this.btGravarGestor.Click += new System.EventHandler(this.btGravarGestor_Click);
             // 
             // txtNomeGestor
             // 
@@ -148,37 +149,15 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Gestores";
             // 
-            // txtUsernameGestor
+            // chkGereUtilizadores
             // 
-            this.txtUsernameGestor.Location = new System.Drawing.Point(294, 119);
-            this.txtUsernameGestor.Name = "txtUsernameGestor";
-            this.txtUsernameGestor.Size = new System.Drawing.Size(201, 20);
-            this.txtUsernameGestor.TabIndex = 38;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(291, 103);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(58, 13);
-            this.label2.TabIndex = 37;
-            this.label2.Text = "Username:";
-            // 
-            // txtPasswordGestor
-            // 
-            this.txtPasswordGestor.Location = new System.Drawing.Point(294, 159);
-            this.txtPasswordGestor.Name = "txtPasswordGestor";
-            this.txtPasswordGestor.Size = new System.Drawing.Size(201, 20);
-            this.txtPasswordGestor.TabIndex = 40;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(291, 143);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 13);
-            this.label3.TabIndex = 39;
-            this.label3.Text = "Password:";
+            this.chkGereUtilizadores.AutoSize = true;
+            this.chkGereUtilizadores.Location = new System.Drawing.Point(294, 240);
+            this.chkGereUtilizadores.Name = "chkGereUtilizadores";
+            this.chkGereUtilizadores.Size = new System.Drawing.Size(106, 17);
+            this.chkGereUtilizadores.TabIndex = 43;
+            this.chkGereUtilizadores.Text = "Gere Utilizadores";
+            this.chkGereUtilizadores.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
@@ -189,6 +168,13 @@
             this.label5.TabIndex = 42;
             this.label5.Text = "Departamento:";
             // 
+            // txtPasswordGestor
+            // 
+            this.txtPasswordGestor.Location = new System.Drawing.Point(294, 159);
+            this.txtPasswordGestor.Name = "txtPasswordGestor";
+            this.txtPasswordGestor.Size = new System.Drawing.Size(201, 20);
+            this.txtPasswordGestor.TabIndex = 40;
+            // 
             // cbDepartamento
             // 
             this.cbDepartamento.FormattingEnabled = true;
@@ -197,15 +183,30 @@
             this.cbDepartamento.Size = new System.Drawing.Size(201, 21);
             this.cbDepartamento.TabIndex = 41;
             // 
-            // chkGereUtilizadores
+            // label3
             // 
-            this.chkGereUtilizadores.AutoSize = true;
-            this.chkGereUtilizadores.Location = new System.Drawing.Point(294, 240);
-            this.chkGereUtilizadores.Name = "chkGereUtilizadores";
-            this.chkGereUtilizadores.Size = new System.Drawing.Size(106, 17);
-            this.chkGereUtilizadores.TabIndex = 43;
-            this.chkGereUtilizadores.Text = "Gere Utilizadores";
-            this.chkGereUtilizadores.UseVisualStyleBackColor = true;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(291, 143);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(56, 13);
+            this.label3.TabIndex = 39;
+            this.label3.Text = "Password:";
+            // 
+            // txtUsernameGestor
+            // 
+            this.txtUsernameGestor.Location = new System.Drawing.Point(294, 119);
+            this.txtUsernameGestor.Name = "txtUsernameGestor";
+            this.txtUsernameGestor.Size = new System.Drawing.Size(201, 20);
+            this.txtUsernameGestor.TabIndex = 38;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(289, 103);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(58, 13);
+            this.label2.TabIndex = 37;
+            this.label2.Text = "Username:";
             // 
             // groupBox3
             // 
@@ -230,6 +231,23 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Programadores";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(291, 230);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(41, 13);
+            this.label11.TabIndex = 44;
+            this.label11.Text = "Gestor:";
+            // 
+            // cbGestorProg
+            // 
+            this.cbGestorProg.FormattingEnabled = true;
+            this.cbGestorProg.Location = new System.Drawing.Point(294, 246);
+            this.cbGestorProg.Name = "cbGestorProg";
+            this.cbGestorProg.Size = new System.Drawing.Size(201, 21);
+            this.cbGestorProg.TabIndex = 43;
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -247,6 +265,7 @@
             this.btGravarProg.TabIndex = 37;
             this.btGravarProg.Text = "Gravar Dados";
             this.btGravarProg.UseVisualStyleBackColor = true;
+            this.btGravarProg.Click += new System.EventHandler(this.btGravarProg_Click);
             // 
             // txtPasswordProg
             // 
@@ -339,23 +358,6 @@
             this.label10.Size = new System.Drawing.Size(38, 13);
             this.label10.TabIndex = 35;
             this.label10.Text = "Nome:";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(291, 230);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(41, 13);
-            this.label11.TabIndex = 44;
-            this.label11.Text = "Gestor:";
-            // 
-            // cbGestorProg
-            // 
-            this.cbGestorProg.FormattingEnabled = true;
-            this.cbGestorProg.Location = new System.Drawing.Point(294, 246);
-            this.cbGestorProg.Name = "cbGestorProg";
-            this.cbGestorProg.Size = new System.Drawing.Size(201, 21);
-            this.cbGestorProg.TabIndex = 43;
             // 
             // frmGereUtilizadores
             // 

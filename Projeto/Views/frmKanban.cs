@@ -48,6 +48,9 @@ namespace iTasks
 
         private void gerirUtilizadoresToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            frmGereUtilizadores gereUtilizadores = new frmGereUtilizadores(utilizadorRecebido);
+            gereUtilizadores.ShowDialog();
+        }
             // Abre o formulário de gestão de utilizadores
             frmGereUtilizadores gereUtilizadores = new frmGereUtilizadores();
             gereUtilizadores.ShowDialog();
