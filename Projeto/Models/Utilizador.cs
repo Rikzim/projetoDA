@@ -19,5 +19,10 @@ namespace iTasks.Models
             this.username = username;
             this.password = password;
         }
+
+        public override string ToString()
+        {
+            return $"Utilizador: {nome}, Username: {username}, Password: {password}";
+        }
     }
 }

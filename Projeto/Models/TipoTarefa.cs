@@ -15,5 +15,10 @@ namespace iTasks.Models
         {
             this.Nome = nome;
         }
+
+        public override string ToString()
+        {
+            return $"Tipo de Tarefa: {Nome}, ID: {Id}";
+        }
     }
 }

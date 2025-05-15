@@ -47,5 +47,12 @@ namespace iTasks.Models
             this.DataCriacao = dataCriacao;
             this.EstadoAtual = estadoAtual;
         }
+
+        public override string ToString() 
+        { 
+            return $"Tarefa: {Descricao}, ID: {Id}, Gestor: {IdGestor.nome}, Programador: {IdProgramador.nome}, Ordem Execucao: {OrdemExecucao}, " +
+                $"Data Prevista Inicio: {DataPrevistaInicio}, Data Prevista Fim: {DataPrevistaFim}, Tipo Tarefa: {TipoTarefa.Nome}, Story Points: {StoryPoints}, " +
+                $"Data Real Inicio: {DataRealInicio}, Data Real Fim: {DataRealFim}, Data Criacao: {DataCriacao}, Estado Atual: {EstadoAtual}";
+        }
     }
 }

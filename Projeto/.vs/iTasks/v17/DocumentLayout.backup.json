@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|c:\\users\\henri\\documents\\github\\projetoda\\projeto\\models\\itasks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:models\\itasks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|c:\\users\\henri\\documents\\github\\projetoda\\projeto\\views\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:views\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|c:\\users\\henri\\documents\\github\\projetoda\\projeto\\models\\basededados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:models\\basededados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\views\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:views\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\models\\programador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,10 +31,6 @@
       "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:models\\gestor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\views\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:views\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\views\\frmgereutilizadores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:views\\frmgereutilizadores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
@@ -42,34 +46,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "iTasks.cs",
-              "DocumentMoniker": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Models\\iTasks.cs",
-              "RelativeDocumentMoniker": "Models\\iTasks.cs",
-              "ToolTip": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Models\\iTasks.cs",
-              "RelativeToolTip": "Models\\iTasks.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T07:15:41.71Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Tarefa.cs",
-              "DocumentMoniker": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Models\\Tarefa.cs",
-              "RelativeDocumentMoniker": "Models\\Tarefa.cs",
-              "ToolTip": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Models\\Tarefa.cs",
-              "RelativeToolTip": "Models\\Tarefa.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAQwBkAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T07:09:30.067Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
@@ -84,7 +62,50 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
+              "Title": "frmLogin.cs",
+              "DocumentMoniker": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Views\\frmLogin.cs",
+              "RelativeDocumentMoniker": "Views\\frmLogin.cs",
+              "ToolTip": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Views\\frmLogin.cs*",
+              "RelativeToolTip": "Views\\frmLogin.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T07:31:37.58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BasedeDados.cs",
+              "DocumentMoniker": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Models\\BasedeDados.cs",
+              "RelativeDocumentMoniker": "Models\\BasedeDados.cs",
+              "ToolTip": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Models\\BasedeDados.cs",
+              "RelativeToolTip": "Models\\BasedeDados.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T07:15:41.71Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Tarefa.cs",
+              "DocumentMoniker": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Models\\Tarefa.cs",
+              "RelativeDocumentMoniker": "Models\\Tarefa.cs",
+              "ToolTip": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Models\\Tarefa.cs",
+              "RelativeToolTip": "Models\\Tarefa.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwBkAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T07:09:30.067Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "frmGereUtilizadores.cs",
               "DocumentMoniker": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Views\\frmGereUtilizadores.cs",
               "RelativeDocumentMoniker": "Views\\frmGereUtilizadores.cs",
@@ -97,7 +118,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "frmGereUtilizadores.cs [Design]",
               "DocumentMoniker": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Views\\frmGereUtilizadores.cs",
               "RelativeDocumentMoniker": "Views\\frmGereUtilizadores.cs",
@@ -109,19 +130,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "frmLogin.cs [Design]",
               "DocumentMoniker": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Views\\frmLogin.cs",
               "RelativeDocumentMoniker": "Views\\frmLogin.cs",
-              "ToolTip": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Views\\frmLogin.cs [Design]",
-              "RelativeToolTip": "Views\\frmLogin.cs [Design]",
+              "ToolTip": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Views\\frmLogin.cs [Design]*",
+              "RelativeToolTip": "Views\\frmLogin.cs [Design]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-08T08:57:39.488Z",
               "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Gestor.cs",
               "DocumentMoniker": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Models\\Gestor.cs",
               "RelativeDocumentMoniker": "Models\\Gestor.cs",
@@ -134,7 +155,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Programador.cs",
               "DocumentMoniker": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Models\\Programador.cs",
               "RelativeDocumentMoniker": "Models\\Programador.cs",
@@ -147,7 +168,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Utilizador.cs",
               "DocumentMoniker": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Models\\Utilizador.cs",
               "RelativeDocumentMoniker": "Models\\Utilizador.cs",
@@ -157,10 +178,6 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-08T08:20:10.394Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
             }
           ]
         }
