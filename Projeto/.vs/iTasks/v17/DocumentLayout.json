@@ -21,15 +21,19 @@
       "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:views\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|c:\\users\\marti\\desktop\\projetoda\\projeto\\views\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|c:\\users\\marti\\desktop\\projetoda\\projeto\\views\\frmlogin.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:views\\frmlogin.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\views\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:views\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\models\\tipotarefa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:models\\tipotarefa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|c:\\users\\marti\\desktop\\projetoda\\projeto\\controllers\\tipotarefacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:controllers\\tipotarefacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|c:\\users\\marti\\desktop\\projetoda\\projeto\\views\\frmgeretipostarefas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\views\\frmgeretipostarefas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:views\\frmgeretipostarefas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -90,6 +94,14 @@
       "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\views\\frmgeretipostarefas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:views\\frmgeretipostarefas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\models\\tipotarefa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:models\\tipotarefa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\views\\frmkanban.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{40078359-763C-472D-9D7E-8C252267F6FC}|iTasks.csproj|solutionrelative:views\\frmkanban.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
@@ -122,12 +134,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "frmLogin.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Views\\frmLogin.cs",
-              "RelativeDocumentMoniker": "Views\\frmLogin.cs",
-              "ToolTip": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Views\\frmLogin.cs [Design]",
-              "RelativeToolTip": "Views\\frmLogin.cs [Design]",
+              "Title": "frmLogin.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Views\\frmLogin.Designer.cs",
+              "RelativeDocumentMoniker": "Views\\frmLogin.Designer.cs",
+              "ToolTip": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Views\\frmLogin.Designer.cs",
+              "RelativeToolTip": "Views\\frmLogin.Designer.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAtwFIAAABOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T10:37:58.025Z",
               "WhenOpened": "2025-05-15T09:57:50.59Z",
               "EditorCaption": " [Design]"
             },
@@ -224,6 +238,14 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "frmLogin.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Views\\frmLogin.cs",
+              "RelativeDocumentMoniker": "Views\\frmLogin.cs",
+              "ToolTip": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Views\\frmLogin.cs [Design]",
+              "RelativeToolTip": "Views\\frmLogin.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T09:57:50.59Z",
               "DocumentIndex": 1,
               "Title": "GestorController.cs",
               "DocumentMoniker": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Controllers\\GestorController.cs",
@@ -272,6 +294,15 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "frmLogin.cs",
+              "DocumentMoniker": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Views\\frmLogin.cs",
+              "RelativeDocumentMoniker": "Views\\frmLogin.cs",
+              "ToolTip": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Views\\frmLogin.cs",
+              "RelativeToolTip": "Views\\frmLogin.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAD4vzMAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T09:57:56.237Z",
               "DocumentIndex": 6,
               "Title": "Programador.cs",
               "DocumentMoniker": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Models\\Programador.cs",
@@ -285,6 +316,15 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "TipoTarefaController.cs",
+              "DocumentMoniker": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Controllers\\TipoTarefaController.cs",
+              "RelativeDocumentMoniker": "Controllers\\TipoTarefaController.cs",
+              "ToolTip": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Controllers\\TipoTarefaController.cs",
+              "RelativeToolTip": "Controllers\\TipoTarefaController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T10:30:38.912Z",
               "DocumentIndex": 8,
               "Title": "frmKanban.cs",
               "DocumentMoniker": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Views\\frmKanban.cs",
@@ -316,17 +356,54 @@
               "RelativeDocumentMoniker": "Views\\frmKanban.cs",
               "ToolTip": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Views\\frmKanban.cs [Design]",
               "DocumentIndex": 6,
+              "Title": "frmGereTiposTarefas.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Views\\frmGereTiposTarefas.cs",
+              "RelativeDocumentMoniker": "Views\\frmGereTiposTarefas.cs",
+              "ToolTip": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Views\\frmGereTiposTarefas.cs [Design]",
+              "RelativeToolTip": "Views\\frmGereTiposTarefas.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T09:58:32.53Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "frmGereTiposTarefas.cs",
+              "DocumentMoniker": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Views\\frmGereTiposTarefas.cs",
+              "RelativeDocumentMoniker": "Views\\frmGereTiposTarefas.cs",
+              "ToolTip": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Views\\frmGereTiposTarefas.cs",
+              "RelativeToolTip": "Views\\frmGereTiposTarefas.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAqwBkAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T09:58:40.874Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TipoTarefa.cs",
+              "DocumentMoniker": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Models\\TipoTarefa.cs",
+              "RelativeDocumentMoniker": "Models\\TipoTarefa.cs",
+              "ToolTip": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Models\\TipoTarefa.cs",
+              "RelativeToolTip": "Models\\TipoTarefa.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAcwBMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T07:48:58.266Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "frmKanban.cs [Design]",
               "DocumentMoniker": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Views\\frmKanban.cs",
               "RelativeDocumentMoniker": "Views\\frmKanban.cs",
               "ToolTip": "C:\\Users\\marti\\Desktop\\projetoDA\\Projeto\\Views\\frmKanban.cs [Design]",
               "RelativeToolTip": "Views\\frmKanban.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T09:06:00.613Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-05-15T09:06:00.613Z"
             },
             {
               "$type": "Document",
+              "DocumentIndex": 9,
               "DocumentIndex": 11,
               "Title": "frmGereTiposTarefas.cs [Design]",
               "DocumentMoniker": "C:\\Users\\henri\\Documents\\GitHub\\projetoDA\\Projeto\\Views\\frmGereTiposTarefas.cs",
@@ -387,6 +464,7 @@
               "RelativeToolTip": "Models\\BasedeDados.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T07:15:41.71Z"
               "WhenOpened": "2025-05-15T07:15:41.71Z",
               "EditorCaption": ""
             },

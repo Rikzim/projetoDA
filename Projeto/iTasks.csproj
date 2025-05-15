@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\TipoTarefaController.cs" />
     <Compile Include="Controllers\GestorController.cs" />
     <Compile Include="Controllers\ProgramadorController.cs" />
     <Compile Include="Controllers\UserController.cs" />
