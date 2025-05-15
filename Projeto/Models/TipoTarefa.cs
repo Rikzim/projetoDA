@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace iTasks.Models
 {
-    class TipoTarefa
+    public class TipoTarefa
     {
         public int Id { get; set; }
         public string Nome { get; set; }
 
+        public TipoTarefa() { }
         public TipoTarefa(string nome)
         {
             this.Nome = nome;

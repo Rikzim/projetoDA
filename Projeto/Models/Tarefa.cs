@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace iTasks.Models
 {
-    class Tarefa
+    public class Tarefa
     {
 
         public enum Estado { 
@@ -30,6 +30,7 @@ namespace iTasks.Models
         public DateTime DataCriacao { get; set; }
         public Estado EstadoAtual { get; set; }
 
+        public Tarefa() { }
         public Tarefa(int id, Gestor idGestor, Programador idProgramador, int ordemExecucao, string descricao, 
             DateTime dataPrevistaInicio, DateTime dataPrevistaFim, TipoTarefa tipoTarefa, int storyPoints, DateTime dataRealInicio, 
             DateTime dataRealFim, DateTime dataCriacao, Estado estadoAtual)

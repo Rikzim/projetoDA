@@ -14,6 +14,7 @@ namespace iTasks.Models
         public DbSet<Programador> Programador { get; set; }
         public DbSet<TipoTarefa> TipoTarefa { get; set; }
         public DbSet<Tarefa> Tarefa { get; set; }
+        public DbSet<Utilizador> Utilizador { get; set; }
 
     }
 }
