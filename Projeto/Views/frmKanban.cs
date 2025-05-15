@@ -45,5 +45,11 @@ namespace iTasks
                 MessageBox.Show("Apenas gestores podem criar novas tarefas.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void gerirUtilizadoresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmGereUtilizadores gereUtilizadores = new frmGereUtilizadores(utilizadorRecebido);
+            gereUtilizadores.ShowDialog();
+        }
     }
 }

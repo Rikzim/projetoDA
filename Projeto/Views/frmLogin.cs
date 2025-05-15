@@ -20,9 +20,7 @@ namespace iTasks
             InitializeComponent();
 
             db = new BasedeDados();
-            var adminUser = new Gestor("Administrador", "admin", "admin", Departamento.Administração, true);
-            db.Utilizador.Add(adminUser);
-            db.SaveChanges();
+
 
         }
 
