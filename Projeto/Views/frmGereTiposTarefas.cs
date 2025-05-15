@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using iTasks.Controllers;
 using iTasks.Models;
 
 namespace iTasks
@@ -21,9 +22,8 @@ namespace iTasks
 
             // Preenche a lista com os tipos de tarefa
             db.TipoTarefa.Load();
-            // Conta o número de TipoTarefa e adiciona 1, começando em 1 se não houver nenhum
-            int count = db.TipoTarefa.Count();
-            txtId.Text = (count + 1).ToString();
+            // Preenche o campo de id
+            txtId.Text = TipoTarefaController.contaTipoTarefa();
 
             lstLista.DataSource = db.TipoTarefa.Local.ToBindingList();
         }
