@@ -17,21 +17,21 @@ namespace iTasks.Models
         }
 
         public int Id { get; set; }
-        public int IdGestor { get; set; }
-        public int IdProgramador { get; set; }
+        public Gestor IdGestor { get; set; }
+        public Programador IdProgramador { get; set; }
         public int OrdemExecucao { get; set; }
         public string Descricao { get; set; }
         public DateTime DataPrevistaInicio { get; set; }
         public DateTime DataPrevistaFim { get; set; }
-        public int TipoTarefa { get; set; }
+        public TipoTarefa TipoTarefa { get; set; }
         public int StoryPoints { get; set; }
         public DateTime DataRealInicio { get; set; }
         public DateTime DataRealFim { get; set; }
         public DateTime DataCriacao { get; set; }
         public Estado EstadoAtual { get; set; }
 
-        public Tarefa(int id, int idGestor, int idProgramador, int ordemExecucao, string descricao, 
-            DateTime dataPrevistaInicio, DateTime dataPrevistaFim, int tipoTarefa, int storyPoints, DateTime dataRealInicio, 
+        public Tarefa(int id, Gestor idGestor, Programador idProgramador, int ordemExecucao, string descricao, 
+            DateTime dataPrevistaInicio, DateTime dataPrevistaFim, TipoTarefa tipoTarefa, int storyPoints, DateTime dataRealInicio, 
             DateTime dataRealFim, DateTime dataCriacao, Estado estadoAtual)
         {
             this.IdGestor = idGestor;
