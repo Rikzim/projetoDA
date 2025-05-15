@@ -51,10 +51,6 @@ namespace iTasks
             frmGereUtilizadores gereUtilizadores = new frmGereUtilizadores(utilizadorRecebido);
             gereUtilizadores.ShowDialog();
         }
-            // Abre o formulário de gestão de utilizadores
-            frmGereUtilizadores gereUtilizadores = new frmGereUtilizadores();
-            gereUtilizadores.ShowDialog();
-        }
 
         private void gerirTiposDeTarefasToolStripMenuItem_Click(object sender, EventArgs e)
         {
