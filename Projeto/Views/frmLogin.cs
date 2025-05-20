@@ -33,6 +33,7 @@ namespace iTasks
                 // Se o utilizador existir e a password estiver correta, abre o formulário principal
                 this.Hide();
                 frmKanban kanban = new frmKanban(user);
+                kanban.FormClosed += (s, args) => this.Close(); // Fecha o login só depois do Kanban fechar
                 kanban.Show();
             }
             else

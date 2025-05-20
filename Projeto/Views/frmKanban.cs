@@ -58,5 +58,15 @@ namespace iTasks
             frmGereTiposTarefas gereTiposTarefas = new frmGereTiposTarefas();
             gereTiposTarefas.ShowDialog();
         }
+
+        private void sairToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Fecha a aplicação
+            DialogResult result = MessageBox.Show("Tem a certeza que deseja sair?", "Sair", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
     }
 }
