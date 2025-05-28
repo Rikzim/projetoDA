@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using iTasks.Controllers;
 using iTasks.Models;
 
 namespace iTasks
@@ -29,6 +30,8 @@ namespace iTasks
                 btNova.Enabled = false;
                 utilizadoresToolStripMenuItem.Enabled = false;
             }
+
+            ReloadData();
         }
 
         private void btNova_Click(object sender, EventArgs e)
@@ -36,7 +39,7 @@ namespace iTasks
             // Abre o formulário de nova tarefa
             if (utilizadorRecebido is Gestor gestor)
             {
-                frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa();
+                frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido);
                 detalhesTarefa.ShowDialog();
             }
             else
@@ -66,6 +69,33 @@ namespace iTasks
             if (result == DialogResult.Yes)
             {
                 Application.Exit();
+            }
+        }
+
+        private void btnReload_Click(object sender, EventArgs e)
+        {
+            ReloadData();
+        }
+
+        private void ReloadData()
+        {
+            // Atualiza as listas de tarefas que estão no estado Todo, Doing e Done
+            lstTodo.DataSource = null;
+            lstTodo.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.ToDo);
+            lstDoing.DataSource = null;
+            lstDoing.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Doing);
+            lstDone.DataSource = null;
+            lstDone.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Done);
+        }
+
+        private void lstTodo_DoubleClick(object sender, EventArgs e)
+        {
+            var tarefaSelecionada = lstTodo.SelectedItem as Tarefa;
+            if (tarefaSelecionada != null)
+            {
+                frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, tarefaSelecionada);
+                detalhesTarefa.ShowDialog();
+                ReloadData(); // Atualiza a lista após possíveis alterações
             }
         }
     }

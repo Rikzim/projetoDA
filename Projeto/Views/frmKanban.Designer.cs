@@ -50,6 +50,7 @@
             this.btNova = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btPrevisao = new System.Windows.Forms.Button();
+            this.btnReload = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -62,15 +63,16 @@
             this.lstTodo.FormattingEnabled = true;
             this.lstTodo.Location = new System.Drawing.Point(3, 16);
             this.lstTodo.Name = "lstTodo";
-            this.lstTodo.Size = new System.Drawing.Size(296, 419);
+            this.lstTodo.Size = new System.Drawing.Size(296, 422);
             this.lstTodo.TabIndex = 0;
+            this.lstTodo.DoubleClick += new System.EventHandler(this.lstTodo_DoubleClick);
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lstTodo);
-            this.groupBox1.Location = new System.Drawing.Point(12, 58);
+            this.groupBox1.Location = new System.Drawing.Point(12, 55);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(302, 438);
+            this.groupBox1.Size = new System.Drawing.Size(302, 441);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "ToDo";
@@ -248,11 +250,23 @@
             this.btPrevisao.Text = "Ver Previsão de Conclusão";
             this.btPrevisao.UseVisualStyleBackColor = true;
             // 
+            // btnReload
+            // 
+            this.btnReload.BackgroundImage = global::iTasks.Properties.Resources.refresh;
+            this.btnReload.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnReload.Location = new System.Drawing.Point(744, 29);
+            this.btnReload.Name = "btnReload";
+            this.btnReload.Size = new System.Drawing.Size(28, 23);
+            this.btnReload.TabIndex = 11;
+            this.btnReload.UseVisualStyleBackColor = true;
+            this.btnReload.Click += new System.EventHandler(this.btnReload_Click);
+            // 
             // frmKanban
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(943, 537);
+            this.Controls.Add(this.btnReload);
             this.Controls.Add(this.btPrevisao);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btNova);
@@ -300,5 +314,6 @@
         private System.Windows.Forms.Button btNova;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btPrevisao;
+        private System.Windows.Forms.Button btnReload;
     }
 }
