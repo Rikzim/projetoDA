@@ -98,5 +98,10 @@ namespace iTasks
                 ReloadData(); // Atualiza a lista após possíveis alterações
             }
         }
+
+        private void btSetDoing_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
