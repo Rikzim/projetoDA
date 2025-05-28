@@ -227,6 +227,7 @@
             this.btSetDone.TabIndex = 6;
             this.btSetDone.Text = "Terminar Tarefa >>";
             this.btSetDone.UseVisualStyleBackColor = true;
+            this.btSetDone.Click += new System.EventHandler(this.btSetDone_Click);
             // 
             // btSetTodo
             // 
