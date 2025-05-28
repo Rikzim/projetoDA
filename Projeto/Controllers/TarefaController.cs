@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.Entity;
 using static iTasks.Models.Tarefa;
 
 namespace iTasks.Controllers
@@ -18,6 +19,8 @@ namespace iTasks.Controllers
         {
             var gestor = db.Gestor.Find(idGestor.id);
             var programador = db.Programador.Find(idProgramador.id);
+            var tipoTarefaExistente = db.TipoTarefa.Find(tipoTarefa.Id);
+
             db.Tarefa.Add(new Tarefa
             {
                 IdGestor = gestor,
@@ -26,28 +29,38 @@ namespace iTasks.Controllers
                 Descricao = descricao,
                 DataPrevistaInicio = dataPrevistaInicio,
                 DataPrevistaFim = dataPrevistaFim,
-                TipoTarefa = tipoTarefa,
+                TipoTarefa = tipoTarefaExistente,
                 StoryPoints = storyPoints,
                 DataRealInicio = DateTime.Now, // Leva a data da hora atual, mas pode ser alterada posteriormente
                 DataRealFim = DateTime.Now, // Inicialmente não tem data real de fim
                 DataCriacao = dataCriacao,
                 EstadoAtual = estadoAtual
             });
-            MessageBox.Show($"g: {gestor}, p: {programador}");
+            //MessageBox.Show($"g: {gestor}, p: {programador}");
             db.SaveChanges();
         }
 
         public static List<Tarefa> ListarTarefas()
         {
-            return db.Tarefa.OfType<Tarefa>().ToList();
+            return db.Tarefa
+                .Include(t => t.IdGestor)
+                .Include(t => t.IdProgramador)
+                .Include(t => t.TipoTarefa)
+                .ToList();
         }
-        public static List<Tarefa> ListarTarefasPorEstado(Estado estado)
+        public static List<Tarefa> ListarTarefasPorEstado(Tarefa.Estado estado)
         {
-            return db.Tarefa.Where(t => t.EstadoAtual == estado).ToList();
+            return db.Tarefa
+                .Include(t => t.IdGestor)
+                .Include(t => t.IdProgramador)
+                .Include(t => t.TipoTarefa)
+                .Where(t => t.EstadoAtual == estado)
+                .ToList();
         }
         public static int countTarefas()
         {
             int count = db.Tarefa.Count();
+
             return count + 1;
         }
         public static int countTarefasEstado(Estado estado)
@@ -55,7 +68,5 @@ namespace iTasks.Controllers
             int count = db.Tarefa.Where(t => t.EstadoAtual == estado).Count();
             return count + 1;
         }
-        
-        
     }
 }

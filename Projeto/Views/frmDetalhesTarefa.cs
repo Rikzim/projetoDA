@@ -35,23 +35,35 @@ namespace iTasks
 
             MessageBox.Show($"Utilizador: {utilizadorRecebido}");
             // Se a tarefa selecionada não for nula, preenche os campos com os dados da tarefa
+            
             if (tarefaSelecionada != null)
             {
                 this.tarefaSelecionada = tarefaSelecionada;
-                txtOrdem.Text = tarefaSelecionada.OrdemExecucao.ToString();
+                // Campos Imutáveis
+                txtId.Text = tarefaSelecionada.Id.ToString();
+                txtEstado.Text = tarefaSelecionada.EstadoAtual.ToString();
+                txtDataCriacao.Text = tarefaSelecionada.DataCriacao.ToString("dd/MM/yyyy");
+                // Campos Mutáveis
                 txtDesc.Text = tarefaSelecionada.Descricao;
+                cbTipoTarefa.SelectedItem = tarefaSelecionada.TipoTarefa;
+                cbProgramador.SelectedItem = tarefaSelecionada.IdProgramador;
+                txtOrdem.Text = tarefaSelecionada.OrdemExecucao.ToString();
+                txtStoryPoints.Text = tarefaSelecionada.StoryPoints.ToString();
                 dtInicio.Value = tarefaSelecionada.DataPrevistaInicio;
                 dtFim.Value = tarefaSelecionada.DataPrevistaFim;
-                cbTipoTarefa.SelectedItem = tarefaSelecionada.TipoTarefa;
-                txtStoryPoints.Text = tarefaSelecionada.StoryPoints.ToString();
-                cbProgramador.SelectedItem = tarefaSelecionada.IdProgramador;
             }
             else
             {
-                // Se não houver uma tarefa selecionada, define os valores padrão
-                txtOrdem.Text = TarefaController.countTarefas().ToString();
+                // Campos Imutáveis
+                txtId.Text = TarefaController.countTarefasEstado(Tarefa.Estado.ToDo).ToString();
+                // Campos Mutáveis
+                txtDesc.Clear();
+                cbTipoTarefa.SelectedIndex = -1;
+                cbProgramador.SelectedIndex = -1;
+                txtOrdem.Clear();
+                txtStoryPoints.Clear();
                 dtInicio.Value = DateTime.Now;
-                dtFim.Value = DateTime.Now.AddDays(1);
+                dtFim.Value = DateTime.Now;
             }
         }
 
@@ -59,6 +71,7 @@ namespace iTasks
         {
             Programador programador = (Programador)cbProgramador.SelectedItem;
             Gestor gestor = (Gestor)utilizadorRecebido;
+
             MessageBox.Show($"Gestor: {gestor}\n Programador: {programador}");
             TarefaController.GravarTarefa(
                 gestor, 
