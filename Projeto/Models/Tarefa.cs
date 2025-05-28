@@ -49,11 +49,12 @@ namespace iTasks.Models
             this.EstadoAtual = estadoAtual;
         }
 
-        public override string ToString() 
-        { 
-            return $"Tarefa: {Descricao}, ID: {Id}, Gestor: {IdGestor.nome}, Programador: {IdProgramador.nome}, Ordem Execucao: {OrdemExecucao}, " +
-                $"Data Prevista Inicio: {DataPrevistaInicio}, Data Prevista Fim: {DataPrevistaFim}, Tipo Tarefa: {TipoTarefa.Nome}, Story Points: {StoryPoints}, " +
+        public override string ToString()
+        {
+            return $"Tarefa: {Descricao}, ID: {Id}, Gestor: {(IdGestor?.nome ?? "N/A")}, Programador: {(IdProgramador?.nome ?? "N/A")}, Ordem Execucao: {OrdemExecucao}, " +
+                $"Data Prevista Inicio: {DataPrevistaInicio}, Data Prevista Fim: {DataPrevistaFim}, Tipo Tarefa: {(TipoTarefa?.Nome ?? "N/A")}, Story Points: {StoryPoints}, " +
                 $"Data Real Inicio: {DataRealInicio}, Data Real Fim: {DataRealFim}, Data Criacao: {DataCriacao}, Estado Atual: {EstadoAtual}";
         }
+
     }
 }
