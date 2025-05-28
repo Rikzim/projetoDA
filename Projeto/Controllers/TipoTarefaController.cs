@@ -19,5 +19,10 @@ namespace iTasks.Controllers
 
             return (count + 1).ToString();
         }
+
+        public static List<TipoTarefa> ListarTipoTarefa()
+        {
+            return db.TipoTarefa.OfType<TipoTarefa>().ToList();
+        }
     }
 }
