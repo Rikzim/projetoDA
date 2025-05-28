@@ -101,7 +101,36 @@ namespace iTasks
 
         private void btSetDoing_Click(object sender, EventArgs e)
         {
+            var tarefaSelecionada = lstTodo.SelectedItem as Tarefa;
 
+            if (tarefaSelecionada != null)
+            {
+                // Muda o estado da tarefa para Doing
+                TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Doing);
+                MessageBox.Show("Tarefa movida para Doing.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ReloadData(); // Atualiza a lista após a mudança de estado
+            }
+            else
+            {
+                MessageBox.Show("Selecione uma tarefa para mover.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btSetDone_Click(object sender, EventArgs e)
+        {
+            var tarefaSelecionada = lstTodo.SelectedItem as Tarefa;
+
+            if (tarefaSelecionada != null)
+            {
+                // Muda o estado da tarefa para Doing
+                TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Done);
+                MessageBox.Show("Tarefa movida para Doing.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ReloadData(); // Atualiza a lista após a mudança de estado
+            }
+            else
+            {
+                MessageBox.Show("Selecione uma tarefa para mover.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

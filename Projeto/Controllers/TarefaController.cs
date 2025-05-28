@@ -40,6 +40,44 @@ namespace iTasks.Controllers
             db.SaveChanges();
         }
 
+        public static void MudarEstadoTarefa(Tarefa tarefaSelecionada, Estado estado)
+        {
+            // Verifica se a tarefa selecionada não é nula
+            if (tarefaSelecionada != null)
+            {
+                if (estado == Estado.Doing) 
+                {
+                    // Atualiza o estado da tarefa
+                    tarefaSelecionada.EstadoAtual = estado;
+                    tarefaSelecionada.DataRealInicio = DateTime.Now; // Define a data real de início como a data atual
+                    db.SaveChanges();
+                }
+                else if (estado == Estado.ToDo)
+                {
+                    // Atualiza o estado da tarefa
+                    tarefaSelecionada.EstadoAtual = estado;
+                    //TODO: Se necessário, pode-se definir a data real de início como nula ou não alterar
+                    tarefaSelecionada.DataRealInicio = DateTime.Now; // Define a data real de início como a data atual
+                    db.SaveChanges();
+                }
+                else if (estado == Estado.Done)
+                {
+                    // Atualiza o estado da tarefa
+                    tarefaSelecionada.EstadoAtual = estado;
+                    tarefaSelecionada.DataRealFim = DateTime.Now; // Define a data real de fim como a data atual
+                    db.SaveChanges();
+                }
+                else
+                {
+                    MessageBox.Show("Estado inválido.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nenhuma tarefa selecionada.");
+            }
+        }
+
         public static List<Tarefa> ListarTarefas()
         {
             return db.Tarefa
