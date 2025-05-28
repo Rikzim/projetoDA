@@ -1,4 +1,4 @@
-﻿using iTasks.Models;
+using iTasks.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.Entity;
 using static iTasks.Models.Tarefa;
+
 
 namespace iTasks.Controllers
 {
@@ -36,26 +37,7 @@ namespace iTasks.Controllers
                 DataCriacao = dataCriacao,
                 EstadoAtual = estadoAtual
             });
-            //MessageBox.Show($"g: {gestor}, p: {programador}");
             db.SaveChanges();
-        }
-
-        public static List<Tarefa> ListarTarefas()
-        {
-            return db.Tarefa
-                .Include(t => t.IdGestor)
-                .Include(t => t.IdProgramador)
-                .Include(t => t.TipoTarefa)
-                .ToList();
-        }
-        public static List<Tarefa> ListarTarefasPorEstado(Tarefa.Estado estado)
-        {
-            return db.Tarefa
-                .Include(t => t.IdGestor)
-                .Include(t => t.IdProgramador)
-                .Include(t => t.TipoTarefa)
-                .Where(t => t.EstadoAtual == estado)
-                .ToList();
         }
         public static int countTarefas()
         {
@@ -68,5 +50,26 @@ namespace iTasks.Controllers
             int count = db.Tarefa.Where(t => t.EstadoAtual == estado).Count();
             return count + 1;
         }
+
+        public static List<Tarefa> ListarTarefas()
+        {
+            return db.Tarefa
+                .Include(t => t.IdGestor)
+                .Include(t => t.IdProgramador)
+                .Include(t => t.TipoTarefa)
+                .ToList();
+        }
+
+        public static List<Tarefa> ListarTarefasPorEstado(Tarefa.Estado estado)
+        {
+            return db.Tarefa
+                .Include(t => t.IdGestor)
+                .Include(t => t.IdProgramador)
+                .Include(t => t.TipoTarefa)
+                .Where(t => t.EstadoAtual == estado)
+                .ToList();
+        }
+
+
     }
 }

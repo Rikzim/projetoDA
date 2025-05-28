@@ -36,6 +36,7 @@ namespace iTasks
 
         private void btNova_Click(object sender, EventArgs e)
         {
+            lstTodo.SelectedIndex = -1; // Limpa a seleção da lista de tarefas
             // Abre o formulário de nova tarefa
             if (utilizadorRecebido is Gestor gestor)
             {
@@ -81,7 +82,7 @@ namespace iTasks
         {
             // Atualiza as listas de tarefas que estão no estado Todo, Doing e Done
             lstTodo.DataSource = null;
-            lstTodo.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.ToDo);
+            lstTodo.DataSource = TarefaController.ListarTarefas();
             lstDoing.DataSource = null;
             lstDoing.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Doing);
             lstDone.DataSource = null;

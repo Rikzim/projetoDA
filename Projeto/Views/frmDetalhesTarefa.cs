@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -32,8 +32,6 @@ namespace iTasks
             //Atualizar a combobox com os programadores
             cbProgramador.DataSource = null;
             cbProgramador.DataSource = ProgramadorController.ListarProgramadores();
-
-            MessageBox.Show($"Utilizador: {utilizadorRecebido}");
             // Se a tarefa selecionada não for nula, preenche os campos com os dados da tarefa
             
             if (tarefaSelecionada != null)
@@ -50,7 +48,7 @@ namespace iTasks
                 txtOrdem.Text = tarefaSelecionada.OrdemExecucao.ToString();
                 txtStoryPoints.Text = tarefaSelecionada.StoryPoints.ToString();
                 dtInicio.Value = tarefaSelecionada.DataPrevistaInicio;
-                dtFim.Value = tarefaSelecionada.DataPrevistaFim;
+                dtFim.Value = tarefaSelecionada.DataPrevistaFim; 
             }
             else
             {
@@ -63,7 +61,7 @@ namespace iTasks
                 txtOrdem.Clear();
                 txtStoryPoints.Clear();
                 dtInicio.Value = DateTime.Now;
-                dtFim.Value = DateTime.Now;
+                dtFim.Value = DateTime.Now; 
             }
         }
 
@@ -71,8 +69,6 @@ namespace iTasks
         {
             Programador programador = (Programador)cbProgramador.SelectedItem;
             Gestor gestor = (Gestor)utilizadorRecebido;
-
-            MessageBox.Show($"Gestor: {gestor}\n Programador: {programador}");
             TarefaController.GravarTarefa(
                 gestor, 
                 programador, 
