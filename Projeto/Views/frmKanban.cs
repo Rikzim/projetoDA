@@ -84,11 +84,17 @@ namespace iTasks
 
             if (tarefaSelecionada != null)
             {
-                // Muda o estado da tarefa para Doing
-                TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Doing);
-                MessageBox.Show("Tarefa movida para Doing.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ReloadData(); // Atualiza a lista após a mudança de estado
-
+                if (TarefaController.countTarefasPorEstadoProgramador(Tarefa.Estado.Doing, utilizadorRecebido) < 2)
+                {
+                    // Muda o estado da tarefa para Done
+                    TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Doing, utilizadorRecebido);
+                    MessageBox.Show("Tarefa movida para Doing.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ReloadData(); // Atualiza a lista após a mudança de estado
+                }
+                else
+                {
+                    MessageBox.Show("Não pode mover mais de 2 tarefas para Doing.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
@@ -101,10 +107,17 @@ namespace iTasks
 
             if (tarefaSelecionada != null)
             {
-                // Muda o estado da tarefa para Done
-                TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Done);
-                MessageBox.Show("Tarefa movida para Done.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ReloadData(); // Atualiza a lista após a mudança de estado
+                if (TarefaController.countTarefasPorEstadoProgramador(Tarefa.Estado.Done, utilizadorRecebido) < 2)
+                {
+                    // Muda o estado da tarefa para Done
+                    TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Done, utilizadorRecebido);
+                    MessageBox.Show("Tarefa movida para Done.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ReloadData(); // Atualiza a lista após a mudança de estado
+                }
+                else
+                {
+                    MessageBox.Show("Não pode mover mais de 2 tarefas para Done.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
@@ -120,7 +133,7 @@ namespace iTasks
             if (tarefaSelecionada != null)
             {
                 // Muda o estado da tarefa para ToDo
-                TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.ToDo);
+                TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.ToDo, utilizadorRecebido);
                 MessageBox.Show("Tarefa movida para ToDo.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ReloadData(); // Atualiza a lista após a mudança de estado
             }

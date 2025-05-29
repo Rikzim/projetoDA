@@ -40,39 +40,63 @@ namespace iTasks.Controllers
             int count = db.Tarefa.Count();
             return count + 1;
         }
+        public static int countTarefasPorEstado(Estado estado)
+        {
+            BasedeDados db = BasedeDados.Instance;
+            // Conta o número de tarefas na base de dados e adiciona 1, começando em 1 se não houver nenhuma
+            int count = db.Tarefa.Where(t => t.EstadoAtual == estado).Count();
+            return count + 1;
+        }
+        public static int countTarefasPorEstadoProgramador(Estado estado, Utilizador utilizadorRecebido)
+        {
+            BasedeDados db = BasedeDados.Instance;
+            // Conta o número de tarefas na base de dados e adiciona 1, começando em 1 se não houver nenhuma
+            int count = db.Tarefa.
+                Where(t => t.EstadoAtual == estado 
+                && t.IdProgramador.id == utilizadorRecebido.id)
+                .Count();
+            return count;
+        }
 
-        public static void MudarEstadoTarefa(Tarefa tarefaSelecionada, Estado estado)
+        public static void MudarEstadoTarefa(Tarefa tarefaSelecionada, Estado estado, Utilizador utilizadorRecebido)
         {
             BasedeDados db = BasedeDados.Instance;
             // Verifica se a tarefa selecionada é nula
             // Verifica se a tarefa selecionada não é nula
             if (tarefaSelecionada != null)
             {
-                if (estado == Estado.Doing) 
+                if (tarefaSelecionada.IdProgramador.id == utilizadorRecebido.id)
                 {
-                    // Atualiza o estado da tarefa
-                    tarefaSelecionada.EstadoAtual = estado;
-                    tarefaSelecionada.DataRealInicio = DateTime.Now; // Define a data real de início como a data atual
-                    db.SaveChanges();
-                }
-                else if (estado == Estado.ToDo)
-                {
-                    // Atualiza o estado da tarefa
-                    tarefaSelecionada.EstadoAtual = estado;
-                    //TODO: Se necessário, pode-se definir a data real de início como nula ou não alterar
-                    tarefaSelecionada.DataRealInicio = DateTime.Now; // Define a data real de início como a data atual
-                    db.SaveChanges();
-                }
-                else if (estado == Estado.Done)
-                {
-                    // Atualiza o estado da tarefa
-                    tarefaSelecionada.EstadoAtual = estado;
-                    tarefaSelecionada.DataRealFim = DateTime.Now; // Define a data real de fim como a data atual
-                    db.SaveChanges();
+                    if (estado == Estado.Doing)
+                    {
+                        // Atualiza o estado da tarefa
+                        tarefaSelecionada.EstadoAtual = estado;
+                        tarefaSelecionada.DataRealInicio = DateTime.Now; // Define a data real de início como a data atual
+                        db.SaveChanges();
+                    }
+                    else if (estado == Estado.ToDo)
+                    {
+                        // Atualiza o estado da tarefa
+                        tarefaSelecionada.EstadoAtual = estado;
+                        //TODO: Se necessário, pode-se definir a data real de início como nula ou não alterar
+                        tarefaSelecionada.DataRealInicio = null; // Define a data real de início como a data atual
+                        db.SaveChanges();
+                    }
+                    else if (estado == Estado.Done)
+                    {
+                        // Atualiza o estado da tarefa
+                        tarefaSelecionada.EstadoAtual = estado;
+                        tarefaSelecionada.DataRealFim = DateTime.Now; // Define a data real de fim como a data atual
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Estado inválido."); // É PARA POR UM THROW EXCEPTION AQUI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Estado inválido.");
+                    MessageBox.Show("Apenas o programador responsável pela tarefa pode alterar o seu estado.");
                 }
             }
             else
@@ -93,25 +117,12 @@ namespace iTasks.Controllers
         public static List<Tarefa> ListarTarefasPorEstado(Tarefa.Estado estado, Utilizador utilizadorLogado)
         {
             BasedeDados db = BasedeDados.Instance;
-            // Verifica se o utilizador logado é um Programador ou Gestor
-            if (utilizadorLogado is Programador)
-            {
-                return db.Tarefa
-                    .Include(t => t.IdGestor)
-                    .Include(t => t.IdProgramador)
-                    .Include(t => t.TipoTarefa)
-                    .Where(t => t.IdProgramador.id == utilizadorLogado.id && t.EstadoAtual == estado)
-                    .ToList();
-            }
-            else
-            {
-                return db.Tarefa
-                    .Include(t => t.IdGestor)
-                    .Include(t => t.IdProgramador)
-                    .Include(t => t.TipoTarefa)
-                    .Where(t => t.EstadoAtual == estado)
-                    .ToList();
-            }
+            return db.Tarefa
+                .Include(t => t.IdGestor)
+                .Include(t => t.IdProgramador)
+                .Include(t => t.TipoTarefa)
+                .Where(t => t.EstadoAtual == estado)
+                .ToList();
         }
     }
 }
