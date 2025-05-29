@@ -81,11 +81,11 @@ namespace iTasks
         {
             // Atualiza as listas de tarefas que estão no estado Todo, Doing e Done
             lstTodo.DataSource = null;
-            lstTodo.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.ToDo);
+            lstTodo.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.ToDo, utilizadorRecebido);
             lstDoing.DataSource = null;
-            lstDoing.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Doing);
+            lstDoing.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Doing, utilizadorRecebido);
             lstDone.DataSource = null;
-            lstDone.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Done);
+            lstDone.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Done, utilizadorRecebido);
         }
 
         private void lstTodo_DoubleClick(object sender, EventArgs e)

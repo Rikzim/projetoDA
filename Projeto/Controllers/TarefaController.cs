@@ -78,22 +78,47 @@ namespace iTasks.Controllers
             }
         }
 
-        public static List<Tarefa> ListarTarefas()
+        /*public static List<Tarefa> ListarTarefas(Utilizador utilizadorLogado)
         {
-            return db.Tarefa
-                .Include(t => t.IdGestor)
-                .Include(t => t.IdProgramador)
-                .Include(t => t.TipoTarefa)
-                .ToList();
-        }
-        public static List<Tarefa> ListarTarefasPorEstado(Tarefa.Estado estado)
+            // Verifica se o utilizador é um gestor ou programador
+            if (utilizadorLogado is Programador)
+            {
+                return db.Tarefa
+                    .Include(t => t.IdGestor)
+                    .Include(t => t.IdProgramador)
+                    .Include(t => t.TipoTarefa)
+                    .Where(t => t.IdProgramador.id == utilizadorLogado.id)
+                    .ToList();
+            }
+            else if (utilizadorLogado is Gestor)
+            {
+                return db.Tarefa
+                    .Include(t => t.IdGestor)
+                    .Include(t => t.IdProgramador)
+                    .Include(t => t.TipoTarefa)
+                    .ToList();
+            }
+        }*/
+        public static List<Tarefa> ListarTarefasPorEstado(Tarefa.Estado estado, Utilizador utilizadorLogado)
         {
-            return db.Tarefa
-                .Include(t => t.IdGestor)
-                .Include(t => t.IdProgramador)
-                .Include(t => t.TipoTarefa)
-                .Where(t => t.EstadoAtual == estado)
-                .ToList();
+            if (utilizadorLogado is Programador)
+            {
+                return db.Tarefa
+                    .Include(t => t.IdGestor)
+                    .Include(t => t.IdProgramador)
+                    .Include(t => t.TipoTarefa)
+                    .Where(t => t.IdProgramador.id == utilizadorLogado.id && t.EstadoAtual == estado)
+                    .ToList();
+            }
+            else
+            {
+                return db.Tarefa
+                    .Include(t => t.IdGestor)
+                    .Include(t => t.IdProgramador)
+                    .Include(t => t.TipoTarefa)
+                    .Where(t => t.EstadoAtual == estado)
+                    .ToList();
+            }
         }
         public static int countTarefas()
         {
