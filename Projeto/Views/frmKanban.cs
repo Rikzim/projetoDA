@@ -82,7 +82,7 @@ namespace iTasks
         {
             // Atualiza as listas de tarefas que estão no estado Todo, Doing e Done
             lstTodo.DataSource = null;
-            lstTodo.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.ToDo);
+            lstTodo.DataSource = TarefaController.ListarTarefas();
             lstDoing.DataSource = null;
             lstDoing.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Doing);
             lstDone.DataSource = null;
