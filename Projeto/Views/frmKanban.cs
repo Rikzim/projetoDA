@@ -102,7 +102,25 @@ namespace iTasks
             {
                 // Muda o estado da tarefa para Done
                 TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Done);
-                MessageBox.Show("Tarefa movida para Doing.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Tarefa movida para Done.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ReloadData(); // Atualiza a lista após a mudança de estado
+            }
+            else
+            {
+                MessageBox.Show("Selecione uma tarefa para mover.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        private void btSetTodo_Click(object sender, EventArgs e)
+        {
+            var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
+
+            if (tarefaSelecionada != null)
+            {
+                // Muda o estado da tarefa para ToDo
+                TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.ToDo);
+                MessageBox.Show("Tarefa movida para ToDo.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ReloadData(); // Atualiza a lista após a mudança de estado
             }
             else
@@ -159,5 +177,6 @@ namespace iTasks
             label3.Text = lstDoing.Items.Count.ToString();
             label4.Text = lstDone.Items.Count.ToString();
         }
+
     }
 }
