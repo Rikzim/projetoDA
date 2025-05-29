@@ -82,23 +82,22 @@ namespace iTasks
         {
             // Atualiza as listas de tarefas que estão no estado Todo, Doing e Done
             lstTodo.DataSource = null;
-            lstTodo.DataSource = TarefaController.ListarTarefas();
+            lstTodo.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.ToDo);
             lstDoing.DataSource = null;
             lstDoing.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Doing);
             lstDone.DataSource = null;
             lstDone.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Done);
+            // Limpa as seleções das listas
+            lstDoing.SelectedIndex = -1;
+            lstDone.SelectedIndex = -1;
+            lstTodo.SelectedIndex = -1;
+            // Atualiza os labels com o número de tarefas em cada estado
+            label2.Text = lstTodo.Items.Count.ToString();
+            label3.Text = lstDoing.Items.Count.ToString();
+            label4.Text = lstDone.Items.Count.ToString();
         }
 
-        private void lstTodo_DoubleClick(object sender, EventArgs e)
-        {
-            var tarefaSelecionada = lstTodo.SelectedItem as Tarefa;
-            if (tarefaSelecionada != null)
-            {
-                frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, tarefaSelecionada);
-                detalhesTarefa.ShowDialog();
-                ReloadData(); // Atualiza a lista após possíveis alterações
-            }
-        }
+        
 
         private void btSetDoing_Click(object sender, EventArgs e)
         {
@@ -110,6 +109,7 @@ namespace iTasks
                 TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Doing);
                 MessageBox.Show("Tarefa movida para Doing.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ReloadData(); // Atualiza a lista após a mudança de estado
+
             }
             else
             {
@@ -119,11 +119,11 @@ namespace iTasks
 
         private void btSetDone_Click(object sender, EventArgs e)
         {
-            var tarefaSelecionada = lstTodo.SelectedItem as Tarefa;
+            var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
 
             if (tarefaSelecionada != null)
             {
-                // Muda o estado da tarefa para Doing
+                // Muda o estado da tarefa para Done
                 TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Done);
                 MessageBox.Show("Tarefa movida para Doing.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ReloadData(); // Atualiza a lista após a mudança de estado
@@ -133,5 +133,39 @@ namespace iTasks
                 MessageBox.Show("Selecione uma tarefa para mover.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
+        // Eventos de duplo clique nas listas de tarefas
+        private void lstTodo_DoubleClick(object sender, EventArgs e)
+        {
+            var tarefaSelecionada = lstTodo.SelectedItem as Tarefa;
+            if (tarefaSelecionada != null)
+            {
+                frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, tarefaSelecionada);
+                detalhesTarefa.ShowDialog();
+                ReloadData(); // Atualiza a lista após possíveis alterações
+            }
+        }
+        private void lstDoing_DoubleClick(object sender, EventArgs e)
+        {
+            var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
+            if (tarefaSelecionada != null)
+            {
+                frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, tarefaSelecionada);
+                detalhesTarefa.ShowDialog();
+                ReloadData(); // Atualiza a lista após possíveis alterações
+            }
+        }
+        private void lstDone_DoubleClick(object sender, EventArgs e)
+        {
+            var tarefaSelecionada = lstDone.SelectedItem as Tarefa;
+            if (tarefaSelecionada != null)
+            {
+                frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, tarefaSelecionada);
+                detalhesTarefa.ShowDialog();
+                ReloadData(); // Atualiza a lista após possíveis alterações
+            }
+        }
+        
     }
 }

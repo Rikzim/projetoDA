@@ -42,6 +42,8 @@ namespace iTasks.Controllers
         public static int countTarefas()
         {
             int count = db.Tarefa.Count();
+            return count + 1;
+        }
 
         public static void MudarEstadoTarefa(Tarefa tarefaSelecionada, Estado estado)
         {

@@ -53,7 +53,7 @@ namespace iTasks
             else
             {
                 // Campos Imutáveis
-                txtId.Text = TarefaController.countTarefasEstado(Tarefa.Estado.ToDo).ToString();
+                txtId.Text = TarefaController.countTarefas().ToString();
                 // Campos Mutáveis
                 txtDesc.Clear();
                 cbTipoTarefa.SelectedIndex = -1;

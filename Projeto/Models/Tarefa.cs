@@ -49,6 +49,8 @@ namespace iTasks.Models
             this.EstadoAtual = estadoAtual;
         }
 
+
+
         public override string ToString()
         {
             return $"Tarefa: {Descricao}, ID: {Id}, Gestor: {(IdGestor?.nome ?? "N/A")}, Programador: {(IdProgramador?.nome ?? "N/A")}, Ordem Execucao: {OrdemExecucao}, " +
