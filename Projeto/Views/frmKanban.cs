@@ -49,7 +49,7 @@ namespace iTasks
                 MessageBox.Show("Apenas gestores podem criar novas tarefas.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        // Eventos do Menu tool Strip 
         private void gerirUtilizadoresToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmGereUtilizadores gereUtilizadores = new frmGereUtilizadores(utilizadorRecebido);
@@ -72,33 +72,11 @@ namespace iTasks
                 Application.Exit();
             }
         }
-
         private void btnReload_Click(object sender, EventArgs e)
         {
             ReloadData();
         }
-
-        private void ReloadData()
-        {
-            // Atualiza as listas de tarefas que estão no estado Todo, Doing e Done
-            lstTodo.DataSource = null;
-            lstTodo.DataSource = TarefaController.ListarTarefas();
-            lstDoing.DataSource = null;
-            lstDoing.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Doing);
-            lstDone.DataSource = null;
-            lstDone.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Done);
-            // Limpa as seleções das listas
-            lstDoing.SelectedIndex = -1;
-            lstDone.SelectedIndex = -1;
-            lstTodo.SelectedIndex = -1;
-            // Atualiza os labels com o número de tarefas em cada estado
-            label2.Text = lstTodo.Items.Count.ToString();
-            label3.Text = lstDoing.Items.Count.ToString();
-            label4.Text = lstDone.Items.Count.ToString();
-        }
-
-        
-
+        // Eventos do KanBan
         private void btSetDoing_Click(object sender, EventArgs e)
         {
             var tarefaSelecionada = lstTodo.SelectedItem as Tarefa;
@@ -116,7 +94,6 @@ namespace iTasks
                 MessageBox.Show("Selecione uma tarefa para mover.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void btSetDone_Click(object sender, EventArgs e)
         {
             var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
@@ -133,8 +110,6 @@ namespace iTasks
                 MessageBox.Show("Selecione uma tarefa para mover.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
         // Eventos de duplo clique nas listas de tarefas
         private void lstTodo_DoubleClick(object sender, EventArgs e)
         {
@@ -166,6 +141,23 @@ namespace iTasks
                 ReloadData(); // Atualiza a lista após possíveis alterações
             }
         }
-        
+        private void ReloadData()
+        {
+            // Atualiza as listas de tarefas que estão no estado Todo, Doing e Done
+            lstTodo.DataSource = null;
+            lstTodo.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.ToDo, utilizadorRecebido);
+            lstDoing.DataSource = null;
+            lstDoing.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Doing, utilizadorRecebido);
+            lstDone.DataSource = null;
+            lstDone.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Done, utilizadorRecebido);
+            // Limpa as seleções das listas
+            lstDoing.SelectedIndex = -1;
+            lstDone.SelectedIndex = -1;
+            lstTodo.SelectedIndex = -1;
+            // Atualiza os labels com o número de tarefas em cada estado
+            label2.Text = lstTodo.Items.Count.ToString();
+            label3.Text = lstDoing.Items.Count.ToString();
+            label4.Text = lstDone.Items.Count.ToString();
+        }
     }
 }
