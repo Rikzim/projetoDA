@@ -42,6 +42,7 @@ namespace iTasks
             {
                 frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido);
                 detalhesTarefa.ShowDialog();
+                ReloadData(); // Atualiza a lista após a criação de uma nova tarefa
             }
             else
             {

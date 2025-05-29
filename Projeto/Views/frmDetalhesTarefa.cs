@@ -38,6 +38,15 @@ namespace iTasks
                 txtId.Text = tarefaSelecionada.Id.ToString();
                 txtEstado.Text = tarefaSelecionada.EstadoAtual.ToString();
                 txtDataCriacao.Text = tarefaSelecionada.DataCriacao.ToString("dd/MM/yyyy");
+                if (tarefaSelecionada.DataRealInicio != null)
+                    txtDataRealini.Text = tarefaSelecionada.DataRealInicio.Value.ToString("dd/MM/yyyy HH:mm");
+                else
+                    txtDataRealini.Text = "N/A"; // Se não houver data real de início
+                if (tarefaSelecionada.DataRealFim != null)
+                    txtdataRealFim.Text = tarefaSelecionada.DataRealFim.Value.ToString("dd/MM/yyyy HH:mm");
+                else
+                    txtdataRealFim.Text = "N/A"; // Se não houver data real de fim
+                
                 // Campos Mutáveis
                 txtDesc.Text = tarefaSelecionada.Descricao;
                 cbTipoTarefa.SelectedItem = tarefaSelecionada.TipoTarefa;
@@ -78,6 +87,8 @@ namespace iTasks
                 Convert.ToInt32(txtStoryPoints.Text),
                 DateTime.Now, 
                 Tarefa.Estado.ToDo);
+
+            MessageBox.Show("Tarefa gravada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btFechar_Click(object sender, EventArgs e)
