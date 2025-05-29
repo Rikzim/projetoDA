@@ -25,15 +25,24 @@ namespace iTasks.Models
         public DateTime DataPrevistaFim { get; set; }
         public TipoTarefa TipoTarefa { get; set; }
         public int StoryPoints { get; set; }
-        public DateTime DataRealInicio { get; set; }
-        public DateTime DataRealFim { get; set; }
+        public DateTime? DataRealInicio { get; set; }
+        public DateTime? DataRealFim { get; set; }
         public DateTime DataCriacao { get; set; }
         public Estado EstadoAtual { get; set; }
 
         public Tarefa() { }
-        public Tarefa(Gestor idGestor, Programador idProgramador, int ordemExecucao, string descricao, 
-            DateTime dataPrevistaInicio, DateTime dataPrevistaFim, TipoTarefa tipoTarefa, int storyPoints, DateTime dataRealInicio, 
-            DateTime dataRealFim, DateTime dataCriacao, Estado estadoAtual)
+        public Tarefa(
+            Gestor idGestor,
+            Programador idProgramador,
+            int ordemExecucao,
+            string descricao, 
+            DateTime dataPrevistaInicio,
+            DateTime dataPrevistaFim,
+            TipoTarefa tipoTarefa,
+            int storyPoints,
+            DateTime dataCriacao,
+            Estado estadoAtual
+            )
         {
             this.IdGestor = idGestor;
             this.IdProgramador = idProgramador;
@@ -43,8 +52,6 @@ namespace iTasks.Models
             this.DataPrevistaFim = dataPrevistaFim;
             this.TipoTarefa = tipoTarefa;
             this.StoryPoints = storyPoints;
-            this.DataRealInicio = dataRealInicio;
-            this.DataRealFim = dataRealFim;
             this.DataCriacao = dataCriacao;
             this.EstadoAtual = estadoAtual;
         }

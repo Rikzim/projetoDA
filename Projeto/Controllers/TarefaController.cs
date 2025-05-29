@@ -28,8 +28,6 @@ namespace iTasks.Controllers
                 dataPrevistaFim,
                 tipoTarefa,
                 storyPoints,
-                DateTime.Now, // Leva a data da hora atual, mas pode ser alterada posteriormente
-                DateTime.Now, // Inicialmente não tem data real de fim
                 dataCriacao,
                 estadoAtual
             ));
