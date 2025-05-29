@@ -14,7 +14,6 @@ namespace iTasks
 {
     public partial class frmLogin : Form
     {
-        BasedeDados db;
         public frmLogin()
         {
             InitializeComponent();

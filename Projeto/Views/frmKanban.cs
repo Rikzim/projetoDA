@@ -36,6 +36,7 @@ namespace iTasks
 
         private void btNova_Click(object sender, EventArgs e)
         {
+            lstTodo.SelectedIndex = -1; // Limpa a seleção da lista de tarefas
             // Abre o formulário de nova tarefa
             if (utilizadorRecebido is Gestor gestor)
             {
@@ -48,7 +49,7 @@ namespace iTasks
                 MessageBox.Show("Apenas gestores podem criar novas tarefas.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        // Eventos do Menu tool Strip 
         private void gerirUtilizadoresToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmGereUtilizadores gereUtilizadores = new frmGereUtilizadores(utilizadorRecebido);
@@ -71,34 +72,11 @@ namespace iTasks
                 Application.Exit();
             }
         }
-
         private void btnReload_Click(object sender, EventArgs e)
         {
             ReloadData();
         }
-
-        private void ReloadData()
-        {
-            // Atualiza as listas de tarefas que estão no estado Todo, Doing e Done
-            lstTodo.DataSource = null;
-            lstTodo.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.ToDo, utilizadorRecebido);
-            lstDoing.DataSource = null;
-            lstDoing.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Doing, utilizadorRecebido);
-            lstDone.DataSource = null;
-            lstDone.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Done, utilizadorRecebido);
-        }
-
-        private void lstTodo_DoubleClick(object sender, EventArgs e)
-        {
-            var tarefaSelecionada = lstTodo.SelectedItem as Tarefa;
-            if (tarefaSelecionada != null)
-            {
-                frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, tarefaSelecionada);
-                detalhesTarefa.ShowDialog();
-                ReloadData(); // Atualiza a lista após possíveis alterações
-            }
-        }
-
+        // Eventos do KanBan
         private void btSetDoing_Click(object sender, EventArgs e)
         {
             var tarefaSelecionada = lstTodo.SelectedItem as Tarefa;
@@ -109,20 +87,20 @@ namespace iTasks
                 TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Doing);
                 MessageBox.Show("Tarefa movida para Doing.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ReloadData(); // Atualiza a lista após a mudança de estado
+
             }
             else
             {
                 MessageBox.Show("Selecione uma tarefa para mover.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void btSetDone_Click(object sender, EventArgs e)
         {
-            var tarefaSelecionada = lstTodo.SelectedItem as Tarefa;
+            var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
 
             if (tarefaSelecionada != null)
             {
-                // Muda o estado da tarefa para Doing
+                // Muda o estado da tarefa para Done
                 TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Done);
                 MessageBox.Show("Tarefa movida para Doing.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ReloadData(); // Atualiza a lista após a mudança de estado
@@ -131,6 +109,55 @@ namespace iTasks
             {
                 MessageBox.Show("Selecione uma tarefa para mover.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        // Eventos de duplo clique nas listas de tarefas
+        private void lstTodo_DoubleClick(object sender, EventArgs e)
+        {
+            var tarefaSelecionada = lstTodo.SelectedItem as Tarefa;
+            if (tarefaSelecionada != null)
+            {
+                frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, tarefaSelecionada);
+                detalhesTarefa.ShowDialog();
+                ReloadData(); // Atualiza a lista após possíveis alterações
+            }
+        }
+        private void lstDoing_DoubleClick(object sender, EventArgs e)
+        {
+            var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
+            if (tarefaSelecionada != null)
+            {
+                frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, tarefaSelecionada);
+                detalhesTarefa.ShowDialog();
+                ReloadData(); // Atualiza a lista após possíveis alterações
+            }
+        }
+        private void lstDone_DoubleClick(object sender, EventArgs e)
+        {
+            var tarefaSelecionada = lstDone.SelectedItem as Tarefa;
+            if (tarefaSelecionada != null)
+            {
+                frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, tarefaSelecionada);
+                detalhesTarefa.ShowDialog();
+                ReloadData(); // Atualiza a lista após possíveis alterações
+            }
+        }
+        private void ReloadData()
+        {
+            // Atualiza as listas de tarefas que estão no estado Todo, Doing e Done
+            lstTodo.DataSource = null;
+            lstTodo.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.ToDo, utilizadorRecebido);
+            lstDoing.DataSource = null;
+            lstDoing.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Doing, utilizadorRecebido);
+            lstDone.DataSource = null;
+            lstDone.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Done, utilizadorRecebido);
+            // Limpa as seleções das listas
+            lstDoing.SelectedIndex = -1;
+            lstDone.SelectedIndex = -1;
+            lstTodo.SelectedIndex = -1;
+            // Atualiza os labels com o número de tarefas em cada estado
+            label2.Text = lstTodo.Items.Count.ToString();
+            label3.Text = lstDoing.Items.Count.ToString();
+            label4.Text = lstDone.Items.Count.ToString();
         }
     }
 }

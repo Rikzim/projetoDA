@@ -1,4 +1,4 @@
-﻿using iTasks.Models;
+using iTasks.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.Entity;
 using static iTasks.Models.Tarefa;
+
 
 namespace iTasks.Controllers
 {
@@ -36,8 +37,12 @@ namespace iTasks.Controllers
                 DataCriacao = dataCriacao,
                 EstadoAtual = estadoAtual
             });
-            //MessageBox.Show($"g: {gestor}, p: {programador}");
             db.SaveChanges();
+        }
+        public static int countTarefas()
+        {
+            int count = db.Tarefa.Count();
+            return count + 1;
         }
 
         public static void MudarEstadoTarefa(Tarefa tarefaSelecionada, Estado estado)
@@ -80,25 +85,13 @@ namespace iTasks.Controllers
 
         /*public static List<Tarefa> ListarTarefas(Utilizador utilizadorLogado)
         {
-            // Verifica se o utilizador é um gestor ou programador
-            if (utilizadorLogado is Programador)
-            {
-                return db.Tarefa
-                    .Include(t => t.IdGestor)
-                    .Include(t => t.IdProgramador)
-                    .Include(t => t.TipoTarefa)
-                    .Where(t => t.IdProgramador.id == utilizadorLogado.id)
-                    .ToList();
-            }
-            else if (utilizadorLogado is Gestor)
-            {
-                return db.Tarefa
-                    .Include(t => t.IdGestor)
-                    .Include(t => t.IdProgramador)
-                    .Include(t => t.TipoTarefa)
-                    .ToList();
-            }
-        }*/
+            return db.Tarefa
+                .Include(t => t.IdGestor)
+                .Include(t => t.IdProgramador)
+                .Include(t => t.TipoTarefa)
+                .ToList();
+        }
+        */
         public static List<Tarefa> ListarTarefasPorEstado(Tarefa.Estado estado, Utilizador utilizadorLogado)
         {
             if (utilizadorLogado is Programador)
@@ -119,17 +112,6 @@ namespace iTasks.Controllers
                     .Where(t => t.EstadoAtual == estado)
                     .ToList();
             }
-        }
-        public static int countTarefas()
-        {
-            int count = db.Tarefa.Count();
-
-            return count + 1;
-        }
-        public static int countTarefasEstado(Estado estado)
-        {
-            int count = db.Tarefa.Where(t => t.EstadoAtual == estado).Count();
-            return count + 1;
         }
     }
 }
