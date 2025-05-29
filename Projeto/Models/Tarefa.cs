@@ -31,7 +31,7 @@ namespace iTasks.Models
         public Estado EstadoAtual { get; set; }
 
         public Tarefa() { }
-        public Tarefa(int id, Gestor idGestor, Programador idProgramador, int ordemExecucao, string descricao, 
+        public Tarefa(Gestor idGestor, Programador idProgramador, int ordemExecucao, string descricao, 
             DateTime dataPrevistaInicio, DateTime dataPrevistaFim, TipoTarefa tipoTarefa, int storyPoints, DateTime dataRealInicio, 
             DateTime dataRealFim, DateTime dataCriacao, Estado estadoAtual)
         {

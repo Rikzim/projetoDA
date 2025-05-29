@@ -13,40 +13,40 @@ namespace iTasks.Controllers
 {
     class TarefaController
     {
-        public static BasedeDados db = new BasedeDados();
-
         public static void GravarTarefa(Gestor idGestor, Programador idProgramador, int ordemExecucao, string descricao,
             DateTime dataPrevistaInicio, DateTime dataPrevistaFim, TipoTarefa tipoTarefa, int storyPoints, DateTime dataCriacao, Estado estadoAtual)
         {
-            var gestor = db.Gestor.Find(idGestor.id);
-            var programador = db.Programador.Find(idProgramador.id);
-            var tipoTarefaExistente = db.TipoTarefa.Find(tipoTarefa.Id);
-
+            BasedeDados db = BasedeDados.Instance;
+            // Verifica se o gestor e programador existem
             db.Tarefa.Add(new Tarefa
-            {
-                IdGestor = gestor,
-                IdProgramador = programador,
-                OrdemExecucao = ordemExecucao,
-                Descricao = descricao,
-                DataPrevistaInicio = dataPrevistaInicio,
-                DataPrevistaFim = dataPrevistaFim,
-                TipoTarefa = tipoTarefaExistente,
-                StoryPoints = storyPoints,
-                DataRealInicio = DateTime.Now, // Leva a data da hora atual, mas pode ser alterada posteriormente
-                DataRealFim = DateTime.Now, // Inicialmente não tem data real de fim
-                DataCriacao = dataCriacao,
-                EstadoAtual = estadoAtual
-            });
+            (
+                idGestor,
+                idProgramador,
+                ordemExecucao,
+                descricao,
+                dataPrevistaInicio,
+                dataPrevistaFim,
+                tipoTarefa,
+                storyPoints,
+                DateTime.Now, // Leva a data da hora atual, mas pode ser alterada posteriormente
+                DateTime.Now, // Inicialmente não tem data real de fim
+                dataCriacao,
+                estadoAtual
+            ));
             db.SaveChanges();
         }
         public static int countTarefas()
         {
+            BasedeDados db = BasedeDados.Instance;
+            // Conta o número de tarefas na base de dados e adiciona 1, começando em 1 se não houver nenhuma
             int count = db.Tarefa.Count();
             return count + 1;
         }
 
         public static void MudarEstadoTarefa(Tarefa tarefaSelecionada, Estado estado)
         {
+            BasedeDados db = BasedeDados.Instance;
+            // Verifica se a tarefa selecionada é nula
             // Verifica se a tarefa selecionada não é nula
             if (tarefaSelecionada != null)
             {
@@ -94,6 +94,8 @@ namespace iTasks.Controllers
         */
         public static List<Tarefa> ListarTarefasPorEstado(Tarefa.Estado estado, Utilizador utilizadorLogado)
         {
+            BasedeDados db = BasedeDados.Instance;
+            // Verifica se o utilizador logado é um Programador ou Gestor
             if (utilizadorLogado is Programador)
             {
                 return db.Tarefa
