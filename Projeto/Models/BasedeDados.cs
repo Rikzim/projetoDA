@@ -16,5 +16,23 @@ namespace iTasks.Models
         public DbSet<Tarefa> Tarefa { get; set; }
         public DbSet<Utilizador> Utilizador { get; set; }
 
+        private static BasedeDados _instance;
+
+        public static BasedeDados Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new BasedeDados();
+                    _instance.Utilizador.Load();
+                    _instance.Gestor.Load();
+                    _instance.Programador.Load();
+                    _instance.TipoTarefa.Load();
+                    _instance.Tarefa.Load();
+                }
+                return _instance;
+            }
+        }
     }
 }

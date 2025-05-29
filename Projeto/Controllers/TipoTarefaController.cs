@@ -9,9 +9,9 @@ namespace iTasks.Controllers
 {
     class TipoTarefaController
     {
-        public static BasedeDados db = new BasedeDados();
         public static string contaTipoTarefa()
         {
+            BasedeDados db = BasedeDados.Instance;
             // Cria uma instância da base de dados
 
             // Conta o número de TipoTarefa e adiciona 1, começando em 1 se não houver nenhum
@@ -22,7 +22,9 @@ namespace iTasks.Controllers
 
         public static List<TipoTarefa> ListarTipoTarefa()
         {
-            return db.TipoTarefa.OfType<TipoTarefa>().ToList();
+            BasedeDados db = BasedeDados.Instance;
+
+            return db.TipoTarefa.ToList();
         }
     }
 }
