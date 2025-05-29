@@ -66,6 +66,7 @@ namespace iTasks
         {
             Programador programador = (Programador)cbProgramador.SelectedItem;
             Gestor gestor = (Gestor)utilizadorRecebido;
+            TipoTarefa tipoTarefa = (TipoTarefa)cbTipoTarefa.SelectedItem;
             TarefaController.GravarTarefa(
                 gestor, 
                 programador, 
@@ -73,7 +74,7 @@ namespace iTasks
                 txtDesc.Text,
                 dtInicio.Value,
                 dtFim.Value,
-                (TipoTarefa)cbTipoTarefa.SelectedItem,
+                tipoTarefa,
                 Convert.ToInt32(txtStoryPoints.Text),
                 DateTime.Now, 
                 Tarefa.Estado.ToDo);
