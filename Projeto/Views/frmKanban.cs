@@ -107,17 +107,10 @@ namespace iTasks
 
             if (tarefaSelecionada != null)
             {
-                if (TarefaController.countTarefasPorEstadoProgramador(Tarefa.Estado.Done, utilizadorRecebido) < 2)
-                {
-                    // Muda o estado da tarefa para Done
-                    TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Done, utilizadorRecebido);
-                    MessageBox.Show("Tarefa movida para Done.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    ReloadData(); // Atualiza a lista após a mudança de estado
-                }
-                else
-                {
-                    MessageBox.Show("Não pode mover mais de 2 tarefas para Done.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                // Muda o estado da tarefa para Done
+                TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Done, utilizadorRecebido);
+                MessageBox.Show("Tarefa movida para Done.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ReloadData(); // Atualiza a lista após a mudança de estado
             }
             else
             {
