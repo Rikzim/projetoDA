@@ -9,7 +9,6 @@ namespace iTasks.Models
 {
     public class Tarefa
     {
-
         public enum Estado { 
             ToDo,
             Doing,
