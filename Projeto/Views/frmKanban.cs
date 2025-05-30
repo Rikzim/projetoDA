@@ -185,5 +185,25 @@ namespace iTasks
             label4.Text = lstDone.Items.Count.ToString();
         }
 
-    }
+        //Abre a janela de consulta de tarefas concluídas
+        private void tarefasTerminadasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+ 
+            frmConsultarTarefasConcluidas tarefasConcluidas = new frmConsultarTarefasConcluidas(utilizadorRecebido);
+            tarefasConcluidas.ShowDialog();
+        }
+
+        //Abre a vista de tarefas em curso
+        private void tarefasEmCursoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (utilizadorRecebido is Programador programador)
+            {
+                MessageBox.Show("Apenas gestores podem consultar tarefas em curso.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            frmConsultaTarefasEmCurso tarefasEmCurso = new frmConsultaTarefasEmCurso(utilizadorRecebido);
+            tarefasEmCurso.ShowDialog();
+        }
+    } 
 }
+
