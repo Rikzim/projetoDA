@@ -19,7 +19,7 @@ namespace iTasks
         {
             InitializeComponent();
             this.utilizadorRecebido = utilizador;
-            gvTarefasConcluidas.DataSource = TarefaController.ListarTarefasPorEstado(Models.Tarefa.Estado.Done, utilizadorRecebido);
+            gvTarefasConcluidas.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Done, utilizadorRecebido);
         }
 
         private void btFechar_Click(object sender, EventArgs e)
