@@ -207,6 +207,21 @@ namespace iTasks
                 return;
             }
         }
+
+        private void exportarParaCSVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (utilizadorRecebido is Gestor gestor)
+            {
+                if (TarefaController.ExportarCSV(gestor))
+                {
+                    MessageBox.Show("Tarefas exportadas com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Erro ao exportar tarefas.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     } 
 }
 
