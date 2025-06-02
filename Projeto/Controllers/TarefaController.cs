@@ -1,11 +1,12 @@
 using iTasks.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.Entity;
 using static iTasks.Models.Tarefa;
 
 
@@ -52,7 +53,7 @@ namespace iTasks.Controllers
             BasedeDados db = BasedeDados.Instance;
             // Conta o número de tarefas na base de dados e adiciona 1, começando em 1 se não houver nenhuma
             int count = db.Tarefa.
-                Where(t => t.EstadoAtual == estado 
+                Where(t => t.EstadoAtual == estado
                 && t.IdProgramador.id == utilizadorRecebido.id)
                 .Count();
             return count;
@@ -124,5 +125,60 @@ namespace iTasks.Controllers
                 .Where(t => t.EstadoAtual == estado)
                 .ToList();
         }
+
+        public static bool ExportarCSV(Gestor gestor)
+        {
+            try
+            {
+                // Criar diálogo para escolher a pasta
+                var folderBrowserDialog = new FolderBrowserDialog();
+                DialogResult resultado = folderBrowserDialog.ShowDialog();
+
+                if (resultado != DialogResult.OK)
+                    return false;
+
+                string pastaDestino = folderBrowserDialog.SelectedPath;
+
+                // Gerar nome do ficheiro com nome do gestor e timestamp
+                string nomeGestorLimpo = string.Concat(gestor.nome.Split(Path.GetInvalidFileNameChars()));
+                string nomeFicheiro = $"TarefasConcluidas_{nomeGestorLimpo}_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+                string caminhoFicheiro = Path.Combine(pastaDestino, nomeFicheiro);
+
+                // Obter tarefas concluídas do gestor
+                var tarefasConcluidas = ListarTarefasPorEstado(Tarefa.Estado.Done, gestor);
+
+                // Construir conteúdo CSV
+                var sb = new StringBuilder();
+                sb.AppendLine("Programador;Descricao;DataPrevistaInicio;DataPrevistaFim;TipoTarefa;DataRealInicio;DataRealFim");
+
+                foreach (var tarefa in tarefasConcluidas)
+                {
+                    string linha = string.Join(";",
+                        tarefa.IdProgramador?.nome ?? "",
+                        tarefa.Descricao ?? "",
+                        tarefa.DataPrevistaInicio.ToString("yyyy-MM-dd"),
+                        tarefa.DataPrevistaFim.ToString("yyyy-MM-dd"),
+                        tarefa.TipoTarefa?.Nome ?? "",
+                        tarefa.DataRealInicio?.ToString("yyyy-MM-dd") ?? "",
+                        tarefa.DataRealFim?.ToString("yyyy-MM-dd") ?? ""
+                    );
+
+                    sb.AppendLine(linha);
+                }
+
+                // Escrever no ficheiro
+                File.WriteAllText(caminhoFicheiro, sb.ToString(), new UTF8Encoding(true));
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erro ao exportar CSV: " + ex.Message);
+                return false;
+            }
+        }
+
+
+
     }
 }
