@@ -17,22 +17,56 @@ namespace iTasks.Controllers
         public static void GravarTarefa(Gestor idGestor, Programador idProgramador, int ordemExecucao, string descricao,
             DateTime dataPrevistaInicio, DateTime dataPrevistaFim, TipoTarefa tipoTarefa, int storyPoints, DateTime dataCriacao, Estado estadoAtual)
         {
-            BasedeDados db = BasedeDados.Instance;
-            // Verifica se o gestor e programador existem
-            db.Tarefa.Add(new Tarefa
-            (
-                idGestor,
-                idProgramador,
-                ordemExecucao,
-                descricao,
-                dataPrevistaInicio,
-                dataPrevistaFim,
-                tipoTarefa,
-                storyPoints,
-                dataCriacao,
-                estadoAtual
-            ));
-            db.SaveChanges();
+            try
+            {
+                BasedeDados db = BasedeDados.Instance;
+                // Verifica se o gestor e programador existem
+                db.Tarefa.Add(new Tarefa
+                (
+                    idGestor,
+                    idProgramador,
+                    ordemExecucao,
+                    descricao,
+                    dataPrevistaInicio,
+                    dataPrevistaFim,
+                    tipoTarefa,
+                    storyPoints,
+                    dataCriacao,
+                    estadoAtual
+                ));
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao gravar tarefa: " + ex.Message);
+            }
+        }
+
+        public static void EditarTarefa(Tarefa tarefaSelecionada, Gestor idGestor, Programador idProgramador, int ordemExecucao, string descricao,
+            DateTime dataPrevistaInicio, DateTime dataPrevistaFim, TipoTarefa tipoTarefa, int storyPoints)
+        {
+            try
+            {
+                BasedeDados db = BasedeDados.Instance;
+                // Verifica se a tarefa selecionada é nula
+                if (tarefaSelecionada != null)
+                {
+                    // Atualiza os dados da tarefa selecionada
+                    tarefaSelecionada.IdGestor = idGestor;
+                    tarefaSelecionada.IdProgramador = idProgramador;
+                    tarefaSelecionada.OrdemExecucao = ordemExecucao;
+                    tarefaSelecionada.Descricao = descricao;
+                    tarefaSelecionada.DataPrevistaInicio = dataPrevistaInicio;
+                    tarefaSelecionada.DataPrevistaFim = dataPrevistaFim;
+                    tarefaSelecionada.TipoTarefa = tipoTarefa;
+                    tarefaSelecionada.StoryPoints = storyPoints;
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao editar tarefa: " + ex.Message);
+            }
         }
         public static int countTarefas()
         {

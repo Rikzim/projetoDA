@@ -73,24 +73,98 @@ namespace iTasks
 
         private void btGravar_Click(object sender, EventArgs e)
         {
-            Programador programador = (Programador)cbProgramador.SelectedItem;
-            Gestor gestor = (Gestor)utilizadorRecebido;
-            TipoTarefa tipoTarefa = (TipoTarefa)cbTipoTarefa.SelectedItem;
-            TarefaController.GravarTarefa(
-                gestor, 
-                programador, 
-                Convert.ToInt32(txtOrdem.Text),
-                txtDesc.Text,
-                dtInicio.Value,
-                dtFim.Value,
-                tipoTarefa,
-                Convert.ToInt32(txtStoryPoints.Text),
-                DateTime.Now, 
-                Tarefa.Estado.ToDo);
-
-            MessageBox.Show("Tarefa gravada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                Programador programador = (Programador)cbProgramador.SelectedItem;
+                Gestor gestor = (Gestor)utilizadorRecebido;
+                TipoTarefa tipoTarefa = (TipoTarefa)cbTipoTarefa.SelectedItem;
+                TarefaController.GravarTarefa(
+                    gestor,
+                    programador,
+                    Convert.ToInt32(txtOrdem.Text),
+                    txtDesc.Text,
+                    dtInicio.Value,
+                    dtFim.Value,
+                    tipoTarefa,
+                    Convert.ToInt32(txtStoryPoints.Text),
+                    DateTime.Now,
+                    Tarefa.Estado.ToDo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Interrompe a execução se ocorrer um erro
+            }
+            finally
+            {
+                MessageBox.Show("Tarefa gravada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
+        private void btEditarTarefa_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Obtém a tarefa selecionada do formulário
+                Tarefa tarefaSelecionada = this.tarefaSelecionada;
+
+                // Verifica se a tarefa selecionada não é nula
+                if (tarefaSelecionada != null)
+                {
+                    Gestor gestor = (Gestor)utilizadorRecebido;
+                    Programador programador = (Programador)cbProgramador.SelectedItem;
+                    TipoTarefa tipoTarefa = (TipoTarefa)cbTipoTarefa.SelectedItem;
+
+                    TarefaController.EditarTarefa(
+                        tarefaSelecionada,
+                        gestor,
+                        programador,
+                        Convert.ToInt32(txtOrdem.Text),
+                        txtDesc.Text,
+                        dtInicio.Value,
+                        dtFim.Value,
+                        tipoTarefa,
+                        Convert.ToInt32(txtStoryPoints.Text)
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Interrompe a execução se ocorrer um erro
+            }
+            finally
+            {
+                MessageBox.Show("Tarefa editada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+        private void btApagarTarefa_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Tarefa tarefaSelecionada = this.tarefaSelecionada;
+
+                // Verifica se a tarefa selecionada não é nula
+
+                //TODO: METER EM MVC
+                if (tarefaSelecionada != null)
+                {
+                    BasedeDados db = BasedeDados.Instance;
+                    // Remove a tarefa selecionada da base de dados
+                    db.Tarefa.Remove(tarefaSelecionada);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao apagar a tarefa: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Interrompe a execução se ocorrer um erro
+            }
+            finally
+            {
+                MessageBox.Show("Tarefa apagada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
         private void btFechar_Click(object sender, EventArgs e)
         {
             this.Close();
