@@ -25,19 +25,9 @@ namespace iTasks
             this.utilizadorRecebido = utilizadorRecebido;
             this.tarefaSelecionada = tarefaSelecionada;
 
-            if(utilizadorRecebido is Programador){
-                // Se o utilizador for um programador, desabilita CRUD de tarefas
-                btGravar.Enabled = false;
-                btEditarTarefa.Enabled = false;
-                btApagarTarefa.Enabled = false;
-                // Campos readonly
-                txtDesc.ReadOnly = true;
-                cbProgramador.Enabled = false;
-                cbTipoTarefa.Enabled = false;
-                txtOrdem.ReadOnly = true;
-                txtStoryPoints.ReadOnly = true;
-                dtInicio.Enabled = false;
-                dtFim.Enabled = false;
+            if (utilizadorRecebido is Programador)
+            {
+                readOnlyUtilizador();
             }
 
             //Inicializa os comboboxes com os dados necessários
@@ -57,6 +47,27 @@ namespace iTasks
             }
         }
 
+        private void readOnlyUtilizador() 
+        {
+            // Se o utilizador for um programador, desabilita CRUD de tarefas
+            btGravar.Enabled = false;
+            btEditarTarefa.Enabled = false;
+            btApagarTarefa.Enabled = false;
+
+            // Campos readonly
+            txtDesc.ReadOnly = true;
+            txtOrdem.ReadOnly = true;
+            txtStoryPoints.ReadOnly = true;
+
+            // ComboBoxes readonly
+            cbProgramador.Enabled = false;
+            cbTipoTarefa.Enabled = false;
+
+            // DateTimePickers readonly
+            dtInicio.Enabled = false;
+            dtFim.Enabled = false;
+
+        }
         private void InicializarComboboxes()
         {
             // Preenche os comboboxes com os dados necessários

@@ -361,37 +361,35 @@ namespace iTasks.Controllers
         {
             try
             {
+                //Instanciar a base de dados
                 BasedeDados db = BasedeDados.Instance;
 
-                // Get all tasks for the same programmer with lower execution order
+                //Guardar as tarefas anteriores do programador selecionado
                 var tarefasAnteriores = db.Tarefa
                     .Where(t => t.IdProgramador.id == tarefaSelecionada.IdProgramador.id
                              && t.OrdemExecucao < tarefaSelecionada.OrdemExecucao)
                     .OrderBy(t => t.OrdemExecucao)
                     .ToList();
 
-                // If no previous tasks, allow any transition
+                // Se não houver tarefas
                 if (!tarefasAnteriores.Any())
                     return true;
 
-                // Check based on the target state
+                // Verificar se a transição de estado é válida
                 switch (novoEstado)
                 {
                     case Estado.ToDo:
-                        // Always allow moving back to ToDo
                         return true;
 
                     case Estado.Doing:
-                        // To move to Doing, all previous tasks must be at least in Doing or Done
                         return tarefasAnteriores.All(t => t.EstadoAtual == Estado.Doing ||
                                                           t.EstadoAtual == Estado.Done);
 
                     case Estado.Done:
-                        // To move to Done, all previous tasks must be Done
                         return tarefasAnteriores.All(t => t.EstadoAtual == Estado.Done);
 
                     default:
-                        return false;
+                        throw new ArgumentException("Estado inválido: " + novoEstado);
                 }
             }
             catch (Exception ex)
@@ -399,7 +397,5 @@ namespace iTasks.Controllers
                 throw new Exception("Erro ao verificar transição de estado: " + ex.Message);
             }
         }
-
-
     }
 }
