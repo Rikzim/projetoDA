@@ -130,51 +130,48 @@ namespace iTasks.Controllers
         {
             // Cria uma instância da base de dados
             BasedeDados db = BasedeDados.Instance;
-            // Verifica se a tarefa selecionada é nula
-            // Verifica se a tarefa selecionada não é nula
-            if (tarefaSelecionada != null)
+            try
             {
-                if (tarefaSelecionada.IdProgramador.id == utilizadorRecebido.id)
+                if (tarefaSelecionada != null) // Verifica se a tarefa selecionada não é nula
                 {
 
-                    if (estado == Estado.Doing)
+                    if (tarefaSelecionada.IdProgramador.id == utilizadorRecebido.id)
                     {
-                        // Atualiza o estado da tarefa
-                        tarefaSelecionada.EstadoAtual = estado;
-                        tarefaSelecionada.DataRealInicio = DateTime.Now; // Define a data real de início como a data atual
-                        db.SaveChanges();
-                    }
-                    else if (estado == Estado.ToDo)
-                    {
-                        // Atualiza o estado da tarefa
-                        tarefaSelecionada.EstadoAtual = estado;
-                        //TODO: Se necessário, pode-se definir a data real de início como nula ou não alterar
-                        tarefaSelecionada.DataRealInicio = null; // Define a data real de início como a data atual
-                        db.SaveChanges();
-                    }
-                    else if (estado == Estado.Done)
-                    {
-                        // Atualiza o estado da tarefa
-                        tarefaSelecionada.EstadoAtual = estado;
-                        tarefaSelecionada.DataRealFim = DateTime.Now; // Define a data real de fim como a data atual
+                        tarefaSelecionada.EstadoAtual = estado; // Define o novo estado da tarefa
+                        if (estado == Tarefa.Estado.Done) // Se o estado for Done, define as datas a data real fim
+                        {
+                            tarefaSelecionada.DataRealFim = DateTime.Now;
+                        }
+                        else if (estado == Tarefa.Estado.Doing) // Se o estado for Doing, define a data real início
+                        {
+                            tarefaSelecionada.DataRealInicio = DateTime.Now;
+                        }
+                        else if (estado == Tarefa.Estado.ToDo) // Se o estado for ToDo, define as datas real início e fim como nulas
+                        {
+                            tarefaSelecionada.DataRealInicio = null;
+                            tarefaSelecionada.DataRealFim = null;
+                        }
+                        else
+                        {
+                            throw new Exception("Estado inválido. Deve ser ToDo, Doing ou Done."); // Lanca uma excecao se o estado for inválido
+                        }
                         db.SaveChanges();
                     }
                     else
                     {
-                        MessageBox.Show("Estado inválido."); // É PARA POR UM THROW EXCEPTION AQUI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        throw new Exception("Apenas o programador responsável pela tarefa pode alterar o seu estado."); // Lanca uma excecao se o utilizador não for o programador responsável pela tarefa
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Apenas o programador responsável pela tarefa pode alterar o seu estado.");
+                    throw new Exception("Nenhuma tarefa selecionada."); // Lanca uma excecao se a tarefa selecionada for nula
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Nenhuma tarefa selecionada.");
+                throw new Exception("Erro ao mudar estado da tarefa: " + ex.Message);
             }
         }
-
         /*public static List<Tarefa> ListarTarefas(Utilizador utilizadorLogado)
         {
             return db.Tarefa
@@ -204,7 +201,6 @@ namespace iTasks.Controllers
                 throw new Exception("Erro ao listar tarefas por estado: " + ex.Message);
             }
         }
-
         public static bool ExportarCSV(Gestor gestor)
         {
             try
@@ -232,7 +228,7 @@ namespace iTasks.Controllers
 
                 foreach (var tarefa in tarefasConcluidas)
                 {
-                    string linha = string.Join(";",
+                    string linha = string.Join(",",
                         tarefa.Id,
                         tarefa.IdGestor?.id.ToString() ?? "N/A",
                         tarefa.IdProgramador?.id.ToString() ?? "N/A",
@@ -262,33 +258,80 @@ namespace iTasks.Controllers
             }
         }
 
-
-        public static bool VerificarOrdem(Tarefa tarefaSelecionada, Tarefa.Estado estado)
+        public static double EstimarTempoTotalToDo()
         {
-            try
+            BasedeDados db = BasedeDados.Instance;
+
+            // 1. Calcule médias por StoryPoints das tarefas concluídas
+            var concluidas = db.Tarefa
+                .Where(t => t.EstadoAtual == Tarefa.Estado.Done && t.DataRealInicio != null && t.DataRealFim != null)
+                .ToList();
+
+            var mediasPorSP = concluidas
+                .GroupBy(t => t.StoryPoints)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Average(t => (t.DataRealFim.Value - t.DataRealInicio.Value).TotalHours)
+                );
+
+            // 2. Para cada tarefa ToDo, estime o tempo
+            var tarefasToDo = db.Tarefa
+                .Where(t => t.EstadoAtual == Tarefa.Estado.ToDo)
+                .ToList();
+
+            double totalHoras = 0;
+
+            foreach (var tarefa in tarefasToDo)
             {
-                BasedeDados db = BasedeDados.Instance;
-                // Verificação de pré-requisito de ordem de execução
-                if (estado == Tarefa.Estado.Doing || estado == Tarefa.Estado.Done)
+                int sp = tarefa.StoryPoints;
+                if (mediasPorSP.ContainsKey(sp))
                 {
-                    var tarefasAnteriores = db.Tarefa
-                        .Where(t => t.IdProgramador.id == tarefaSelecionada.IdProgramador.id
-                                 && t.OrdemExecucao < tarefaSelecionada.OrdemExecucao)
-                        .ToList();
-
-                    bool todasAnterioresConcluidas = tarefasAnteriores.All(t => t.EstadoAtual == Tarefa.Estado.Done);
-
-                    if (!todasAnterioresConcluidas)
-                    {
-                        return false;
-                    }
+                    totalHoras += mediasPorSP[sp];
                 }
-                return true; // Todas as tarefas anteriores estão concluídas
+                else if (mediasPorSP.Count > 0)
+                {
+                    // Busca a média mais próxima
+                    int spMaisProximo = mediasPorSP.Keys.OrderBy(k => Math.Abs(k - sp)).First();
+                    totalHoras += mediasPorSP[spMaisProximo];
+                }
+                // Se não houver nenhuma tarefa concluída, não soma nada
             }
-            catch (Exception ex)
-            { 
-                throw new Exception("Erro ao verificar ordem de execução: " + ex.Message);
+
+            // Retorna o tempo total estimado como TimeSpan
+            return totalHoras;
+        }
+
+        public static double CalcularMediaHorasPorStoryPoints(int storyPoints)
+        {
+            BasedeDados db = BasedeDados.Instance;
+
+            // Busca tarefas concluídas com DataRealInicio e DataRealFim definidos
+            var concluidas = db.Tarefa
+                .Where(t => t.EstadoAtual == Tarefa.Estado.Done && t.DataRealInicio != null && t.DataRealFim != null)
+                .ToList();
+
+            // Agrupa por StoryPoints e calcula a média de horas
+            var mediasPorSP = concluidas
+                .GroupBy(t => t.StoryPoints)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Average(t => (t.DataRealFim.Value - t.DataRealInicio.Value).TotalHours)
+                );
+
+            if (mediasPorSP.Count == 0)
+                return 0; // Nenhuma tarefa concluída
+
+            if (mediasPorSP.ContainsKey(storyPoints))
+            {
+                return mediasPorSP[storyPoints];
+            }
+            else
+            {
+                // Busca a média mais próxima
+                int spMaisProximo = mediasPorSP.Keys.OrderBy(k => Math.Abs(k - storyPoints)).First();
+                return mediasPorSP[spMaisProximo];
             }
         }
+
     }
 }
