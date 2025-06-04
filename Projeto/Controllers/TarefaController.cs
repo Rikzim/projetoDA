@@ -357,34 +357,49 @@ namespace iTasks.Controllers
                 return mediasPorSP[spMaisProximo];
             }
         }
-
-        public static bool VerificarOrdem(Tarefa tarefaSelecionada)
+        public static bool VerificarOrdem(Tarefa tarefaSelecionada, Estado novoEstado)
         {
             try
             {
                 BasedeDados db = BasedeDados.Instance;
-                // Verificação de pré-requisito de ordem de execução
-                if (tarefaSelecionada.EstadoAtual == Tarefa.Estado.Doing || tarefaSelecionada.EstadoAtual == Tarefa.Estado.Done)
+
+                // Get all tasks for the same programmer with lower execution order
+                var tarefasAnteriores = db.Tarefa
+                    .Where(t => t.IdProgramador.id == tarefaSelecionada.IdProgramador.id
+                             && t.OrdemExecucao < tarefaSelecionada.OrdemExecucao)
+                    .OrderBy(t => t.OrdemExecucao)
+                    .ToList();
+
+                // If no previous tasks, allow any transition
+                if (!tarefasAnteriores.Any())
+                    return true;
+
+                // Check based on the target state
+                switch (novoEstado)
                 {
-                    var tarefasAnteriores = db.Tarefa
-                        .Where(t => t.IdProgramador.id == tarefaSelecionada.IdProgramador.id
-                                 && t.OrdemExecucao < tarefaSelecionada.OrdemExecucao)
-                        .ToList();
+                    case Estado.ToDo:
+                        // Always allow moving back to ToDo
+                        return true;
 
-                    bool todasAnterioresConcluidas = tarefasAnteriores.All(t => t.EstadoAtual == Tarefa.Estado.Done);
+                    case Estado.Doing:
+                        // To move to Doing, all previous tasks must be at least in Doing or Done
+                        return tarefasAnteriores.All(t => t.EstadoAtual == Estado.Doing ||
+                                                          t.EstadoAtual == Estado.Done);
 
-                    if (!todasAnterioresConcluidas)
-                    {
+                    case Estado.Done:
+                        // To move to Done, all previous tasks must be Done
+                        return tarefasAnteriores.All(t => t.EstadoAtual == Estado.Done);
+
+                    default:
                         return false;
-                    }
                 }
-                return true; // Todas as tarefas anteriores estão concluídas
             }
             catch (Exception ex)
-            { 
-                throw new Exception("Erro ao verificar ordem de execução: " + ex.Message);
+            {
+                throw new Exception("Erro ao verificar transição de estado: " + ex.Message);
             }
         }
+
 
     }
 }

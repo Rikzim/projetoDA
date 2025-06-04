@@ -25,6 +25,21 @@ namespace iTasks
             this.utilizadorRecebido = utilizadorRecebido;
             this.tarefaSelecionada = tarefaSelecionada;
 
+            if(utilizadorRecebido is Programador){
+                // Se o utilizador for um programador, desabilita CRUD de tarefas
+                btGravar.Enabled = false;
+                btEditarTarefa.Enabled = false;
+                btApagarTarefa.Enabled = false;
+                // Campos readonly
+                txtDesc.ReadOnly = true;
+                cbProgramador.Enabled = false;
+                cbTipoTarefa.Enabled = false;
+                txtOrdem.ReadOnly = true;
+                txtStoryPoints.ReadOnly = true;
+                dtInicio.Enabled = false;
+                dtFim.Enabled = false;
+            }
+
             //Inicializa os comboboxes com os dados necessários
             InicializarComboboxes();
 

@@ -88,7 +88,9 @@ namespace iTasks
             {
                 var tarefaSelecionada = lstTodo.SelectedItem as Tarefa; // Obtem a tarefa que foi seleciona na listbox todo
 
-                if (TarefaController.VerificarOrdem(tarefaSelecionada))
+                if (TarefaController.VerificarOrdem(tarefaSelecionada, Tarefa.Estado.Doing) && 
+                    TarefaController.countTarefasPorEstadoProgramador(Tarefa.Estado.Doing, utilizadorRecebido) < 2
+                    )
                 {
                     TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Doing, utilizadorRecebido); // Muda o estado da tarefa para Doing
                     MessageBox.Show("Tarefa movida para ToDo.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -110,7 +112,7 @@ namespace iTasks
             {
                 var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
                 // Muda o estado da tarefa para Todo
-                if (TarefaController.VerificarOrdem(tarefaSelecionada))
+                if (TarefaController.VerificarOrdem(tarefaSelecionada, Tarefa.Estado.Done))
                 {
                     TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Done, utilizadorRecebido);
                     MessageBox.Show("Tarefa movida para Done.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
