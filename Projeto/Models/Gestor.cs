@@ -24,7 +24,7 @@ namespace iTasks.Models
 
         public override string ToString()
         {
-            return $"Gestor: {nome}, Username: {username}, Password: {password}, Departamento: {departamento}, Gere Utilizadores: {gereUtilizadores}";
+            return $"Gestor: {nome}, Dep: {departamento}, suser: {gereUtilizadores}";
         }
     }
 }
