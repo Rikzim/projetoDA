@@ -144,8 +144,8 @@ namespace iTasks.Controllers
                     .Count();
                 return count;
             }
-            catch (Exception ex) 
-            { 
+            catch (Exception ex)
+            {
                 throw new Exception("Erro ao contar tarefas por estado do programador" + ex.Message);
             }
         }
@@ -344,42 +344,35 @@ namespace iTasks.Controllers
         }
         public static bool VerificarOrdem(Tarefa tarefaSelecionada, Estado novoEstado)
         {
-            try
+            //Instanciar a base de dados
+            BasedeDados db = BasedeDados.Instance;
+
+            //Guardar as tarefas anteriores do programador selecionado
+            var tarefasAnteriores = db.Tarefa
+                .Where(t => t.IdProgramador.id == tarefaSelecionada.IdProgramador.id
+                         && t.OrdemExecucao < tarefaSelecionada.OrdemExecucao)
+                .OrderBy(t => t.OrdemExecucao)
+                .ToList();
+
+            // Se não houver tarefas
+            if (!tarefasAnteriores.Any())
+                return true;
+
+            // Verificar se a transição de estado é válida
+            switch (novoEstado)
             {
-                //Instanciar a base de dados
-                BasedeDados db = BasedeDados.Instance;
-
-                //Guardar as tarefas anteriores do programador selecionado
-                var tarefasAnteriores = db.Tarefa
-                    .Where(t => t.IdProgramador.id == tarefaSelecionada.IdProgramador.id
-                             && t.OrdemExecucao < tarefaSelecionada.OrdemExecucao)
-                    .OrderBy(t => t.OrdemExecucao)
-                    .ToList();
-
-                // Se não houver tarefas
-                if (!tarefasAnteriores.Any())
+                case Estado.ToDo:
                     return true;
 
-                // Verificar se a transição de estado é válida
-                switch (novoEstado)
-                {
-                    case Estado.ToDo:
-                        return true;
+                case Estado.Doing:
+                    return tarefasAnteriores.All(t => t.EstadoAtual == Estado.Doing ||
+                                                      t.EstadoAtual == Estado.Done);
 
-                    case Estado.Doing:
-                        return tarefasAnteriores.All(t => t.EstadoAtual == Estado.Doing ||
-                                                          t.EstadoAtual == Estado.Done);
+                case Estado.Done:
+                    return tarefasAnteriores.All(t => t.EstadoAtual == Estado.Done);
 
-                    case Estado.Done:
-                        return tarefasAnteriores.All(t => t.EstadoAtual == Estado.Done);
-
-                    default:
-                        throw new Exception("Estado inválido: " + novoEstado);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao verificar transição de estado: " + ex.Message);
+                default:
+                    throw new Exception("Estado inválido: " + novoEstado);
             }
         }
     }
