@@ -87,9 +87,17 @@ namespace iTasks
             try
             {
                 var tarefaSelecionada = lstTodo.SelectedItem as Tarefa; // Obtem a tarefa que foi seleciona na listbox todo
-                TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Doing, utilizadorRecebido); // Muda o estado da tarefa para Doing
-                MessageBox.Show("Tarefa movida para ToDo.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ReloadData(); // Atualiza a lista após a mudança de estado
+
+                if (TarefaController.VerificarOrdem(tarefaSelecionada))
+                {
+                    TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Doing, utilizadorRecebido); // Muda o estado da tarefa para Doing
+                    MessageBox.Show("Tarefa movida para ToDo.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ReloadData(); // Atualiza a lista após a mudança de estado
+                }
+                else
+                {
+                    throw new Exception("A tarefa não pode ser movida para Doing porque não está na ordem correta de execução.");
+                }
             }
             catch (Exception ex)
             {
@@ -102,9 +110,16 @@ namespace iTasks
             {
                 var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
                 // Muda o estado da tarefa para Todo
-                TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Done, utilizadorRecebido);
-                MessageBox.Show("Tarefa movida para Done.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ReloadData(); // Atualiza a lista após a mudança de estado
+                if (TarefaController.VerificarOrdem(tarefaSelecionada))
+                {
+                    TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Done, utilizadorRecebido);
+                    MessageBox.Show("Tarefa movida para Done.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ReloadData(); // Atualiza a lista após a mudança de estado
+                }
+                else
+                {
+                    throw new Exception("A tarefa não pode ser movida para Done porque não está na ordem correta de execução.");
+                }                
             }
             catch (Exception ex)
             {
@@ -117,6 +132,7 @@ namespace iTasks
             {
                 var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
                 // Muda o estado da tarefa para Todo
+
                 TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.ToDo, utilizadorRecebido);
                 MessageBox.Show("Tarefa movida para ToDo.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ReloadData(); // Atualiza a lista após a mudança de estado

@@ -333,5 +333,33 @@ namespace iTasks.Controllers
             }
         }
 
+        public static bool VerificarOrdem(Tarefa tarefaSelecionada)
+        {
+            try
+            {
+                BasedeDados db = BasedeDados.Instance;
+                // Verificação de pré-requisito de ordem de execução
+                if (tarefaSelecionada.EstadoAtual == Tarefa.Estado.Doing || tarefaSelecionada.EstadoAtual == Tarefa.Estado.Done)
+                {
+                    var tarefasAnteriores = db.Tarefa
+                        .Where(t => t.IdProgramador.id == tarefaSelecionada.IdProgramador.id
+                                 && t.OrdemExecucao < tarefaSelecionada.OrdemExecucao)
+                        .ToList();
+
+                    bool todasAnterioresConcluidas = tarefasAnteriores.All(t => t.EstadoAtual == Tarefa.Estado.Done);
+
+                    if (!todasAnterioresConcluidas)
+                    {
+                        return false;
+                    }
+                }
+                return true; // Todas as tarefas anteriores estão concluídas
+            }
+            catch (Exception ex)
+            { 
+                throw new Exception("Erro ao verificar ordem de execução: " + ex.Message);
+            }
+        }
+
     }
 }
