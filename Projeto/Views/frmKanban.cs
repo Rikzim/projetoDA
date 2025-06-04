@@ -103,22 +103,30 @@ namespace iTasks
         }
         private void btSetDone_Click(object sender, EventArgs e)
         {
-            var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
 
-            if (tarefaSelecionada != null)
-            {
-                // Muda o estado da tarefa para Done
-                TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Done, utilizadorRecebido);
-                MessageBox.Show("Tarefa movida para Done.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ReloadData(); // Atualiza a lista após a mudança de estado
+                var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
+
+                if (tarefaSelecionada != null)
+                {
+                    // Muda o estado da tarefa para Done
+                    // Verifica se o programador já realizou as tarefas anteriores
+
+                    var controlo = TarefaController.VerificarOrdem(tarefaSelecionada, Tarefa.Estado.Done);
+                    if (controlo == false)
+                    {
+                        MessageBox.Show("Tem de concluir a tarefa anterior", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+                    TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Done, utilizadorRecebido);
+                    MessageBox.Show("Tarefa movida para Done.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ReloadData(); // Atualiza a lista após a mudança de estado
+                }
+                else
+                {
+                    MessageBox.Show("Selecione uma tarefa para mover.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
-            {
-                MessageBox.Show("Selecione uma tarefa para mover.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-
+       
         private void btSetTodo_Click(object sender, EventArgs e)
         {
             var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
