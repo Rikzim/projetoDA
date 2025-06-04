@@ -389,7 +389,7 @@ namespace iTasks.Controllers
                         return tarefasAnteriores.All(t => t.EstadoAtual == Estado.Done);
 
                     default:
-                        throw new ArgumentException("Estado inválido: " + novoEstado);
+                        throw new Exception("Estado inválido: " + novoEstado);
                 }
             }
             catch (Exception ex)
