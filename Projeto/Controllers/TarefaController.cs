@@ -152,49 +152,34 @@ namespace iTasks.Controllers
         // Método para mudar o estado de uma tarefa
         public static void MudarEstadoTarefa(Tarefa tarefaSelecionada, Estado estado, Utilizador utilizadorRecebido)
         {
-            // Cria uma instância da base de dados
-            BasedeDados db = BasedeDados.Instance;
-            try
-            {
-                if (tarefaSelecionada != null) // Verifica se a tarefa selecionada não é nula
-                {
+            // Valida se a tarefa selecionada é nula e se o utilizador é o programador responsável pela tarefa
+            if (tarefaSelecionada == null)
+                throw new Exception("Nenhuma tarefa selecionada.");
 
-                    if (tarefaSelecionada.IdProgramador.id == utilizadorRecebido.id)
-                    {
-                        tarefaSelecionada.EstadoAtual = estado; // Define o novo estado da tarefa
-                        if (estado == Tarefa.Estado.Done) // Se o estado for Done, define as datas a data real fim
-                        {
-                            tarefaSelecionada.DataRealFim = DateTime.Now;
-                        }
-                        else if (estado == Tarefa.Estado.Doing) // Se o estado for Doing, define a data real início
-                        {
-                            tarefaSelecionada.DataRealInicio = DateTime.Now;
-                        }
-                        else if (estado == Tarefa.Estado.ToDo) // Se o estado for ToDo, define as datas real início e fim como nulas
-                        {
-                            tarefaSelecionada.DataRealInicio = null;
-                            tarefaSelecionada.DataRealFim = null;
-                        }
-                        else
-                        {
-                            throw new Exception("Estado inválido. Deve ser ToDo, Doing ou Done."); // Lanca uma excecao se o estado for inválido
-                        }
-                        db.SaveChanges();
-                    }
-                    else
-                    {
-                        throw new Exception("Apenas o programador responsável pela tarefa pode alterar o seu estado."); // Lanca uma excecao se o utilizador não for o programador responsável pela tarefa
-                    }
-                }
-                else
-                {
-                    throw new Exception("Nenhuma tarefa selecionada."); // Lanca uma excecao se a tarefa selecionada for nula
-                }
-            }
-            catch (Exception ex)
+            if (tarefaSelecionada.IdProgramador.id != utilizadorRecebido.id)
+                throw new Exception("Apenas o programador responsável pela tarefa pode alterar o seu estado.");
+
+            // Atualiza o estado da tarefa selecionada
+            tarefaSelecionada.EstadoAtual = estado;
+
+            switch (estado)
             {
-                throw new Exception("Erro ao mudar estado da tarefa: " + ex.Message);
+                case Tarefa.Estado.Done:
+                    tarefaSelecionada.DataRealFim = DateTime.Now;
+                    break;
+                case Tarefa.Estado.Doing:
+                    tarefaSelecionada.DataRealInicio = DateTime.Now;
+                    break;
+                case Tarefa.Estado.ToDo:
+                    tarefaSelecionada.DataRealInicio = null;
+                    tarefaSelecionada.DataRealFim = null;
+                    break;
+                default:
+                    throw new Exception("Estado inválido. Deve ser ToDo, Doing ou Done.");
             }
+
+            // Salva as alterações na base de dados
+            BasedeDados.Instance.SaveChanges();
         }
         /*public static List<Tarefa> ListarTarefas(Utilizador utilizadorLogado)
         {
