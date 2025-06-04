@@ -73,6 +73,30 @@ namespace iTasks.Controllers
                 throw new Exception("Erro ao editar tarefa: " + ex.Message);
             }
         }
+        public static void EliminarTarefa(Tarefa TarefaSelecionada)
+        {
+            try
+            {
+                // Cria uma instância da base de dados
+                BasedeDados db = BasedeDados.Instance;
+                // Verifica se a tarefa selecionada é nula
+                if (TarefaSelecionada != null)
+                {
+                    // Remove a tarefa selecionada da base de dados
+                    db.Tarefa.Remove(TarefaSelecionada);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("Nenhuma tarefa selecionada para eliminar.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Lança uma exceção se ocorrer um erro ao eliminar a tarefa
+                throw new Exception("Erro ao eliminar tarefa: " + ex.Message);
+            }
+        }
         // Método para listar todas as tarefas na base de dados
         public static int countTarefas()
         {
@@ -224,11 +248,12 @@ namespace iTasks.Controllers
 
                 // Cria o conteúdo do CSV
                 var sb = new StringBuilder();
+                sb.AppendLine("sep=;"); // Define o separador de campos como vírgula
                 sb.AppendLine("IdTarefa;IdGestor;IdProgramador;OrdemExecucao;Descricao;DataPrevistaInicio;DataPrevistaFim;IdTipoTarefa;StoryPoints;DataRealInicio;DataRealFim;DataCriacao;EstadoAtual");
 
                 foreach (var tarefa in tarefasConcluidas)
                 {
-                    string linha = string.Join(",",
+                    string linha = string.Join(";",
                         tarefa.Id,
                         tarefa.IdGestor?.id.ToString() ?? "N/A",
                         tarefa.IdProgramador?.id.ToString() ?? "N/A",
