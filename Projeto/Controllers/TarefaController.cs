@@ -68,6 +68,7 @@ namespace iTasks.Controllers
             {
                 if (tarefaSelecionada.IdProgramador.id == utilizadorRecebido.id)
                 {
+
                     if (estado == Estado.Doing)
                     {
                         // Atualiza o estado da tarefa
@@ -178,7 +179,37 @@ namespace iTasks.Controllers
             }
         }
 
+<<<<<<< Updated upstream
 
 
+=======
+        public static bool VerificarOrdem(Tarefa tarefaSelecionada, Tarefa.Estado estado)
+        {
+            try
+            {
+                BasedeDados db = BasedeDados.Instance;
+                // Verificação de pré-requisito de ordem de execução
+                if (estado == Tarefa.Estado.Doing || estado == Tarefa.Estado.Done)
+                {
+                    var tarefasAnteriores = db.Tarefa
+                        .Where(t => t.IdProgramador.id == tarefaSelecionada.IdProgramador.id
+                                 && t.OrdemExecucao < tarefaSelecionada.OrdemExecucao)
+                        .ToList();
+
+                    bool todasAnterioresConcluidas = tarefasAnteriores.All(t => t.EstadoAtual == Tarefa.Estado.Done);
+
+                    if (!todasAnterioresConcluidas)
+                    {
+                        return false;
+                    }
+                }
+                return true; // Todas as tarefas anteriores estão concluídas
+            }
+            catch (Exception ex)
+            { 
+                throw new Exception("Erro ao verificar ordem de execução: " + ex.Message);
+            }
+        }
+>>>>>>> Stashed changes
     }
 }
