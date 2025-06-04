@@ -218,7 +218,6 @@ namespace iTasks
 
         private void exportarParaCSVToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
             try
             {
                 if (utilizadorRecebido is Gestor gestor)
