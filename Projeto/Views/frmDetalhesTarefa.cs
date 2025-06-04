@@ -161,17 +161,8 @@ namespace iTasks
             try
             {
                 Tarefa tarefaSelecionada = this.tarefaSelecionada;
-
                 // Verifica se a tarefa selecionada não é nula
-
-                //TODO: METER EM MVC
-                if (tarefaSelecionada != null)
-                {
-                    BasedeDados db = BasedeDados.Instance;
-                    // Remove a tarefa selecionada da base de dados
-                    db.Tarefa.Remove(tarefaSelecionada);
-                    db.SaveChanges();
-                }
+                TarefaController.EliminarTarefa(tarefaSelecionada);
             }
             catch (Exception ex)
             {
@@ -193,6 +184,11 @@ namespace iTasks
             {
                 MessageBox.Show("Erro ao fechar o formulário: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void frmDetalhesTarefa_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
