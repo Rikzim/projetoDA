@@ -41,7 +41,6 @@ namespace iTasks.Controllers
                 throw new Exception("Erro ao gravar tarefa: " + ex.Message);
             }
         }
-
         public static void EditarTarefa(Tarefa tarefaSelecionada, Gestor idGestor, Programador idProgramador, int ordemExecucao, string descricao,
             DateTime dataPrevistaInicio, DateTime dataPrevistaFim, TipoTarefa tipoTarefa, int storyPoints)
         {
@@ -66,6 +65,23 @@ namespace iTasks.Controllers
             catch (Exception ex)
             {
                 throw new Exception("Erro ao editar tarefa: " + ex.Message);
+            }
+        }
+        public static void EliminarTarefa(Tarefa tarefaSelecionada)
+        {
+            BasedeDados db = BasedeDados.Instance;
+            try
+            {
+                if (tarefaSelecionada != null)
+                {
+                    // Remove a tarefa selecionada da base de dados
+                    db.Tarefa.Remove(tarefaSelecionada);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao eliminar tarefa: " + ex.Message);
             }
         }
         public static int countTarefas()
@@ -96,50 +112,47 @@ namespace iTasks.Controllers
         public static void MudarEstadoTarefa(Tarefa tarefaSelecionada, Estado estado, Utilizador utilizadorRecebido)
         {
             BasedeDados db = BasedeDados.Instance;
-            // Verifica se a tarefa selecionada é nula
-            // Verifica se a tarefa selecionada não é nula
-            if (tarefaSelecionada != null)
+            try
             {
-                if (tarefaSelecionada.IdProgramador.id == utilizadorRecebido.id)
+                if (tarefaSelecionada != null) // Verifica se a tarefa selecionada não é nula
                 {
-                    if (estado == Estado.Doing)
+                    if (tarefaSelecionada.IdProgramador.id == utilizadorRecebido.id) // Verifica se o utilizador é o programador responsável pela tarefa
                     {
-                        // Atualiza o estado da tarefa
-                        tarefaSelecionada.EstadoAtual = estado;
-                        tarefaSelecionada.DataRealInicio = DateTime.Now; // Define a data real de início como a data atual
-                        db.SaveChanges();
-                    }
-                    else if (estado == Estado.ToDo)
-                    {
-                        // Atualiza o estado da tarefa
-                        tarefaSelecionada.EstadoAtual = estado;
-                        //TODO: Se necessário, pode-se definir a data real de início como nula ou não alterar
-                        tarefaSelecionada.DataRealInicio = null; // Define a data real de início como a data atual
-                        db.SaveChanges();
-                    }
-                    else if (estado == Estado.Done)
-                    {
-                        // Atualiza o estado da tarefa
-                        tarefaSelecionada.EstadoAtual = estado;
-                        tarefaSelecionada.DataRealFim = DateTime.Now; // Define a data real de fim como a data atual
+                        tarefaSelecionada.EstadoAtual = estado; // Define o novo estado da tarefa
+                        if (estado == Tarefa.Estado.Done) // Se o estado for Done, define as datas a data real fim
+                        {
+                            tarefaSelecionada.DataRealFim = DateTime.Now;
+                        }
+                        else if (estado == Tarefa.Estado.Doing) // Se o estado for Doing, define a data real início
+                        {
+                            tarefaSelecionada.DataRealInicio = DateTime.Now;
+                        }
+                        else if (estado == Tarefa.Estado.ToDo) // Se o estado for ToDo, define as datas real início e fim como nulas
+                        {
+                            tarefaSelecionada.DataRealInicio = null;
+                            tarefaSelecionada.DataRealFim = null;
+                        }
+                        else
+                        {
+                            throw new Exception("Estado inválido. Deve ser ToDo, Doing ou Done."); // Lanca uma excecao se o estado for inválido
+                        }
                         db.SaveChanges();
                     }
                     else
                     {
-                        MessageBox.Show("Estado inválido."); // É PARA POR UM THROW EXCEPTION AQUI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        throw new Exception("Apenas o programador responsável pela tarefa pode alterar o seu estado."); // Lanca uma excecao se o utilizador não for o programador responsável pela tarefa
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Apenas o programador responsável pela tarefa pode alterar o seu estado.");
+                    throw new Exception("Nenhuma tarefa selecionada."); // Lanca uma excecao se a tarefa selecionada for nula
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Nenhuma tarefa selecionada.");
+                throw new Exception("Erro ao mudar estado da tarefa: " + ex.Message);
             }
         }
-
         /*public static List<Tarefa> ListarTarefas(Utilizador utilizadorLogado)
         {
             return db.Tarefa
@@ -159,7 +172,6 @@ namespace iTasks.Controllers
                 .Where(t => t.EstadoAtual == estado)
                 .ToList();
         }
-
         public static bool ExportarCSV(Gestor gestor)
         {
             try
@@ -185,7 +197,7 @@ namespace iTasks.Controllers
 
                 foreach (var tarefa in tarefasConcluidas)
                 {
-                    string linha = string.Join(";",
+                    string linha = string.Join(",",
                         tarefa.Id,
                         tarefa.IdGestor?.id.ToString() ?? "N/A",
                         tarefa.IdProgramador?.id.ToString() ?? "N/A",
@@ -210,6 +222,81 @@ namespace iTasks.Controllers
             catch (Exception ex)
             {
                 throw new Exception("Erro ao exportar tarefas para CSV: " + ex.Message);
+            }
+        }
+
+        public static double EstimarTempoTotalToDo()
+        {
+            BasedeDados db = BasedeDados.Instance;
+
+            // 1. Calcule médias por StoryPoints das tarefas concluídas
+            var concluidas = db.Tarefa
+                .Where(t => t.EstadoAtual == Tarefa.Estado.Done && t.DataRealInicio != null && t.DataRealFim != null)
+                .ToList();
+
+            var mediasPorSP = concluidas
+                .GroupBy(t => t.StoryPoints)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Average(t => (t.DataRealFim.Value - t.DataRealInicio.Value).TotalHours)
+                );
+
+            // 2. Para cada tarefa ToDo, estime o tempo
+            var tarefasToDo = db.Tarefa
+                .Where(t => t.EstadoAtual == Tarefa.Estado.ToDo)
+                .ToList();
+
+            double totalHoras = 0;
+
+            foreach (var tarefa in tarefasToDo)
+            {
+                int sp = tarefa.StoryPoints;
+                if (mediasPorSP.ContainsKey(sp))
+                {
+                    totalHoras += mediasPorSP[sp];
+                }
+                else if (mediasPorSP.Count > 0)
+                {
+                    // Busca a média mais próxima
+                    int spMaisProximo = mediasPorSP.Keys.OrderBy(k => Math.Abs(k - sp)).First();
+                    totalHoras += mediasPorSP[spMaisProximo];
+                }
+                // Se não houver nenhuma tarefa concluída, não soma nada
+            }
+
+            // Retorna o tempo total estimado como TimeSpan
+            return totalHoras;
+        }
+
+        public static double CalcularMediaHorasPorStoryPoints(int storyPoints)
+        {
+            BasedeDados db = BasedeDados.Instance;
+
+            // Busca tarefas concluídas com DataRealInicio e DataRealFim definidos
+            var concluidas = db.Tarefa
+                .Where(t => t.EstadoAtual == Tarefa.Estado.Done && t.DataRealInicio != null && t.DataRealFim != null)
+                .ToList();
+
+            // Agrupa por StoryPoints e calcula a média de horas
+            var mediasPorSP = concluidas
+                .GroupBy(t => t.StoryPoints)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Average(t => (t.DataRealFim.Value - t.DataRealInicio.Value).TotalHours)
+                );
+
+            if (mediasPorSP.Count == 0)
+                return 0; // Nenhuma tarefa concluída
+
+            if (mediasPorSP.ContainsKey(storyPoints))
+            {
+                return mediasPorSP[storyPoints];
+            }
+            else
+            {
+                // Busca a média mais próxima
+                int spMaisProximo = mediasPorSP.Keys.OrderBy(k => Math.Abs(k - storyPoints)).First();
+                return mediasPorSP[spMaisProximo];
             }
         }
 

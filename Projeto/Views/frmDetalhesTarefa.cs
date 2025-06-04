@@ -22,6 +22,12 @@ namespace iTasks
 
             // Define o utilizador recebido
             this.utilizadorRecebido = utilizadorRecebido;
+            if (utilizadorRecebido is Programador programador)
+            {
+                btGravar.Enabled = false;
+                btEditarTarefa.Enabled = false;
+                btApagarTarefa.Enabled = false;
+            }
 
             //Atualizar a combobox com os tipos de tarefa
             cbTipoTarefa.DataSource = null;
@@ -30,7 +36,6 @@ namespace iTasks
             cbProgramador.DataSource = null;
             cbProgramador.DataSource = ProgramadorController.ListarProgramadores();
             // Se a tarefa selecionada não for nula, preenche os campos com os dados da tarefa
-            
             if (tarefaSelecionada != null)
             {
                 this.tarefaSelecionada = tarefaSelecionada;
@@ -46,7 +51,6 @@ namespace iTasks
                     txtdataRealFim.Text = tarefaSelecionada.DataRealFim.Value.ToString("dd/MM/yyyy HH:mm");
                 else
                     txtdataRealFim.Text = "N/A"; // Se não houver data real de fim
-                
                 // Campos Mutáveis
                 txtDesc.Text = tarefaSelecionada.Descricao;
                 cbTipoTarefa.SelectedItem = tarefaSelecionada.TipoTarefa;
@@ -143,17 +147,8 @@ namespace iTasks
             try
             {
                 Tarefa tarefaSelecionada = this.tarefaSelecionada;
-
                 // Verifica se a tarefa selecionada não é nula
-
-                //TODO: METER EM MVC
-                if (tarefaSelecionada != null)
-                {
-                    BasedeDados db = BasedeDados.Instance;
-                    // Remove a tarefa selecionada da base de dados
-                    db.Tarefa.Remove(tarefaSelecionada);
-                    db.SaveChanges();
-                }
+                TarefaController.EliminarTarefa(tarefaSelecionada);
             }
             catch (Exception ex)
             {
@@ -168,6 +163,11 @@ namespace iTasks
         private void btFechar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void frmDetalhesTarefa_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -28,7 +28,7 @@ namespace iTasks.Models
 
         public override string ToString()
         {
-            return $"Programador: {nome}, Username: {username}, Password: {password}, Nivel de Experiencia: {nivelExperiencia}";
+            return $"ID: {id} | Username: {username} | Nivel de Experiencia: {idGestor.nome}";
         }
     }
 }
