@@ -18,13 +18,27 @@ namespace iTasks
         public frmConsultaTarefasEmCurso(Utilizador utilizador)
         {
             InitializeComponent();
-            this.utilizadorRecebido = utilizador;
-            gvTarefasEmCurso.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Doing, utilizadorRecebido);
+            try
+            {
+                this.utilizadorRecebido = utilizador;
+                gvTarefasEmCurso.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Doing, utilizadorRecebido);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btFechar_Click(object sender, EventArgs e)
         {
-            this.Close();
+            try
+            {
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao fechar a janela: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

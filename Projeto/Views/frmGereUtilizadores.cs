@@ -51,27 +51,47 @@ namespace iTasks
 
         private void btGravarGestor_Click(object sender, EventArgs e)
         {
-            
-            GestorController.GravarGestor(txtNomeGestor.Text, txtUsernameGestor.Text, txtPasswordGestor.Text, (Departamento)cbDepartamento.SelectedItem, chkGereUtilizadores.Checked);
-            MessageBox.Show("Gestor gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                GestorController.GravarGestor(txtNomeGestor.Text, txtUsernameGestor.Text, txtPasswordGestor.Text, (Departamento)cbDepartamento.SelectedItem, chkGereUtilizadores.Checked);
+                
+                lstListaGestores.DataSource = null;
+                lstListaGestores.DataSource = GestorController.ListarGestores();
 
-            lstListaGestores.DataSource = null;
-            lstListaGestores.DataSource = GestorController.ListarGestores();
-
-            // Atualiza os ID do gestor
-            txtIdGestor.Text = GestorController.countGestor().ToString();
+                // Atualiza os ID do gestor
+                txtIdGestor.Text = GestorController.countGestor().ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            finally
+            {
+                MessageBox.Show("Gestor gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
-
         private void btGravarProg_Click(object sender, EventArgs e)
         {
-            ProgramadorController.GravarProgramador(txtNomeProg.Text, txtUsernameProg.Text, txtPasswordProg.Text, (NivelExperiencia)cbNivelProg.SelectedItem, (Gestor)cbGestorProg.SelectedItem);
-            MessageBox.Show("Programador gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                ProgramadorController.GravarProgramador(txtNomeProg.Text, txtUsernameProg.Text, txtPasswordProg.Text, (NivelExperiencia)cbNivelProg.SelectedItem, (Gestor)cbGestorProg.SelectedItem);
 
-            lstListaProgramadores.DataSource = null;
-            lstListaProgramadores.DataSource = ProgramadorController.ListarProgramadores();
+                lstListaProgramadores.DataSource = null;
+                lstListaProgramadores.DataSource = ProgramadorController.ListarProgramadores();
 
-            // Atualiza os ID do programador
-            txtIdProg.Text = ProgramadorController.countProgramador().ToString();
+                // Atualiza os ID do programador
+                txtIdProg.Text = ProgramadorController.countProgramador().ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            finally
+            {
+                MessageBox.Show("Programador gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }
