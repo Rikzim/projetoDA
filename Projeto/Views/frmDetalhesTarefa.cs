@@ -14,65 +14,79 @@ namespace iTasks
 {
     public partial class frmDetalhesTarefa : Form
     {
+        // Inicializa os campos necessários
         Utilizador utilizadorRecebido;
         Tarefa tarefaSelecionada;
         public frmDetalhesTarefa(Utilizador utilizadorRecebido, Tarefa tarefaSelecionada = null)
         {
             InitializeComponent();
 
-            // Define o utilizador recebido
+            // Recebe o utilizador e a tarefa selecionada (se houver)
             this.utilizadorRecebido = utilizadorRecebido;
-            if (utilizadorRecebido is Programador programador)
-            {
-                btGravar.Enabled = false;
-                btEditarTarefa.Enabled = false;
-                btApagarTarefa.Enabled = false;
-            }
+            this.tarefaSelecionada = tarefaSelecionada;
 
-            //Atualizar a combobox com os tipos de tarefa
-            cbTipoTarefa.DataSource = null;
-            cbTipoTarefa.DataSource = TipoTarefaController.ListarTipoTarefa();
-            //Atualizar a combobox com os programadores
-            cbProgramador.DataSource = null;
-            cbProgramador.DataSource = ProgramadorController.ListarProgramadores();
-            // Se a tarefa selecionada não for nula, preenche os campos com os dados da tarefa
+            //Inicializa os comboboxes com os dados necessários
+            InicializarComboboxes();
+
+            // Verifica se uma tarefa foi selecionada
             if (tarefaSelecionada != null)
             {
-                this.tarefaSelecionada = tarefaSelecionada;
-                // Campos Imutáveis
-                txtId.Text = tarefaSelecionada.Id.ToString();
-                txtEstado.Text = tarefaSelecionada.EstadoAtual.ToString();
-                txtDataCriacao.Text = tarefaSelecionada.DataCriacao.ToString("dd/MM/yyyy");
-                if (tarefaSelecionada.DataRealInicio != null)
-                    txtDataRealini.Text = tarefaSelecionada.DataRealInicio.Value.ToString("dd/MM/yyyy HH:mm");
-                else
-                    txtDataRealini.Text = "N/A"; // Se não houver data real de início
-                if (tarefaSelecionada.DataRealFim != null)
-                    txtdataRealFim.Text = tarefaSelecionada.DataRealFim.Value.ToString("dd/MM/yyyy HH:mm");
-                else
-                    txtdataRealFim.Text = "N/A"; // Se não houver data real de fim
-                // Campos Mutáveis
-                txtDesc.Text = tarefaSelecionada.Descricao;
-                cbTipoTarefa.SelectedItem = tarefaSelecionada.TipoTarefa;
-                cbProgramador.SelectedItem = tarefaSelecionada.IdProgramador;
-                txtOrdem.Text = tarefaSelecionada.OrdemExecucao.ToString();
-                txtStoryPoints.Text = tarefaSelecionada.StoryPoints.ToString();
-                dtInicio.Value = tarefaSelecionada.DataPrevistaInicio;
-                dtFim.Value = tarefaSelecionada.DataPrevistaFim; 
+                // Se uma tarefa foi selecionada, preenche os campos com os dados da tarefa
+                PreencherCamposImutaveis();
+                PreencherCamposMutaveis();
             }
             else
             {
-                // Campos Imutáveis
-                txtId.Text = TarefaController.countTarefas().ToString();
-                // Campos Mutáveis
-                txtDesc.Clear();
-                cbTipoTarefa.SelectedIndex = -1;
-                cbProgramador.SelectedIndex = -1;
-                txtOrdem.Clear();
-                txtStoryPoints.Clear();
-                dtInicio.Value = DateTime.Now;
-                dtFim.Value = DateTime.Now; 
+                // Se não há tarefa selecionada, prepara o formulário para criar uma nova tarefa
+                PrepararNovaTarefa();
             }
+        }
+
+        private void InicializarComboboxes()
+        {
+            // Preenche os comboboxes com os dados necessários
+            cbTipoTarefa.DataSource = null;
+            cbTipoTarefa.DataSource = TipoTarefaController.ListarTipoTarefa();
+
+            cbProgramador.DataSource = null;
+            cbProgramador.DataSource = ProgramadorController.ListarProgramadores();
+        }
+
+        private void PreencherCamposImutaveis()
+        {
+            // Preenche os campos imutáveis com os dados da tarefa selecionada
+            txtId.Text = tarefaSelecionada.Id.ToString();
+            txtEstado.Text = tarefaSelecionada.EstadoAtual.ToString();
+            txtDataCriacao.Text = tarefaSelecionada.DataCriacao.ToString("dd/MM/yyyy");
+
+            txtDataRealini.Text = tarefaSelecionada.DataRealInicio?.ToString("dd/MM/yyyy HH:mm") ?? "N/A";
+            txtdataRealFim.Text = tarefaSelecionada.DataRealFim?.ToString("dd/MM/yyyy HH:mm") ?? "N/A";
+        }
+
+        private void PreencherCamposMutaveis()
+        {
+            // Preenche os campos mutáveis com os dados da tarefa selecionada
+            txtDesc.Text = tarefaSelecionada.Descricao;
+            cbTipoTarefa.SelectedItem = tarefaSelecionada.TipoTarefa;
+            cbProgramador.SelectedItem = tarefaSelecionada.IdProgramador;
+            txtOrdem.Text = tarefaSelecionada.OrdemExecucao.ToString();
+            txtStoryPoints.Text = tarefaSelecionada.StoryPoints.ToString();
+            dtInicio.Value = tarefaSelecionada.DataPrevistaInicio;
+            dtFim.Value = tarefaSelecionada.DataPrevistaFim;
+        }
+
+        private void PrepararNovaTarefa()
+        {
+            // Prepara o formulário para criar uma nova tarefa
+            txtId.Text = TarefaController.countTarefas().ToString();
+
+            txtDesc.Clear();
+            cbTipoTarefa.SelectedIndex = -1;
+            cbProgramador.SelectedIndex = -1;
+            txtOrdem.Clear();
+            txtStoryPoints.Clear();
+            dtInicio.Value = DateTime.Now;
+            dtFim.Value = DateTime.Now;
         }
 
         private void btGravar_Click(object sender, EventArgs e)
@@ -162,7 +176,14 @@ namespace iTasks
         }
         private void btFechar_Click(object sender, EventArgs e)
         {
-            this.Close();
+            try
+            {
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao fechar o formulário: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void frmDetalhesTarefa_Load(object sender, EventArgs e)
