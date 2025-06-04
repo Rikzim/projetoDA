@@ -17,11 +17,20 @@ namespace iTasks
         public frmLogin()
         {
             InitializeComponent();
-            //Permite que o formulário receba eventos de tecla antes dos controles filhos
+            // Configurações do formulário de login
+            // Faz com que o form responda às teclas pressionadas
             this.KeyPreview = true;
             this.KeyPress += frmLogin_KeyPress;
 
-            UserController.addAdmin(); // Adiciona o utilizador admin se não existir
+            try
+            {
+                UserController.addAdmin(); // Adiciona o utilizador admin se não existir
+            }
+            catch (Exception ex)
+            {
+                // Se ocorrer um erro ao adicionar o administrador, mostra uma mensagem de erro
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btLogin_Click(object sender, EventArgs e)

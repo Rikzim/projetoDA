@@ -9,28 +9,56 @@ namespace iTasks.Controllers
 {
     class ProgramadorController
     {
+        // Método para gravar um novo programador na base de dados
         public static void GravarProgramador(string nome, string username, string password, NivelExperiencia experiencia, Gestor gestorid)
         {
-            BasedeDados db = BasedeDados.Instance;
-            // Verifica se o gestor já existe
-            var gestor = db.Gestor.Find(gestorid.id);
-            db.Utilizador.Add(new Programador(nome, username, password, experiencia, gestor));
-            db.SaveChanges();
+            try
+            {
+                // Cria uma instância da base de dados
+                BasedeDados db = BasedeDados.Instance;
+                // Verifica se o gestor já existe
+                var gestor = db.Gestor.Find(gestorid.id);
+                //Adiciona o novo programador à tabela de utilizadores
+                db.Utilizador.Add(new Programador(nome, username, password, experiencia, gestor));
+                db.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                // Lança uma exceção se ocorrer um erro ao gravar o programador
+                throw new Exception("Erro ao gravar programador: " + ex.Message);
+            }
         }
 
         public static List<Programador> ListarProgramadores()
         {
-            BasedeDados db = BasedeDados.Instance;
-            // Retorna uma lista de programadores filtrando a tabela de utilizadores
-            return db.Programador.ToList();
+            try
+            {
+                BasedeDados db = BasedeDados.Instance;
+                // Retorna uma lista de programadores filtrando a tabela de utilizadores
+                return db.Programador.ToList();
+            }
+            catch (Exception ex)
+            {
+                // Lança uma exceção se ocorrer um erro ao listar os programadores
+                throw new Exception("Erro ao listar programadores: " + ex.Message);
+            }
         }
 
         public static int countProgramador()
         {
-            BasedeDados db = BasedeDados.Instance;
-            // Conta o número de programadores na base de dados e adiciona 1, começando em 1 se não houver nenhum
-            int count = db.Programador.Count();
-            return count + 1;
+            try
+            {
+                // Obtém a instância da base de dados
+                BasedeDados db = BasedeDados.Instance;
+                // Conta o número de programadores na base de dados e adiciona 1, começando em 1 se não houver nenhum
+                int count = db.Programador.Count();
+                return count + 1;
+            }
+            catch(Exception ex) 
+            {
+                // Lança uma exceção se ocorrer um erro ao contar os programadores
+                throw new Exception("Erro ao contar programadores: " + ex.Message);
+            }
         }
     }
 }
