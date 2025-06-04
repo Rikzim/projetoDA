@@ -204,27 +204,34 @@ namespace iTasks
         //Abre a vista de tarefas em curso
         private void tarefasEmCursoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (utilizadorRecebido is Programador programador)
+            if (utilizadorRecebido is Gestor gestor)
+            {
+                frmConsultaTarefasEmCurso tarefasEmCurso = new frmConsultaTarefasEmCurso(utilizadorRecebido);
+                tarefasEmCurso.ShowDialog();
+            }
+            else
             {
                 MessageBox.Show("Apenas gestores podem consultar tarefas em curso.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            frmConsultaTarefasEmCurso tarefasEmCurso = new frmConsultaTarefasEmCurso(utilizadorRecebido);
-            tarefasEmCurso.ShowDialog();
         }
 
         private void exportarParaCSVToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (utilizadorRecebido is Gestor gestor)
+            
+            try
             {
-                if (TarefaController.ExportarCSV(gestor))
+                if (utilizadorRecebido is Gestor gestor)
                 {
-                    MessageBox.Show("Tarefas exportadas com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (TarefaController.ExportarCSV(gestor))
+                    {
+                        MessageBox.Show("Tarefas exportadas com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Erro ao exportar tarefas.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "!!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     } 
