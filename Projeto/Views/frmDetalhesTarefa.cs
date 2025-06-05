@@ -75,7 +75,7 @@ namespace iTasks
             cbTipoTarefa.DataSource = TipoTarefaController.ListarTipoTarefa();
 
             cbProgramador.DataSource = null;
-            cbProgramador.DataSource = ProgramadorController.ListarProgramadores();
+            cbProgramador.DataSource = ProgramadorController.ListarProgramadoresPorGestor(utilizadorRecebido);
         }
 
         private void PreencherCamposImutaveis()
