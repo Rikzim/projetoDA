@@ -106,15 +106,6 @@ namespace iTasks.Controllers
             int count = db.Tarefa.Count();
             return count + 1;
         }
-        // Método para contar o número de tarefas por estado
-        public static int countTarefasPorEstado(Estado estado)
-        {
-            // Cria uma instância da base de dados
-            BasedeDados db = BasedeDados.Instance;
-            // Conta o número de tarefas na base de dados e adiciona 1, começando em 1 se não houver nenhuma
-            int count = db.Tarefa.Where(t => t.EstadoAtual == estado).Count();
-            return count + 1;
-        }
         // Método para contar o número de tarefas por estado de um programador específico
         public static int countTarefasPorEstadoProgramador(Estado estado, Utilizador utilizadorRecebido)
         {

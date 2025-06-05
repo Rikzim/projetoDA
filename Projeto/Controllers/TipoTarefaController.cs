@@ -29,5 +29,39 @@ namespace iTasks.Controllers
             // Retorna uma lista de TipoTarefa da base de dados
             return db.TipoTarefa.ToList();
         }
+
+        public static void GravarTipoTarefa(string nomeTarefa)
+        {
+            // Obtém a instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            // Adiciona o novo TipoTarefa à base de dados
+            db.TipoTarefa.Add(new TipoTarefa(nomeTarefa));
+            // Salva as alterações na base de dados
+            db.SaveChanges();
+        }
+
+        public static void EditarTipoTarefa(TipoTarefa tipoTarefaSelecionada, string nomeTarefa)
+        {
+            // Obtém a instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+
+            TipoTarefa tipoTarefa = db.TipoTarefa.Find(tipoTarefaSelecionada.Id);
+
+            tipoTarefa.Nome = nomeTarefa;
+            // Salva as alterações na base de dados
+            db.SaveChanges();
+        }
+
+        public static void EliminarTipoTarefa(TipoTarefa tipoTarefaSelecionada)
+        {
+            // Obtém a instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+
+            TipoTarefa tipoTarefa = db.TipoTarefa.Find(tipoTarefaSelecionada.Id);
+            // Remove o TipoTarefa selecionado da base de dados
+            db.TipoTarefa.Remove(tipoTarefa);
+            // Salva as alterações na base de dados
+            db.SaveChanges();
+        }
     }
 }
