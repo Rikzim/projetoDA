@@ -34,5 +34,14 @@ namespace iTasks.Controllers
                 db.SaveChanges();
             }
         }
+
+        public static int countId()
+        {
+            // Obtém a instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            // Conta o número de gestores na base de dados e adiciona 1, começando em 1 se não houver nenhum
+            int maxId = db.Utilizador.Max(u => u.id);
+            return maxId + 1;
+        }
     }
 }

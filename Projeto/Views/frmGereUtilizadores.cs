@@ -28,6 +28,44 @@ namespace iTasks
                 cbDepartamento.Enabled = false;
                 btGravarGestor.Enabled = false;
             }
+            ReloadData();
+
+        }
+
+        private void btGravarGestor_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                GestorController.GravarGestor(txtNomeGestor.Text, txtUsernameGestor.Text, txtPasswordGestor.Text, (Departamento)cbDepartamento.SelectedItem, chkGereUtilizadores.Checked);
+                MessageBox.Show("Gestor gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ReloadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+        private void btGravarProg_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ProgramadorController.GravarProgramador(txtNomeProg.Text, txtUsernameProg.Text, txtPasswordProg.Text, (NivelExperiencia)cbNivelProg.SelectedItem, (Gestor)cbGestorProg.SelectedItem);
+                ReloadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            finally
+            {
+                MessageBox.Show("Programador gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void ReloadData()
+        {
             // Atualiza a combobox dos departamentos disponivies aos gestores
             cbDepartamento.DataSource = null;
             cbDepartamento.DataSource = Enum.GetValues(typeof(Departamento));
@@ -44,50 +82,8 @@ namespace iTasks
             lstListaProgramadores.DataSource = null;
             lstListaProgramadores.DataSource = ProgramadorController.ListarProgramadores();
             // Atualiza os IDs dos gestores e programadores
-            txtIdProg.Text = ProgramadorController.countProgramador().ToString();
-            txtIdGestor.Text = GestorController.countGestor().ToString();
-
-        }
-
-        private void btGravarGestor_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                GestorController.GravarGestor(txtNomeGestor.Text, txtUsernameGestor.Text, txtPasswordGestor.Text, (Departamento)cbDepartamento.SelectedItem, chkGereUtilizadores.Checked);
-                MessageBox.Show("Gestor gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                lstListaGestores.DataSource = null;
-                lstListaGestores.DataSource = GestorController.ListarGestores();
-
-                // Atualiza os ID do gestor
-                txtIdGestor.Text = GestorController.countGestor().ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-        }
-        private void btGravarProg_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                ProgramadorController.GravarProgramador(txtNomeProg.Text, txtUsernameProg.Text, txtPasswordProg.Text, (NivelExperiencia)cbNivelProg.SelectedItem, (Gestor)cbGestorProg.SelectedItem);
-
-                lstListaProgramadores.DataSource = null;
-                lstListaProgramadores.DataSource = ProgramadorController.ListarProgramadores();
-
-                // Atualiza os ID do programador
-                txtIdProg.Text = ProgramadorController.countProgramador().ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            finally
-            {
-                MessageBox.Show("Programador gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            txtIdProg.Text = UserController.countId().ToString();
+            txtIdGestor.Text = UserController.countId().ToString();
         }
     }
 }
