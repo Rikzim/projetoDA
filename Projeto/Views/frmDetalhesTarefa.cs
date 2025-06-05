@@ -133,15 +133,12 @@ namespace iTasks
                     Convert.ToInt32(txtStoryPoints.Text),
                     DateTime.Now,
                     Tarefa.Estado.ToDo);
+
+                MessageBox.Show("Tarefa gravada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return; // Interrompe a execução se ocorrer um erro
-            }
-            finally
-            {
-                MessageBox.Show("Tarefa gravada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -170,16 +167,12 @@ namespace iTasks
                         tipoTarefa,
                         Convert.ToInt32(txtStoryPoints.Text)
                     );
+                    MessageBox.Show("Tarefa editada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return; // Interrompe a execução se ocorrer um erro
-            }
-            finally
-            {
-                MessageBox.Show("Tarefa editada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void btApagarTarefa_Click(object sender, EventArgs e)
@@ -189,15 +182,12 @@ namespace iTasks
                 Tarefa tarefaSelecionada = this.tarefaSelecionada;
                 // Verifica se a tarefa selecionada não é nula
                 TarefaController.EliminarTarefa(tarefaSelecionada);
+
+                MessageBox.Show("Tarefa apagada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Erro ao apagar a tarefa: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return; // Interrompe a execução se ocorrer um erro
-            }
-            finally
-            {
-                MessageBox.Show("Tarefa apagada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void btFechar_Click(object sender, EventArgs e)
@@ -210,11 +200,6 @@ namespace iTasks
             {
                 MessageBox.Show("Erro ao fechar o formulário: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void frmDetalhesTarefa_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
