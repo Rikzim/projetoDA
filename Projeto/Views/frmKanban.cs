@@ -57,7 +57,7 @@ namespace iTasks
                 lstTodo.SelectedIndex = -1; // Limpa a seleção da lista de tarefas
                 if (utilizadorRecebido is Gestor gestor)
                 {
-                    frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido);
+                    frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, frmDetalhesTarefa.DetalhesTarefaState.Novo);
                     detalhesTarefa.ShowDialog();
                     ReloadData(); // Atualiza a lista após a criação de uma nova tarefa
                 }
@@ -235,7 +235,7 @@ namespace iTasks
                 var tarefaSelecionada = lstTodo.SelectedItem as Tarefa;
                 if (tarefaSelecionada != null)
                 {
-                    frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, tarefaSelecionada);
+                    frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, frmDetalhesTarefa.DetalhesTarefaState.Editar, tarefaSelecionada);
                     detalhesTarefa.ShowDialog();
                     ReloadData(); // Atualiza a lista após possíveis alterações
                 }
@@ -252,7 +252,7 @@ namespace iTasks
                 var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
                 if (tarefaSelecionada != null)
                 {
-                    frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, tarefaSelecionada);
+                    frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, frmDetalhesTarefa.DetalhesTarefaState.Editar , tarefaSelecionada);
                     detalhesTarefa.ShowDialog();
                     ReloadData(); // Atualiza a lista após possíveis alterações
                 }
@@ -269,7 +269,7 @@ namespace iTasks
                 var tarefaSelecionada = lstDone.SelectedItem as Tarefa;
                 if (tarefaSelecionada != null)
                 {
-                    frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, tarefaSelecionada);
+                    frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, frmDetalhesTarefa.DetalhesTarefaState.Editar, tarefaSelecionada);
                     detalhesTarefa.ShowDialog();
                     ReloadData(); // Atualiza a lista após possíveis alterações
                 }
