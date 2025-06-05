@@ -29,7 +29,6 @@ namespace iTasks.Controllers
             // Retorna uma lista de TipoTarefa da base de dados
             return db.TipoTarefa.ToList();
         }
-
         public static void GravarTipoTarefa(string nomeTarefa)
         {
             // Obtém a instância da base de dados
@@ -39,7 +38,6 @@ namespace iTasks.Controllers
             // Salva as alterações na base de dados
             db.SaveChanges();
         }
-
         public static void EditarTipoTarefa(TipoTarefa tipoTarefaSelecionada, string nomeTarefa)
         {
             // Obtém a instância da base de dados
@@ -51,7 +49,6 @@ namespace iTasks.Controllers
             // Salva as alterações na base de dados
             db.SaveChanges();
         }
-
         public static void EliminarTipoTarefa(TipoTarefa tipoTarefaSelecionada)
         {
             // Obtém a instância da base de dados
