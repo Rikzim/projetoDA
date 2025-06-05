@@ -48,25 +48,6 @@ namespace iTasks
             txtIdGestor.Text = GestorController.countGestor().ToString();
 
         }
-
-        private void btGravarGestor_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                GestorController.GravarGestor(txtNomeGestor.Text, txtUsernameGestor.Text, txtPasswordGestor.Text, (Departamento)cbDepartamento.SelectedItem, chkGereUtilizadores.Checked);
-                MessageBox.Show("Gestor gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                lstListaGestores.DataSource = null;
-                lstListaGestores.DataSource = GestorController.ListarGestores();
-
-                // Atualiza os ID do gestor
-                txtIdGestor.Text = GestorController.countGestor().ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-        }
         private void btGravarProg_Click(object sender, EventArgs e)
         {
             try
@@ -75,9 +56,6 @@ namespace iTasks
 
                 lstListaProgramadores.DataSource = null;
                 lstListaProgramadores.DataSource = ProgramadorController.ListarProgramadores();
-
-                // Atualiza os ID do programador
-                txtIdProg.Text = ProgramadorController.countProgramador().ToString();
             }
             catch (Exception ex)
             {
@@ -109,7 +87,29 @@ namespace iTasks
                     nivelExperiencia,
                     (Gestor)cbGestorProg.SelectedItem
                     );
-
+                
+                lstListaProgramadores.DataSource = null;
+                lstListaProgramadores.DataSource = ProgramadorController.ListarProgramadores();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void btEliminarProg_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Programador progSelecionado = (Programador)lstListaProgramadores.SelectedItem;
+                if (progSelecionado == null)
+                {
+                    throw new Exception("Por favor, selecione um programador da lista.");
+                }
+                
+                ProgramadorController.EliminarProgramador(progSelecionado);
+                
+                lstListaProgramadores.DataSource = null;
+                lstListaProgramadores.DataSource = ProgramadorController.ListarProgramadores();
             }
             catch (Exception ex)
             {
@@ -159,6 +159,9 @@ namespace iTasks
                     departamento,
                     chkGereUtilizadores.Checked
                     );
+
+                lstListaGestores.DataSource = null;
+                lstListaGestores.DataSource = GestorController.ListarGestores();
             }
             catch (Exception ex)
             {
@@ -175,6 +178,7 @@ namespace iTasks
                     throw new Exception("Por favor, selecione um gestor da lista.");
                 }
                 GestorController.EliminarGestor(gestorSelecionado, utilizadorRecebido);
+
                 lstListaGestores.DataSource = null;
                 lstListaGestores.DataSource = GestorController.ListarGestores();
             }
@@ -192,6 +196,17 @@ namespace iTasks
             txtPasswordGestor.Text = gestorSelecionado.password;
             cbDepartamento.SelectedItem = gestorSelecionado.departamento;
             chkGereUtilizadores.Checked = gestorSelecionado.gereUtilizadores;
+        }
+
+        private void lstListaProgramadores_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Programador progSelecionado = (Programador)lstListaProgramadores.SelectedItem;
+            txtIdProg.Text = progSelecionado.id.ToString();
+            txtNomeProg.Text = progSelecionado.nome;
+            txtUsernameProg.Text = progSelecionado.username;
+            txtPasswordProg.Text = progSelecionado.password;
+            cbNivelProg.SelectedItem = progSelecionado.nivelExperiencia;
+            cbGestorProg.SelectedItem = progSelecionado.idGestor;
         }
     }
 }
