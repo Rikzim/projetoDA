@@ -88,7 +88,7 @@ namespace iTasks
             {
                 var tarefaSelecionada = lstTodo.SelectedItem as Tarefa; // Obtem a tarefa que foi seleciona na listbox todo
 
-                if (TarefaController.VerificarOrdem(tarefaSelecionada, Tarefa.Estado.Doing) && 
+                if (!TarefaController.VerificarOrdem(tarefaSelecionada, Tarefa.Estado.Doing) && 
                     TarefaController.countTarefasPorEstadoProgramador(Tarefa.Estado.Doing, utilizadorRecebido) < 2
                     )
                 {
@@ -202,7 +202,7 @@ namespace iTasks
         {
             try
             {
-                if (utilizadorRecebido is Gestor gestor)
+                if (utilizadorRecebido is Gestor)
                 {
                     frmConsultaTarefasEmCurso tarefasEmCurso = new frmConsultaTarefasEmCurso(utilizadorRecebido);
                     tarefasEmCurso.ShowDialog();

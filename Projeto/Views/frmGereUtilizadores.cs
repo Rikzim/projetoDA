@@ -49,28 +49,7 @@ namespace iTasks
 
         }
 
-        private void btGravarGestor_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                GestorController.GravarGestor(txtNomeGestor.Text, txtUsernameGestor.Text, txtPasswordGestor.Text, (Departamento)cbDepartamento.SelectedItem, chkGereUtilizadores.Checked);
-                
-                lstListaGestores.DataSource = null;
-                lstListaGestores.DataSource = GestorController.ListarGestores();
 
-                // Atualiza os ID do gestor
-                txtIdGestor.Text = GestorController.countGestor().ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            finally
-            {
-                MessageBox.Show("Gestor gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
         private void btGravarProg_Click(object sender, EventArgs e)
         {
             try
@@ -92,6 +71,110 @@ namespace iTasks
             {
                 MessageBox.Show("Programador gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+        private void btEditarProg_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Programador progSelecionado = (Programador)lstListaProgramadores.SelectedItem;
+                NivelExperiencia nivelExperiencia = (NivelExperiencia)cbNivelProg.SelectedItem;
+                
+                if (progSelecionado == null)
+                {
+                    throw new Exception("Por favor, selecione um programador da lista.");
+                }
+
+                ProgramadorController.EditarProgramador(
+                    progSelecionado,
+                    txtNomeProg.Text,
+                    txtUsernameProg.Text,
+                    txtPasswordProg.Text,
+                    nivelExperiencia,
+                    (Gestor)cbGestorProg.SelectedItem
+                    );
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void btGravarGestor_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                GestorController.GravarGestor(txtNomeGestor.Text, txtUsernameGestor.Text, txtPasswordGestor.Text, (Departamento)cbDepartamento.SelectedItem, chkGereUtilizadores.Checked);
+
+                lstListaGestores.DataSource = null;
+                lstListaGestores.DataSource = GestorController.ListarGestores();
+
+                // Atualiza os ID do gestor
+                txtIdGestor.Text = GestorController.countGestor().ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            finally
+            {
+                MessageBox.Show("Gestor gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+        private void btEditarGestor_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Gestor gestorSelecionado = (Gestor)lstListaGestores.SelectedItem;   
+
+                if (gestorSelecionado == null)
+                {
+                    throw new Exception("Por favor, selecione um gestor da lista.");
+                }
+
+                Departamento departamento = (Departamento)cbDepartamento.SelectedItem;
+
+                GestorController.EditarGestor(
+                    gestorSelecionado,
+                    txtNomeGestor.Text,
+                    txtUsernameGestor.Text,
+                    txtPasswordGestor.Text,
+                    departamento,
+                    chkGereUtilizadores.Checked
+                    );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void btEliminarGestor_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Gestor gestorSelecionado = (Gestor)lstListaGestores.SelectedItem;
+                if (gestorSelecionado == null)
+                {
+                    throw new Exception("Por favor, selecione um gestor da lista.");
+                }
+                GestorController.EliminarGestor(gestorSelecionado, utilizadorRecebido);
+                lstListaGestores.DataSource = null;
+                lstListaGestores.DataSource = GestorController.ListarGestores();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void lstListaGestores_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Gestor gestorSelecionado = (Gestor)lstListaGestores.SelectedItem;
+            txtIdGestor.Text = gestorSelecionado.id.ToString();
+            txtNomeGestor.Text = gestorSelecionado.nome;
+            txtUsernameGestor.Text = gestorSelecionado.username;
+            txtPasswordGestor.Text = gestorSelecionado.password;
+            cbDepartamento.SelectedItem = gestorSelecionado.departamento;
+            chkGereUtilizadores.Checked = gestorSelecionado.gereUtilizadores;
         }
     }
 }
