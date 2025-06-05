@@ -57,6 +57,7 @@ namespace iTasks.Controllers
             
             // Verifica se já existe uma tarefa com a mesma ordem para o mesmo programador e gestor
             bool ordemExistente = db.Tarefa.Any(t =>
+                t.Id != tarefaSelecionada.Id && // Ignora a própria tarefa
                 t.IdGestor.id == idGestor.id &&
                 t.IdProgramador.id == idProgramador.id &&
                 t.OrdemExecucao == ordemExecucao);
@@ -149,16 +150,6 @@ namespace iTasks.Controllers
             // Salva as alterações na base de dados
             BasedeDados.Instance.SaveChanges();
         }
-        /*public static List<Tarefa> ListarTarefas(Utilizador utilizadorLogado)
-        {
-            return db.Tarefa
-                .Include(t => t.IdGestor)
-                .Include(t => t.IdProgramador)
-                .Include(t => t.TipoTarefa)
-                .ToList();
-        }
-        */
-        // Método para listar todas as tarefas na base de dados
         public static List<Tarefa> ListarTarefasPorEstado(Tarefa.Estado estado)
         {
             // Cria uma instância da base de dados

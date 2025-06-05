@@ -17,18 +17,30 @@ namespace iTasks
         // Inicializa os campos necessários
         Utilizador utilizadorRecebido;
         Tarefa tarefaSelecionada;
-        public frmDetalhesTarefa(Utilizador utilizadorRecebido, Tarefa tarefaSelecionada = null)
+        public enum DetalhesTarefaState
+        {
+            Novo,
+            Editar,
+            ReadOnly
+        }
+
+        private DetalhesTarefaState state;
+        public frmDetalhesTarefa(Utilizador utilizadorRecebido, DetalhesTarefaState state, Tarefa tarefaSelecionada = null)
         {
             InitializeComponent();
 
             // Recebe o utilizador e a tarefa selecionada (se houver)
             this.utilizadorRecebido = utilizadorRecebido;
             this.tarefaSelecionada = tarefaSelecionada;
-
+            this.state = state;
+            
             if (utilizadorRecebido is Programador)
             {
-                readOnlyUtilizador();
+                this.state = DetalhesTarefaState.ReadOnly;
             }
+
+            // Configura os botões de acordo com o estado da tarefa
+            ConfigurarBotoes();
 
             //Inicializa os comboboxes com os dados necessários
             InicializarComboboxes();
@@ -47,6 +59,26 @@ namespace iTasks
             }
         }
 
+        private void ConfigurarBotoes()
+        {
+            // Configura os botões de acordo com o estado da tarefa
+            switch (state)
+            {
+                case DetalhesTarefaState.Novo:
+                    btGravar.Enabled = true;
+                    btEditarTarefa.Enabled = false;
+                    btApagarTarefa.Enabled = false;
+                    break;
+                case DetalhesTarefaState.Editar:
+                    btGravar.Enabled = false;
+                    btEditarTarefa.Enabled = true;
+                    btApagarTarefa.Enabled = true;
+                    break;
+                case DetalhesTarefaState.ReadOnly:
+                    readOnlyUtilizador();
+                    break;
+            }
+        }
         private void readOnlyUtilizador() 
         {
             // Se o utilizador for um programador, desabilita CRUD de tarefas
