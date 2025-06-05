@@ -56,15 +56,12 @@ namespace iTasks
 
                 lstListaProgramadores.DataSource = null;
                 lstListaProgramadores.DataSource = ProgramadorController.ListarProgramadores();
+
+                MessageBox.Show("Programador gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            finally
-            {
-                MessageBox.Show("Programador gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void btEditarProg_Click(object sender, EventArgs e)
@@ -127,15 +124,12 @@ namespace iTasks
 
                 // Atualiza os ID do gestor
                 txtIdGestor.Text = GestorController.countGestor().ToString();
+
+                MessageBox.Show("Gestor gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            finally
-            {
-                MessageBox.Show("Gestor gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void btEditarGestor_Click(object sender, EventArgs e)
