@@ -156,6 +156,27 @@ namespace iTasks.Controllers
                 .Where(t => t.EstadoAtual == estado)
                 .ToList();
         }
+        public static List<Tarefa> ListarTarefasPorEstadoProgramador(Tarefa.Estado estado, Utilizador utilizadorLogado)
+        {
+            // Cria uma instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            if (utilizadorLogado is Gestor)
+            {
+                // Se o utilizador for um gestor, retorna todas as tarefas do estado especificado
+                return db.Tarefa
+                    .Include(t => t.IdGestor)
+                    .Include(t => t.IdProgramador)
+                    .Include(t => t.TipoTarefa)
+                    .Where(t => t.EstadoAtual == estado)
+                    .ToList();
+            }
+            return db.Tarefa
+                .Include(t => t.IdGestor)
+                .Include(t => t.IdProgramador)
+                .Include(t => t.TipoTarefa)
+                .Where(t => t.EstadoAtual == estado && t.IdProgramador.id == utilizadorLogado.id)
+                .ToList();
+        }
         public static bool ExportarCSV(Gestor gestor)
         {
             try
@@ -199,7 +220,6 @@ namespace iTasks.Controllers
                         tarefa.DataCriacao.ToString("yyyy-MM-dd"),
                         tarefa.EstadoAtual.ToString()
                     );
-
                     // Adiciona a linha ao StringBuilder
                     sb.AppendLine(linha);
                 }

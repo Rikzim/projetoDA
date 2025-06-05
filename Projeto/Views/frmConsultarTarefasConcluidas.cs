@@ -21,7 +21,7 @@ namespace iTasks
             try
             {
                 this.utilizadorRecebido = utilizador;
-                gvTarefasConcluidas.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Done);
+                gvTarefasConcluidas.DataSource = TarefaController.ListarTarefasPorEstadoProgramador(Tarefa.Estado.Done, utilizadorRecebido);
             }
             catch (Exception ex)
             {

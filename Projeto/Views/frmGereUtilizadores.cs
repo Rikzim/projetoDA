@@ -49,7 +49,24 @@ namespace iTasks
 
         }
 
+        private void btGravarGestor_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                GestorController.GravarGestor(txtNomeGestor.Text, txtUsernameGestor.Text, txtPasswordGestor.Text, (Departamento)cbDepartamento.SelectedItem, chkGereUtilizadores.Checked);
+                MessageBox.Show("Gestor gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                lstListaGestores.DataSource = null;
+                lstListaGestores.DataSource = GestorController.ListarGestores();
 
+                // Atualiza os ID do gestor
+                txtIdGestor.Text = GestorController.countGestor().ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
         private void btGravarProg_Click(object sender, EventArgs e)
         {
             try

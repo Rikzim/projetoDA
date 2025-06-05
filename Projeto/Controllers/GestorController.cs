@@ -1,9 +1,11 @@
 ﻿using iTasks.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace iTasks.Controllers
 {
@@ -12,12 +14,28 @@ namespace iTasks.Controllers
         // Método para gravar um novo gestor na base de dados
         public static void GravarGestor(string nome, string username, string password, Departamento departamento, bool GereUtilizadores)
         {
-            // Cria uma instância da base de dados
-            BasedeDados db = BasedeDados.Instance;
-            // Verifica se o gestor já existe
-            db.Utilizador.Add(new Gestor(nome, username, password, departamento, GereUtilizadores));
-            // Adiciona o novo gestor à tabela de utilizadores
-            db.SaveChanges();
+            try
+            {
+                // Cria uma instância da base de dados
+                BasedeDados db = BasedeDados.Instance;
+                // Verifica se o gestor já existe
+                db.Utilizador.Add(new Gestor(nome, username, password, departamento, GereUtilizadores));
+                // Adiciona o novo gestor à tabela de utilizadores
+                db.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Verifica se a exceção é por violação de restrição única
+                if (ex.InnerException != null && ex.InnerException.InnerException != null && ex.InnerException.InnerException.Message.Contains("IX_username")) // ou o nome do índice criado
+                    throw new Exception("Já existe um utilizador com esse username.");
+                else
+                    throw new Exception("Erro ao salvar gestor: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Lança uma exceção se ocorrer um erro ao gravar o gestor
+                throw new Exception("Erro ao gravar gestor: " + ex.Message);
+            }
         }
         public static void EditarGestor(Gestor gestorSelecionado, string nome, string username, string password, Departamento departamento, bool GereUtilizadores)
         {
