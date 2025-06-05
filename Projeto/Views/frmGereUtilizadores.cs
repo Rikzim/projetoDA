@@ -189,24 +189,50 @@ namespace iTasks
         }
         private void lstListaGestores_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Gestor gestorSelecionado = (Gestor)lstListaGestores.SelectedItem;
-            txtIdGestor.Text = gestorSelecionado.id.ToString();
-            txtNomeGestor.Text = gestorSelecionado.nome;
-            txtUsernameGestor.Text = gestorSelecionado.username;
-            txtPasswordGestor.Text = gestorSelecionado.password;
-            cbDepartamento.SelectedItem = gestorSelecionado.departamento;
-            chkGereUtilizadores.Checked = gestorSelecionado.gereUtilizadores;
+            try
+            {
+                Gestor gestorSelecionado = (Gestor)lstListaGestores.SelectedItem;
+
+                if (gestorSelecionado == null)
+                {
+                    return; // Se não houver gestor selecionado, não faz nada
+                }
+
+                txtIdGestor.Text = gestorSelecionado.id.ToString();
+                txtNomeGestor.Text = gestorSelecionado.nome;
+                txtUsernameGestor.Text = gestorSelecionado.username;
+                txtPasswordGestor.Text = gestorSelecionado.password;
+                cbDepartamento.SelectedItem = gestorSelecionado.departamento;
+                chkGereUtilizadores.Checked = gestorSelecionado.gereUtilizadores;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void lstListaProgramadores_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Programador progSelecionado = (Programador)lstListaProgramadores.SelectedItem;
-            txtIdProg.Text = progSelecionado.id.ToString();
-            txtNomeProg.Text = progSelecionado.nome;
-            txtUsernameProg.Text = progSelecionado.username;
-            txtPasswordProg.Text = progSelecionado.password;
-            cbNivelProg.SelectedItem = progSelecionado.nivelExperiencia;
-            cbGestorProg.SelectedItem = progSelecionado.idGestor;
+            try
+            {
+                Programador progSelecionado = (Programador)lstListaProgramadores.SelectedItem;
+
+                if (progSelecionado == null)
+                {
+                    return; // Se não houver programador selecionado, não faz nada
+                }
+
+                txtIdProg.Text = progSelecionado.id.ToString();
+                txtNomeProg.Text = progSelecionado.nome;
+                txtUsernameProg.Text = progSelecionado.username;
+                txtPasswordProg.Text = progSelecionado.password;
+                cbNivelProg.SelectedItem = progSelecionado.nivelExperiencia;
+                cbGestorProg.SelectedItem = progSelecionado.idGestor;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
