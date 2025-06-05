@@ -24,24 +24,16 @@ namespace iTasks.Controllers
                 db.Utilizador.Add(new Programador(nome, username, password, experiencia, gestor));
                 db.SaveChanges();
             }
-            catch (DbUpdateException ex)
-            {
-                // Verifica se a exceção é por violação de restrição única
-                if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                    ex.InnerException.InnerException.Message.Contains("IX_username")) // ou o nome do índice criado
-                {
-                    MessageBox.Show("Já existe um utilizador com esse username.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
-                    MessageBox.Show("Erro ao salvar utilizador: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
             catch (Exception ex)
             {
-                // Lança uma exceção se ocorrer um erro ao gravar o programador
-                throw new Exception("Erro ao gravar programador: " + ex.Message);
+                string msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "\n" + ex.InnerException.Message;
+                if (ex.InnerException?.InnerException != null)
+                    msg += "\n" + ex.InnerException.InnerException.Message;
+                MessageBox.Show("Erro ao gravar gestor: " + msg, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
         public static void EditarProgramador(Programador programadorSelecionado, string nome, string username, string password, NivelExperiencia experiencia, Gestor gestorid)
         {
