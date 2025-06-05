@@ -34,22 +34,64 @@ namespace iTasks
             {
                 if (txtDesc.Text != null)
                 {
-                    TipoTarefa tipoTarefa = new TipoTarefa(txtDesc.Text);
-
-                    // Adiciona o tipo de tarefa à base de dados
-                    db.TipoTarefa.Add(tipoTarefa);
-                    db.SaveChanges();
-
-                    // Atualiza a lista
-                    db.TipoTarefa.Load();
-                    lstLista.DataSource = db.TipoTarefa.Local.ToBindingList();
+                    TipoTarefaController.GravarTipoTarefa(txtDesc.Text);
 
                     // Preenche o campo de id
                     txtId.Text = TipoTarefaController.contaTipoTarefa();
+
+                    lstLista.DataSource = null;
+                    lstLista.DataSource = TipoTarefaController.ListarTipoTarefa();
                 }
                 else
                 {
                     throw new Exception("Campo de descrição não pode ser nulo.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btEditar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lstLista.SelectedItem != null)
+                {
+                    TipoTarefa tipoTarefaSelecionada = (TipoTarefa)lstLista.SelectedItem;
+                    TipoTarefaController.EditarTipoTarefa(tipoTarefaSelecionada, txtDesc.Text);
+
+                    lstLista.DataSource = null;
+                    lstLista.DataSource = TipoTarefaController.ListarTipoTarefa();
+                }
+                else
+                {
+                    throw new Exception("Nenhum tipo de tarefa selecionado.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lstLista.SelectedItem != null)
+                {
+                    TipoTarefa tipoTarefaSelecionada = (TipoTarefa)lstLista.SelectedItem;
+                    TipoTarefaController.EliminarTipoTarefa(tipoTarefaSelecionada);
+                    
+
+                    lstLista.DataSource = null;
+                    lstLista.DataSource = TipoTarefaController.ListarTipoTarefa();
+                }
+                else
+                {
+                    throw new Exception("Nenhum tipo de tarefa selecionado.");
                 }
             }
             catch (Exception ex)
