@@ -18,136 +18,90 @@ namespace iTasks.Controllers
         public static void GravarTarefa(Gestor idGestor, Programador idProgramador, int ordemExecucao, string descricao,
             DateTime dataPrevistaInicio, DateTime dataPrevistaFim, TipoTarefa tipoTarefa, int storyPoints, DateTime dataCriacao, Estado estadoAtual)
         {
-            try
-            {
-                // Cria uma instância da base de dados
-                BasedeDados db = BasedeDados.Instance;
-                // Cria uma nova tarefa e adiciona-a à tabela de tarefas
-                db.Tarefa.Add(new Tarefa
-                (
-                    idGestor,
-                    idProgramador,
-                    ordemExecucao,
-                    descricao,
-                    dataPrevistaInicio,
-                    dataPrevistaFim,
-                    tipoTarefa,
-                    storyPoints,
-                    dataCriacao,
-                    estadoAtual
-                ));
-                db.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                // Lança uma exceção se ocorrer um erro ao gravar a tarefa
-                throw new Exception("Erro ao gravar tarefa: " + ex.Message);
-            }
+
+            // Cria uma instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            // Cria uma nova tarefa e adiciona-a à tabela de tarefas
+            db.Tarefa.Add(new Tarefa
+            (
+                idGestor,
+                idProgramador,
+                ordemExecucao,
+                descricao,
+                dataPrevistaInicio,
+                dataPrevistaFim,
+                tipoTarefa,
+                storyPoints,
+                dataCriacao,
+                estadoAtual
+            ));
+            db.SaveChanges();
         }
         // Método para editar uma tarefa existente na base de dados
         public static void EditarTarefa(Tarefa tarefaSelecionada, Gestor idGestor, Programador idProgramador, int ordemExecucao, string descricao,
             DateTime dataPrevistaInicio, DateTime dataPrevistaFim, TipoTarefa tipoTarefa, int storyPoints)
         {
-            try
+            // Cria uma instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            // Verifica se a tarefa selecionada é nula
+            if (tarefaSelecionada != null)
             {
-                // Cria uma instância da base de dados
-                BasedeDados db = BasedeDados.Instance;
-                // Verifica se a tarefa selecionada é nula
-                if (tarefaSelecionada != null)
-                {
-                    // Atualiza os dados da tarefa selecionada
-                    tarefaSelecionada.IdGestor = idGestor;
-                    tarefaSelecionada.IdProgramador = idProgramador;
-                    tarefaSelecionada.OrdemExecucao = ordemExecucao;
-                    tarefaSelecionada.Descricao = descricao;
-                    tarefaSelecionada.DataPrevistaInicio = dataPrevistaInicio;
-                    tarefaSelecionada.DataPrevistaFim = dataPrevistaFim;
-                    tarefaSelecionada.TipoTarefa = tipoTarefa;
-                    tarefaSelecionada.StoryPoints = storyPoints;
-                    db.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                // Lança uma exceção se ocorrer um erro ao editar a tarefa
-                throw new Exception("Erro ao editar tarefa: " + ex.Message);
+                // Atualiza os dados da tarefa selecionada
+                tarefaSelecionada.IdGestor = idGestor;
+                tarefaSelecionada.IdProgramador = idProgramador;
+                tarefaSelecionada.OrdemExecucao = ordemExecucao;
+                tarefaSelecionada.Descricao = descricao;
+                tarefaSelecionada.DataPrevistaInicio = dataPrevistaInicio;
+                tarefaSelecionada.DataPrevistaFim = dataPrevistaFim;
+                tarefaSelecionada.TipoTarefa = tipoTarefa;
+                tarefaSelecionada.StoryPoints = storyPoints;
+                db.SaveChanges();
             }
         }
         public static void EliminarTarefa(Tarefa TarefaSelecionada)
         {
-            try
+            // Cria uma instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            // Verifica se a tarefa selecionada é nula
+            if (TarefaSelecionada != null)
             {
-                // Cria uma instância da base de dados
-                BasedeDados db = BasedeDados.Instance;
-                // Verifica se a tarefa selecionada é nula
-                if (TarefaSelecionada != null)
-                {
-                    // Remove a tarefa selecionada da base de dados
-                    db.Tarefa.Remove(TarefaSelecionada);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    throw new Exception("Nenhuma tarefa selecionada para eliminar.");
-                }
+                // Remove a tarefa selecionada da base de dados
+                db.Tarefa.Remove(TarefaSelecionada);
+                db.SaveChanges();
             }
-            catch (Exception ex)
+            else
             {
-                // Lança uma exceção se ocorrer um erro ao eliminar a tarefa
-                throw new Exception("Erro ao eliminar tarefa: " + ex.Message);
+                throw new Exception("Nenhuma tarefa selecionada para eliminar.");
             }
         }
         // Método para listar todas as tarefas na base de dados
         public static int countTarefas()
         {
-            try
-            {
-                // Cria uma instância da base de dados
-                BasedeDados db = BasedeDados.Instance;
-                // Conta o número de tarefas na base de dados e adiciona 1, começando em 1 se não houver nenhuma
-                int count = db.Tarefa.Count();
-                return count + 1;
-            }
-            catch (Exception ex)
-            {
-                // Lança uma exceção se ocorrer um erro ao contar as tarefas
-                throw new Exception("Erro ao contar tarefas: " + ex.Message);
-            }
+            // Cria uma instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            // Conta o número de tarefas na base de dados e adiciona 1, começando em 1 se não houver nenhuma
+            int count = db.Tarefa.Count();
+            return count + 1;
         }
         // Método para contar o número de tarefas por estado
         public static int countTarefasPorEstado(Estado estado)
         {
-            try
-            {
-                // Cria uma instância da base de dados
-                BasedeDados db = BasedeDados.Instance;
-                // Conta o número de tarefas na base de dados e adiciona 1, começando em 1 se não houver nenhuma
-                int count = db.Tarefa.Where(t => t.EstadoAtual == estado).Count();
-                return count + 1;
-            }
-            catch (Exception ex)
-            {
-                // Lança uma exceção se ocorrer um erro ao contar as tarefas por estado
-                throw new Exception("Erro ao contar tarefas por estado: " + ex.Message);
-            }
+            // Cria uma instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            // Conta o número de tarefas na base de dados e adiciona 1, começando em 1 se não houver nenhuma
+            int count = db.Tarefa.Where(t => t.EstadoAtual == estado).Count();
+            return count + 1;
         }
         // Método para contar o número de tarefas por estado de um programador específico
         public static int countTarefasPorEstadoProgramador(Estado estado, Utilizador utilizadorRecebido)
         {
-            try
-            {
-                BasedeDados db = BasedeDados.Instance;
-                // Conta o número de tarefas na base de dados e adiciona 1, começando em 1 se não houver nenhuma
-                int count = db.Tarefa.
-                    Where(t => t.EstadoAtual == estado
-                    && t.IdProgramador.id == utilizadorRecebido.id)
-                    .Count();
-                return count;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao contar tarefas por estado do programador" + ex.Message);
-            }
+            BasedeDados db = BasedeDados.Instance;
+            // Conta o número de tarefas na base de dados e adiciona 1, começando em 1 se não houver nenhuma
+            int count = db.Tarefa.
+                Where(t => t.EstadoAtual == estado
+                && t.IdProgramador.id == utilizadorRecebido.id)
+                .Count();
+            return count;
         }
         // Método para mudar o estado de uma tarefa
         public static void MudarEstadoTarefa(Tarefa tarefaSelecionada, Estado estado, Utilizador utilizadorRecebido)
@@ -191,24 +145,16 @@ namespace iTasks.Controllers
         }
         */
         // Método para listar todas as tarefas na base de dados
-        public static List<Tarefa> ListarTarefasPorEstado(Tarefa.Estado estado, Utilizador utilizadorLogado)
+        public static List<Tarefa> ListarTarefasPorEstado(Tarefa.Estado estado)
         {
-            try
-            {
-                // Cria uma instância da base de dados
-                BasedeDados db = BasedeDados.Instance;
-                return db.Tarefa
-                    .Include(t => t.IdGestor)
-                    .Include(t => t.IdProgramador)
-                    .Include(t => t.TipoTarefa)
-                    .Where(t => t.EstadoAtual == estado)
-                    .ToList();
-            }
-            catch (Exception ex)
-            {
-                // Lança uma exceção se ocorrer um erro ao listar as tarefas por estado
-                throw new Exception("Erro ao listar tarefas por estado: " + ex.Message);
-            }
+            // Cria uma instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            return db.Tarefa
+                .Include(t => t.IdGestor)
+                .Include(t => t.IdProgramador)
+                .Include(t => t.TipoTarefa)
+                .Where(t => t.EstadoAtual == estado)
+                .ToList();
         }
         public static bool ExportarCSV(Gestor gestor)
         {
@@ -229,7 +175,7 @@ namespace iTasks.Controllers
                 string caminhoFicheiro = saveFileDialog.FileName;
 
                 // Guarda as tarefas concluídas do gestor selecionado
-                var tarefasConcluidas = ListarTarefasPorEstado(Tarefa.Estado.Done, gestor);
+                var tarefasConcluidas = ListarTarefasPorEstado(Tarefa.Estado.Done);
 
                 // Cria o conteúdo do CSV
                 var sb = new StringBuilder();

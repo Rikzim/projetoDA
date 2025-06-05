@@ -21,7 +21,7 @@ namespace iTasks.Views
 
             UtilizadorRecebido = utilizadorRecebido;
 
-            List<Tarefa> tarefasConcluidas = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.ToDo, UtilizadorRecebido);
+            List<Tarefa> tarefasConcluidas = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.ToDo);
 
             var tarefasComPrevisao = tarefasConcluidas
                 .Select(t => {
