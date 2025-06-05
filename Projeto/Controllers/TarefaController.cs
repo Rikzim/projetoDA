@@ -30,7 +30,7 @@ namespace iTasks.Controllers
             if (ordemExistente)
             {
                 throw new Exception("Já existe uma tarefa com esta ordem de execução para este programador.");
-            }
+            }   
 
             // Cria uma nova tarefa e adiciona-a à tabela de tarefas
             db.Tarefa.Add(new Tarefa
