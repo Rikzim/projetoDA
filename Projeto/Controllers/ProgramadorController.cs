@@ -35,6 +35,37 @@ namespace iTasks.Controllers
             }
 
         }
+        public static void EditarProgramador(Programador programadorSelecionado, string nome, string username, string password, NivelExperiencia experiencia, Gestor gestorid)
+        {
+            // Obtém a instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            // Encontra o programador pelo ID
+            Programador programador = db.Programador.FirstOrDefault(p => p.id == programadorSelecionado.id);
+            if (programador != null)
+            {
+                // Atualiza os dados do programador
+                programador.nome = nome;
+                programador.username = username;
+                programador.password = password;
+                programador.nivelExperiencia = experiencia;
+                programador.idGestor = gestorid;
+                // Salva as alterações na base de dados
+                db.SaveChanges();
+            }
+        }
+        public static void EliminarProgramador(Programador programadorSelecionado)
+        {
+            // Obtém a instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            // Encontra o programador pelo ID
+            Programador programador = db.Programador.FirstOrDefault(p => p.id == programadorSelecionado.id);
+            if (programador != null)
+            {
+                // Remove o programador da base de dados
+                db.Programador.Remove(programador);
+                db.SaveChanges();
+            }
+        }
 
         public static List<Programador> ListarProgramadores()
         {
