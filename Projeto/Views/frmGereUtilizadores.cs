@@ -54,7 +54,7 @@ namespace iTasks
             try
             {
                 GestorController.GravarGestor(txtNomeGestor.Text, txtUsernameGestor.Text, txtPasswordGestor.Text, (Departamento)cbDepartamento.SelectedItem, chkGereUtilizadores.Checked);
-                
+                MessageBox.Show("Gestor gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 lstListaGestores.DataSource = null;
                 lstListaGestores.DataSource = GestorController.ListarGestores();
 
@@ -65,10 +65,6 @@ namespace iTasks
             {
                 MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }
-            finally
-            {
-                MessageBox.Show("Gestor gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void btGravarProg_Click(object sender, EventArgs e)
