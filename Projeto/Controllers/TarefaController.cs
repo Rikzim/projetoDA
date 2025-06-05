@@ -18,9 +18,20 @@ namespace iTasks.Controllers
         public static void GravarTarefa(Gestor idGestor, Programador idProgramador, int ordemExecucao, string descricao,
             DateTime dataPrevistaInicio, DateTime dataPrevistaFim, TipoTarefa tipoTarefa, int storyPoints, DateTime dataCriacao, Estado estadoAtual)
         {
-
             // Cria uma instância da base de dados
             BasedeDados db = BasedeDados.Instance;
+            
+            // Verifica se já existe uma tarefa com a mesma ordem para o mesmo programador e gestor
+            bool ordemExistente = db.Tarefa.Any(t =>
+                t.IdGestor.id == idGestor.id &&
+                t.IdProgramador.id == idProgramador.id &&
+                t.OrdemExecucao == ordemExecucao);
+
+            if (ordemExistente)
+            {
+                throw new Exception("Já existe uma tarefa com esta ordem de execução para este programador.");
+            }
+
             // Cria uma nova tarefa e adiciona-a à tabela de tarefas
             db.Tarefa.Add(new Tarefa
             (
@@ -43,6 +54,18 @@ namespace iTasks.Controllers
         {
             // Cria uma instância da base de dados
             BasedeDados db = BasedeDados.Instance;
+            
+            // Verifica se já existe uma tarefa com a mesma ordem para o mesmo programador e gestor
+            bool ordemExistente = db.Tarefa.Any(t =>
+                t.IdGestor.id == idGestor.id &&
+                t.IdProgramador.id == idProgramador.id &&
+                t.OrdemExecucao == ordemExecucao);
+
+            if (ordemExistente)
+            {
+                throw new Exception("Já existe uma tarefa com esta ordem de execução para este programador.");
+            }
+
             // Verifica se a tarefa selecionada é nula
             if (tarefaSelecionada != null)
             {
