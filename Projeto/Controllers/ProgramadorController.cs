@@ -46,17 +46,9 @@ namespace iTasks.Controllers
 
         public static List<Programador> ListarProgramadores()
         {
-            try
-            {
-                BasedeDados db = BasedeDados.Instance;
-                // Retorna uma lista de programadores filtrando a tabela de utilizadores
-                return db.Programador.ToList();
-            }
-            catch (Exception ex)
-            {
-                // Lança uma exceção se ocorrer um erro ao listar os programadores
-                throw new Exception("Erro ao listar programadores: " + ex.Message);
-            }
+            BasedeDados db = BasedeDados.Instance;
+            // Retorna uma lista de programadores filtrando a tabela de utilizadores
+            return db.Programador.ToList();
         }
         public static List<Programador> ListarProgramadoresPorGestor(Utilizador GestorRecebido)
         {
@@ -75,19 +67,12 @@ namespace iTasks.Controllers
 
         public static int countProgramador()
         {
-            try
-            {
-                // Obtém a instância da base de dados
-                BasedeDados db = BasedeDados.Instance;
-                // Conta o número de programadores na base de dados e adiciona 1, começando em 1 se não houver nenhum
-                int count = db.Programador.Count();
-                return count + 1;
-            }
-            catch(Exception ex) 
-            {
-                // Lança uma exceção se ocorrer um erro ao contar os programadores
-                throw new Exception("Erro ao contar programadores: " + ex.Message);
-            }
+
+            // Obtém a instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            // Conta o número de programadores na base de dados e adiciona 1, começando em 1 se não houver nenhum
+            int count = db.Programador.Count();
+            return count + 1;
         }
     }
 }
