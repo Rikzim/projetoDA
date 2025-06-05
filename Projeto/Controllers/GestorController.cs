@@ -37,6 +37,44 @@ namespace iTasks.Controllers
                 throw new Exception("Erro ao gravar gestor: " + ex.Message);
             }
         }
+        public static void EditarGestor(Gestor gestorSelecionado, string nome, string username, string password, Departamento departamento, bool GereUtilizadores)
+        {
+            // Obtém a instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            // Encontra o gestor pelo ID
+            Gestor gestor = db.Gestor.FirstOrDefault(g => g.id == gestorSelecionado.id);
+            if (gestor != null)
+            {
+                // Atualiza os dados do gestor
+                gestor.nome = nome;
+                gestor.username = username;
+                gestor.password = password;
+                gestor.departamento = departamento;
+                gestor.gereUtilizadores = GereUtilizadores;
+                // Salva as alterações na base de dados
+                db.SaveChanges();
+            }
+        }
+        public static void EliminarGestor(Gestor gestorSelecionado, Utilizador gestorLogado)
+        {
+            // Obtém a instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+
+            // Encontra o gestor pelo ID
+            Gestor gestor = db.Gestor.FirstOrDefault(g => g.id == gestorSelecionado.id);
+
+            // Verifica se o gestor a eliminar é o gestor logado
+            if (gestorLogado != null && gestor.id == gestorLogado.id)
+            {
+                // Não permite eliminar o próprio gestor logado
+                throw new InvalidOperationException("Não é possível eliminar o gestor logado.");
+            }
+
+            // Remove o gestor da base de dados
+            db.Gestor.Remove(gestor);
+            // Salva as alterações na base de dados
+            db.SaveChanges();
+        }
         // Método para listar todos os gestores na base de dados
         public static List<Gestor> ListarGestores()
         {

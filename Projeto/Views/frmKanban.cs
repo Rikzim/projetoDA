@@ -195,7 +195,7 @@ namespace iTasks
         {
             try
             {
-                if (utilizadorRecebido is Gestor gestor)
+                if (utilizadorRecebido is Gestor)
                 {
                     frmConsultaTarefasEmCurso tarefasEmCurso = new frmConsultaTarefasEmCurso(utilizadorRecebido);
                     tarefasEmCurso.ShowDialog();
