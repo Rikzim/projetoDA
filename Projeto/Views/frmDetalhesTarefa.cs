@@ -37,10 +37,11 @@ namespace iTasks
             if (utilizadorRecebido is Programador)
             {
                 this.state = DetalhesTarefaState.ReadOnly;
+                state = this.state;
             }
 
             // Configura os botões de acordo com o estado da tarefa
-            ConfigurarBotoes();
+            ConfigurarBotoes(state);
 
             //Inicializa os comboboxes com os dados necessários
             InicializarComboboxes();
@@ -59,7 +60,7 @@ namespace iTasks
             }
         }
 
-        private void ConfigurarBotoes()
+        private void ConfigurarBotoes(DetalhesTarefaState state)
         {
             // Configura os botões de acordo com o estado da tarefa
             switch (state)
