@@ -57,6 +57,7 @@ namespace iTasks.Controllers
             
             // Verifica se já existe uma tarefa com a mesma ordem para o mesmo programador e gestor
             bool ordemExistente = db.Tarefa.Any(t =>
+                t.Id != tarefaSelecionada.Id && // Ignora a própria tarefa
                 t.IdGestor.id == idGestor.id &&
                 t.IdProgramador.id == idProgramador.id &&
                 t.OrdemExecucao == ordemExecucao);
