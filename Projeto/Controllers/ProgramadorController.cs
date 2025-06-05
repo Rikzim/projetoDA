@@ -40,7 +40,7 @@ namespace iTasks.Controllers
             // Obtém a instância da base de dados
             BasedeDados db = BasedeDados.Instance;
             // Encontra o programador pelo ID
-            Programador programador = db.Programador.FirstOrDefault(p => p.id == programadorSelecionado.id);
+            Programador programador = db.Programador.Find(programadorSelecionado.id);
             if (programador != null)
             {
                 // Atualiza os dados do programador
@@ -58,7 +58,7 @@ namespace iTasks.Controllers
             // Obtém a instância da base de dados
             BasedeDados db = BasedeDados.Instance;
             // Encontra o programador pelo ID
-            Programador programador = db.Programador.FirstOrDefault(p => p.id == programadorSelecionado.id);
+            Programador programador = db.Programador.Find(programadorSelecionado.id);
             if (programador != null)
             {
                 // Remove o programador da base de dados

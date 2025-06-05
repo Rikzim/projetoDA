@@ -30,7 +30,7 @@ namespace iTasks.Controllers
             // Obtém a instância da base de dados
             BasedeDados db = BasedeDados.Instance;
             // Encontra o gestor pelo ID
-            Gestor gestor = db.Gestor.FirstOrDefault(g => g.id == gestorSelecionado.id);
+            Gestor gestor = db.Gestor.Find(gestorSelecionado.id);
             if (gestor != null)
             {
                 // Atualiza os dados do gestor
@@ -49,7 +49,7 @@ namespace iTasks.Controllers
             BasedeDados db = BasedeDados.Instance;
 
             // Encontra o gestor pelo ID
-            Gestor gestor = db.Gestor.FirstOrDefault(g => g.id == gestorSelecionado.id);
+            Gestor gestor = db.Gestor.Find(gestorSelecionado.id);
 
             // Verifica se o gestor a eliminar é o gestor logado
             if (gestorLogado != null && gestor.id == gestorLogado.id)
