@@ -17,7 +17,7 @@ Unidade Curricular: Desenvolvimento de Aplicações
    `\Projeto\  
 3. **Executar o ficheiro**:  
    `iTasks.sln`  
-   *(clicar duas vezes para abrir, isto irá abrir o visual studio code)*
+   *(clicar duas vezes para abrir, isto irá abrir o visual studio)*
 
 4. **Compilar o projeto:**
    - No Visual Studio, clicar em "Build" (Compilar) > "Build Solution" ou usar o atalho `Ctrl + Shift + B`.
