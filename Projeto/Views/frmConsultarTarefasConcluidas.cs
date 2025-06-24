@@ -21,14 +21,35 @@ namespace iTasks
             try
             {
                 this.utilizadorRecebido = utilizador;
-                gvTarefasConcluidas.DataSource = TarefaController.ListarTarefasPorEstadoProgramador(Tarefa.Estado.Done, utilizadorRecebido);
+                var tarefas = TarefaController.ListarTarefasPorEstadoProgramador(Tarefa.Estado.Done, utilizadorRecebido);
+
+                var tarefasComTempo = tarefas.Select(t => new
+                {
+                    t.Id,
+                    IdGestor = t.IdGestor?.id ?? 0,
+                    IdProgramador = t.IdProgramador?.id ?? 0,
+                    t.OrdemExecucao,
+                    t.Descricao,
+                    t.DataPrevistaInicio,
+                    t.DataPrevistaFim,
+                    t.TipoTarefa,
+                    t.StoryPoints,
+                    DataInicio = t.DataRealInicio?.ToString("dd/MM/yyyy HH:mm") ?? "N/A",
+                    DataFim = t.DataRealFim?.ToString("dd/MM/yyyy HH:mm") ?? "N/A",
+                    t.DataCriacao,
+                    t.EstadoAtual,
+                    DiasExecucao = t.DataRealInicio != null && t.DataRealFim != null
+                        ? (t.DataRealFim.Value - t.DataRealInicio.Value).TotalDays.ToString("0.## Dias")
+                        : "N/A"
+                }).ToList();
+
+                gvTarefasConcluidas.DataSource = tarefasComTempo;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void btFechar_Click(object sender, EventArgs e)
         {
             try

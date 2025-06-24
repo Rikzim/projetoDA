@@ -35,9 +35,22 @@ namespace iTasks
         {
             try
             {
-                ProgramadorController.GravarProgramador(txtNomeProg.Text, txtUsernameProg.Text, txtPasswordProg.Text, (NivelExperiencia)cbNivelProg.SelectedItem, (Gestor)cbGestorProg.SelectedItem);
+                if (txtNomeProg.Text == null || txtUsernameProg.Text == null || txtPasswordProg.Text == null)
+                    throw new Exception("Por favor, preencha todos campos.");
+                if (cbGestorProg.SelectedItem == null)
+                    throw new Exception("Por favor, selecione um gestor.");
+                if (cbNivelProg.SelectedItem == null)
+                    throw new Exception("Por favor, selecione um nivel.");
+
+                ProgramadorController.GravarProgramador(
+                    txtNomeProg.Text, 
+                    txtUsernameProg.Text, 
+                    txtPasswordProg.Text, 
+                    (NivelExperiencia)cbNivelProg.SelectedItem, 
+                    (Gestor)cbGestorProg.SelectedItem
+                );
+
                 MessageBox.Show("Programador gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ReloadData();
             }
             catch (Exception ex)
             {
@@ -52,7 +65,19 @@ namespace iTasks
         {
             try
             {
-                GestorController.GravarGestor(txtNomeGestor.Text, txtUsernameGestor.Text, txtPasswordGestor.Text, (Departamento)cbDepartamento.SelectedItem, chkGereUtilizadores.Checked);
+                if (string.IsNullOrWhiteSpace(txtNomeGestor.Text) || string.IsNullOrWhiteSpace(txtUsernameGestor.Text) || string.IsNullOrWhiteSpace(txtPasswordGestor.Text))
+                    throw new Exception("Por favor, preencha todos os campos.");
+                if (cbDepartamento.SelectedItem == null)
+                    throw new Exception("Por favor, selecione um departamento.");
+
+                GestorController.GravarGestor(
+                    txtNomeGestor.Text, 
+                    txtUsernameGestor.Text, 
+                    txtPasswordGestor.Text, 
+                    (Departamento)cbDepartamento.SelectedItem, 
+                    chkGereUtilizadores.Checked
+                );
+
                 MessageBox.Show("Gestor gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -69,13 +94,16 @@ namespace iTasks
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(txtNomeProg.Text) || string.IsNullOrWhiteSpace(txtUsernameProg.Text) || string.IsNullOrWhiteSpace(txtPasswordProg.Text))
+                    throw new Exception("Por favor, preencha todos os campos.");
+                if (cbNivelProg.SelectedItem == null)
+                    throw new Exception("Por favor, selecione um nivel de experiencia");
+
                 Programador progSelecionado = (Programador)lstListaProgramadores.SelectedItem;
                 NivelExperiencia nivelExperiencia = (NivelExperiencia)cbNivelProg.SelectedItem;
 
                 if (progSelecionado == null)
-                {
                     throw new Exception("Por favor, selecione um programador da lista.");
-                }
 
                 ProgramadorController.EditarProgramador(
                     progSelecionado,
@@ -85,9 +113,7 @@ namespace iTasks
                     nivelExperiencia,
                     (Gestor)cbGestorProg.SelectedItem
                     );
-
-                lstListaProgramadores.DataSource = null;
-                lstListaProgramadores.DataSource = ProgramadorController.ListarProgramadores();
+                MessageBox.Show("Utilizador editado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -102,12 +128,16 @@ namespace iTasks
         {
             try
             {
+                if (txtNomeGestor.Text == null || txtUsernameGestor.Text == null || txtPasswordGestor.Text == null)
+                    throw new Exception("Por favor, preencha todos campos.");
+                if (cbDepartamento.SelectedItem == null)
+                    throw new Exception("Por favor, selecione um departamento.");
+
                 Gestor gestorSelecionado = (Gestor)lstListaGestores.SelectedItem;
+                Departamento departamento = (Departamento)cbDepartamento.SelectedItem;
 
                 if (gestorSelecionado == null)
                     throw new Exception("Por favor, selecione um gestor da lista.");
-
-                Departamento departamento = (Departamento)cbDepartamento.SelectedItem;
 
                 GestorController.EditarGestor(
                     gestorSelecionado,
@@ -134,10 +164,13 @@ namespace iTasks
             try
             {
                 Programador progSelecionado = (Programador)lstListaProgramadores.SelectedItem;
+
                 if (progSelecionado == null)
                     throw new Exception("Por favor, selecione um programador da lista.");
 
                 ProgramadorController.EliminarProgramador(progSelecionado);
+
+                MessageBox.Show("Programador eliminado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -153,10 +186,12 @@ namespace iTasks
             try
             {
                 Gestor gestorSelecionado = (Gestor)lstListaGestores.SelectedItem;
+
                 if (gestorSelecionado == null)
                     throw new Exception("Por favor, selecione um gestor da lista.");
 
                 GestorController.EliminarGestor(gestorSelecionado, utilizadorRecebido);
+
                 MessageBox.Show("Gestor eliminado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -232,7 +267,18 @@ namespace iTasks
             // Atualiza os IDs dos gestores e programadores
             txtIdProg.Text = UserController.countId().ToString();
             txtIdGestor.Text = UserController.countId().ToString();
+            // Deseleciona as list box
+            lstListaGestores.SelectedIndex = -1;
+            lstListaProgramadores.SelectedIndex = -1;
+            // Limpar todos os campos
+            txtNomeProg.Clear();
+            txtNomeGestor.Clear();
+            txtUsernameProg.Clear();
+            txtUsernameGestor.Clear();
+            txtPasswordProg.Clear();
+            txtPasswordGestor.Clear();
 
+            
         }
     }
 }
