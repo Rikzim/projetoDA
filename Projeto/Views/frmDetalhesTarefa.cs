@@ -152,6 +152,11 @@ namespace iTasks
         {
             try
             {
+                // Verifica se todos os campos obrigatórios estão preenchidos
+                if (string.IsNullOrWhiteSpace(txtDesc.Text) || cbTipoTarefa.SelectedIndex == -1 || cbProgramador.SelectedIndex == -1 || string.IsNullOrWhiteSpace(txtOrdem.Text) || string.IsNullOrWhiteSpace(txtStoryPoints.Text))
+                {
+                    throw new Exception("Por favor, preencha todos os campos obrigatórios.");
+                }
                 Programador programador = (Programador)cbProgramador.SelectedItem;
                 Gestor gestor = (Gestor)utilizadorRecebido;
                 TipoTarefa tipoTarefa = (TipoTarefa)cbTipoTarefa.SelectedItem;
@@ -168,6 +173,7 @@ namespace iTasks
                     Tarefa.Estado.ToDo);
 
                 MessageBox.Show("Tarefa gravada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
             }
             catch (Exception ex)
             {
@@ -181,6 +187,9 @@ namespace iTasks
             {
                 // Obtém a tarefa selecionada do formulário
                 Tarefa tarefaSelecionada = this.tarefaSelecionada;
+                // Verifica se todos os campos obrigatórios estão preenchidos
+                if (string.IsNullOrWhiteSpace(txtDesc.Text) || cbTipoTarefa.SelectedIndex == -1 || cbProgramador.SelectedIndex == -1 || string.IsNullOrWhiteSpace(txtOrdem.Text) || string.IsNullOrWhiteSpace(txtStoryPoints.Text))
+                    throw new Exception("Por favor, preencha todos os campos obrigatórios.");
 
                 // Verifica se a tarefa selecionada não é nula
                 if (tarefaSelecionada != null)
@@ -201,6 +210,7 @@ namespace iTasks
                         Convert.ToInt32(txtStoryPoints.Text)
                     );
                     MessageBox.Show("Tarefa editada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
                 }
             }
             catch (Exception ex)
@@ -217,6 +227,7 @@ namespace iTasks
                 TarefaController.EliminarTarefa(tarefaSelecionada);
 
                 MessageBox.Show("Tarefa apagada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
             }
             catch (Exception ex)
             {

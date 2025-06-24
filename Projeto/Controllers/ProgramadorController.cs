@@ -14,26 +14,16 @@ namespace iTasks.Controllers
         // Método para gravar um novo programador na base de dados
         public static void GravarProgramador(string nome, string username, string password, NivelExperiencia experiencia, Gestor gestorid)
         {
-            try
-            {
-                // Cria uma instância da base de dados
-                BasedeDados db = BasedeDados.Instance;
-                // Verifica se o gestor já existe
-                var gestor = db.Gestor.Find(gestorid.id);
-                //Adiciona o novo programador à tabela de utilizadores
-                db.Utilizador.Add(new Programador(nome, username, password, experiencia, gestor));
-                db.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                string msg = ex.Message;
-                if (ex.InnerException != null)
-                    msg += "\n" + ex.InnerException.Message;
-                if (ex.InnerException?.InnerException != null)
-                    msg += "\n" + ex.InnerException.InnerException.Message;
-                MessageBox.Show("Erro ao gravar gestor: " + msg, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
+            // Cria uma instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            // Verifica se o utilizador já existe
+            if (db.Utilizador.Any(u => u.username == username))
+                throw new Exception("Já existe um utilizador com esse username. Por favor, escolha outro.");
+            // Verifica se o gestor já existe
+            var gestor = db.Gestor.Find(gestorid.id);
+            //Adiciona o novo programador à tabela de utilizadores
+            db.Utilizador.Add(new Programador(nome, username, password, experiencia, gestor));
+            db.SaveChanges();
         }
         public static void EditarProgramador(Programador programadorSelecionado, string nome, string username, string password, NivelExperiencia experiencia, Gestor gestorid)
         {
@@ -90,7 +80,6 @@ namespace iTasks.Controllers
 
         public static int countProgramador()
         {
-
             // Obtém a instância da base de dados
             BasedeDados db = BasedeDados.Instance;
             // Conta o número de programadores na base de dados e adiciona 1, começando em 1 se não houver nenhum

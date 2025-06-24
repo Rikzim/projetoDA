@@ -25,7 +25,8 @@ namespace iTasks.Controllers
             bool ordemExistente = db.Tarefa.Any(t =>
                 t.IdGestor.id == idGestor.id &&
                 t.IdProgramador.id == idProgramador.id &&
-                t.OrdemExecucao == ordemExecucao);
+                t.OrdemExecucao == ordemExecucao
+            );
 
             if (ordemExistente)
             {
@@ -238,6 +239,53 @@ namespace iTasks.Controllers
                 throw new Exception("Erro ao exportar tarefas para CSV: " + ex.Message);
             }
         }
+
+        /*public static bool ImportarTarefas(string caminhoFicheiro, Gestor gestor)
+        {
+            try
+            {
+                // Verifica se o ficheiro existe
+                if (!File.Exists(caminhoFicheiro))
+                    throw new FileNotFoundException("O ficheiro especificado não foi encontrado.");
+                // Lê todas as linhas do ficheiro
+                var linhas = File.ReadAllLines(caminhoFicheiro);
+                // Verifica se o ficheiro está vazio
+                if (linhas.Length == 0)
+                    throw new Exception("O ficheiro está vazio.");
+                // Cria uma instância da base de dados
+                BasedeDados db = BasedeDados.Instance;
+                // Itera sobre cada linha do ficheiro, ignorando a primeira linha (cabeçalho)
+                for (int i = 1; i < linhas.Length; i++)
+                {
+                    var colunas = linhas[i].Split(';');
+                    // Verifica se a linha tem o número correto de colunas
+                    if (colunas.Length != 13)
+                        throw new Exception($"Linha {i + 1} inválida: {linhas[i]}");
+                    // Cria uma nova tarefa e adiciona à base de dados
+                    db.Tarefa.Add(new Tarefa
+                    (
+                        db.Gestor.Find(gestor.id),
+                        db.Programador.Find(int.Parse(colunas[2])),
+                        int.Parse(colunas[3]),
+                        colunas[4],
+                        DateTime.Parse(colunas[5]),
+                        DateTime.Parse(colunas[6]),
+                        db.TipoTarefa.Find(int.Parse(colunas[7])),
+                        int.Parse(colunas[8]),
+                        DateTime.Parse(colunas[11]),
+                        (Estado)Enum.Parse(typeof(Estado), colunas[12])
+                    ));
+                }
+                // Salva as alterações na base de dados
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Lança uma exceção se ocorrer um erro ao importar as tarefas do ficheiro texto
+                throw new Exception("Erro ao importar tarefas do ficheiro texto: " + ex.Message);
+            }
+        }*/ // Função para importar tarefas
 
         public static double EstimarTempoTotalToDo()
         {

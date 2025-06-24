@@ -91,11 +91,11 @@ namespace iTasks
                 if (!TarefaController.VerificarOrdem(tarefaSelecionada, Tarefa.Estado.Doing))
                     throw new Exception("A tarefa não pode ser movida para Doing porque não está na ordem correta de execução.");
 
-                if (TarefaController.countTarefasPorEstadoProgramador(Tarefa.Estado.Doing, utilizadorRecebido) > 2)
+                if (TarefaController.countTarefasPorEstadoProgramador(Tarefa.Estado.Doing, utilizadorRecebido) >= 2)
                     throw new Exception("Não é possível mover a tarefa para Doing porque já existem 2 tarefas em Doing atribuídas a si.");
 
                 TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Doing, utilizadorRecebido); // Muda o estado da tarefa para Doing
-                MessageBox.Show("Tarefa movida para ToDo.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Tarefa movida para Doing.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ReloadData(); // Atualiza a lista após a mudança de estado
             }
             catch (Exception ex)
