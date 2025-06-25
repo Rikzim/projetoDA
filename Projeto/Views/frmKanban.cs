@@ -327,6 +327,32 @@ namespace iTasks
             {
                 MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }        
+        }
+
+        //Botão de Logout
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult result = MessageBox.Show("Tem a certeza que deseja sair?", "Sair", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    // Efetua logout
+                    UserController.logoutUtilizador();
+
+                    // Fecha ou esconde o formulário atual
+                    this.Hide();
+
+                    // Abre o formulário de login
+                    frmLogin loginForm = new frmLogin();
+                    loginForm.Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     } 
 }

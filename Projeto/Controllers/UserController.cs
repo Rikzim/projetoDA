@@ -10,7 +10,12 @@ using iTasks.Models;
 namespace iTasks.Controllers
 {
     public class UserController
+
     {
+        // Variável para guardar o utilizador logado
+        private static Utilizador utilizadorLogado = null;
+
+
         // Método para contar o login de um utilizador
         public static Utilizador loginUtilizador(string username, string password)
         {
@@ -18,8 +23,22 @@ namespace iTasks.Controllers
             // Retorna um obj
             BasedeDados db = BasedeDados.Instance;
             Utilizador user = db.Utilizador.FirstOrDefault(u => u.username == username && u.password == password);
+
+            //Guarda o estado do utilizador logado
+            if (user != null)
+            {
+                utilizadorLogado = user; // guardar o utilizador logado
+            }
             return user;
         }
+
+        //Metodo para fazer logout do utilizador
+        public static void logoutUtilizador()
+        {
+            utilizadorLogado = null;
+        }
+
+
         // Método para adicionar um administrador com o username "admin" e a password "admin"
         public static void addAdmin()
         {
