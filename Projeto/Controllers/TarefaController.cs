@@ -132,6 +132,7 @@ namespace iTasks.Controllers
             // Atualiza o estado da tarefa selecionada
             tarefaSelecionada.EstadoAtual = estado;
 
+            // Atualiza as datas de início e fim reais com base no novo estado
             switch (estado)
             {
                 case Tarefa.Estado.Done:
@@ -199,6 +200,7 @@ namespace iTasks.Controllers
                 if (saveFileDialog.ShowDialog() != DialogResult.OK)
                     return false;
 
+                // Obtém o caminho do ficheiro selecionado
                 string caminhoFicheiro = saveFileDialog.FileName;
 
                 // Guarda as tarefas concluídas do gestor selecionado
@@ -209,6 +211,7 @@ namespace iTasks.Controllers
                 sb.AppendLine("sep=;"); // Define o separador de campos como vírgula
                 sb.AppendLine("IdTarefa;IdGestor;IdProgramador;OrdemExecucao;Descricao;DataPrevistaInicio;DataPrevistaFim;IdTipoTarefa;StoryPoints;DataRealInicio;DataRealFim;DataCriacao;EstadoAtual");
 
+                // Itera sobre as tarefas concluídas e adiciona cada uma como uma linha no CSV
                 foreach (var tarefa in tarefasConcluidas)
                 {
                     string linha = string.Join(";",
@@ -289,13 +292,17 @@ namespace iTasks.Controllers
 
         public static double EstimarTempoTotalToDo()
         {
+            
             BasedeDados db = BasedeDados.Instance;
 
             // 1. Calcule médias por StoryPoints das tarefas concluídas
+
+            // Busca tarefas concluídas com DataRealInicio e DataRealFim definidos
             var concluidas = db.Tarefa
                 .Where(t => t.EstadoAtual == Tarefa.Estado.Done && t.DataRealInicio != null && t.DataRealFim != null)
                 .ToList();
 
+            // Agrupa por StoryPoints e calcula a média de horas
             var mediasPorSP = concluidas
                 .GroupBy(t => t.StoryPoints)
                 .ToDictionary(
@@ -308,8 +315,10 @@ namespace iTasks.Controllers
                 .Where(t => t.EstadoAtual == Tarefa.Estado.ToDo)
                 .ToList();
 
+            
             double totalHoras = 0;
 
+            // Para cada tarefa ToDo, soma o tempo estimado com base na média de StoryPoints
             foreach (var tarefa in tarefasToDo)
             {
                 int sp = tarefa.StoryPoints;
@@ -347,9 +356,12 @@ namespace iTasks.Controllers
                     g => g.Average(t => (t.DataRealFim.Value - t.DataRealInicio.Value).TotalHours)
                 );
 
+
+            // Se não houver tarefas concluídas, retorna 0
             if (mediasPorSP.Count == 0)
                 return 0; // Nenhuma tarefa concluída
 
+            // Se a média para o StoryPoints específico existir, retorna essa média
             if (mediasPorSP.ContainsKey(storyPoints))
             {
                 return mediasPorSP[storyPoints];
