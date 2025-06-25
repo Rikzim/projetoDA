@@ -20,7 +20,7 @@ namespace iTasks.Controllers
         {
             // Cria uma instância da base de dados
             BasedeDados db = BasedeDados.Instance;
-            
+
             // Verifica se já existe uma tarefa com a mesma ordem para o mesmo programador e gestor
             bool ordemExistente = db.Tarefa.Any(t =>
                 t.IdGestor.id == idGestor.id &&
@@ -31,7 +31,7 @@ namespace iTasks.Controllers
             if (ordemExistente)
             {
                 throw new Exception("Já existe uma tarefa com esta ordem de execução para este programador.");
-            }   
+            }
 
             // Cria uma nova tarefa e adiciona-a à tabela de tarefas
             db.Tarefa.Add(new Tarefa
@@ -55,7 +55,7 @@ namespace iTasks.Controllers
         {
             // Cria uma instância da base de dados
             BasedeDados db = BasedeDados.Instance;
-            
+
             // Verifica se já existe uma tarefa com a mesma ordem para o mesmo programador e gestor
             bool ordemExistente = db.Tarefa.Any(t =>
                 t.Id != tarefaSelecionada.Id && // Ignora a própria tarefa
@@ -326,64 +326,13 @@ namespace iTasks.Controllers
                 // Se não houver nenhuma tarefa concluída, não soma nada
             }
 
-            catch (Exception ex)
-            {
-                // Lança uma exceção se ocorrer um erro ao importar as tarefas do ficheiro texto
-                throw new Exception("Erro ao importar tarefas do ficheiro texto: " + ex.Message);
-            }
-        } // Função para importar tarefas
-
-        public static double EstimarTempoTotalToDo()
-        {
-            // Obtém a instância única da base de dados
-            BasedeDados db = BasedeDados.Instance;
-
-            // 1. Filtra as tarefas que estão marcadas como "Done" e têm datas de início e fim reais
-            var concluidas = db.Tarefa
-                .Where(t => t.EstadoAtual == Tarefa.Estado.Done && t.DataRealInicio != null && t.DataRealFim != null)
-                .ToList();
-            // Agrupa essas tarefas por Story Points e calcula a média de horas que cada grupo demorou
-            var mediasPorSP = concluidas
-                .GroupBy(t => t.StoryPoints) // Agrupa por Story Points
-                .ToDictionary(
-                    g => g.Key, // Chave: número de Story Points
-                    g => g.Average(t => (t.DataRealFim.Value - t.DataRealInicio.Value).TotalHours)
-                );
-
-            // 2. Obtém todas as tarefas que ainda estão no estado "ToDo"
-            var tarefasToDo = db.Tarefa
-                .Where(t => t.EstadoAtual == Tarefa.Estado.ToDo)
-                .ToList();
-
-            // Inicializa a variável para acumular o tempo total estimado
-            double totalHoras = 0;
-
-            // Percorre cada tarefa "ToDo" para estimar o seu tempo com base nas médias
-            foreach (var tarefa in tarefasToDo)
-            {
-                int sp = tarefa.StoryPoints;
-                if (mediasPorSP.ContainsKey(sp))
-                {
-                    // Se houver média para os Story Points da tarefa, usa essa média
-                    totalHoras += mediasPorSP[sp];
-                }
-                else if (mediasPorSP.Count > 0)
-                {
-                    // Se não houver média exata, procura o valor com Story Points mais próximo
-                    int spMaisProximo = mediasPorSP.Keys.OrderBy(k => Math.Abs(k - sp)).First();
-                    totalHoras += mediasPorSP[spMaisProximo];
-                }
-                // Se não houver nenhuma tarefa concluída, não soma nada
-            }
-
-            // Retorna o tempo total estimado em horas
+            // Retorna o tempo total estimado como TimeSpan
             return totalHoras;
         }
 
         public static double CalcularMediaHorasPorStoryPoints(int storyPoints)
         {
-
-            BasedeDados db = BasedeDados.Instance; // Obtém a instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
 
             // Busca tarefas concluídas com DataRealInicio e DataRealFim definidos
             var concluidas = db.Tarefa
@@ -394,8 +343,7 @@ namespace iTasks.Controllers
             var mediasPorSP = concluidas
                 .GroupBy(t => t.StoryPoints)
                 .ToDictionary(
-
-                    g => g.Key, // chave do dicionário: número de Story Points
+                    g => g.Key,
                     g => g.Average(t => (t.DataRealFim.Value - t.DataRealInicio.Value).TotalHours)
                 );
 
@@ -404,8 +352,6 @@ namespace iTasks.Controllers
 
             if (mediasPorSP.ContainsKey(storyPoints))
             {
-
-                // Se há uma média exata para os Story Points fornecidos, retorna-a
                 return mediasPorSP[storyPoints];
             }
             else
@@ -427,27 +373,25 @@ namespace iTasks.Controllers
                 .OrderBy(t => t.OrdemExecucao)
                 .ToList();
 
-
-            // Se não existem tarefas anteriores, a mudança de estado é sempre permitida
+            // Se não houver tarefas
             if (!tarefasAnteriores.Any())
                 return true;
 
-            // Verifica se a transição de estado é válida de acordo com as tarefas anteriores
+            // Verificar se a transição de estado é válida
             switch (novoEstado)
             {
                 case Estado.ToDo:
-                    return true; // Pode sempre voltar para ToDo
+                    return true;
 
-                case Estado.Doing: // Só pode passar para Doing se todas as tarefas anteriores estiverem em Doing ou Done
+                case Estado.Doing:
                     return tarefasAnteriores.All(t => t.EstadoAtual == Estado.Doing ||
                                                       t.EstadoAtual == Estado.Done);
 
-                case Estado.Done: // Só pode marcar como Done se todas as tarefas anteriores também estiverem Done
+                case Estado.Done:
                     return tarefasAnteriores.All(t => t.EstadoAtual == Estado.Done);
 
-                default: // Se o estado for inválido, lança uma exceção
+                default:
                     throw new Exception("Estado inválido: " + novoEstado);
-
             }
         }
     }
