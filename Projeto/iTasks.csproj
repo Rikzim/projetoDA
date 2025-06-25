@@ -79,6 +79,12 @@
     <Compile Include="Views\frmConsultaTarefasEmCurso.Designer.cs">
       <DependentUpon>frmConsultaTarefasEmCurso.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\frmDetalhesPrevisao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmDetalhesPrevisao.Designer.cs">
+      <DependentUpon>frmDetalhesPrevisao.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\frmDetalhesTarefa.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +122,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmConsultaTarefasEmCurso.resx">
       <DependentUpon>frmConsultaTarefasEmCurso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\frmDetalhesPrevisao.resx">
+      <DependentUpon>frmDetalhesPrevisao.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmDetalhesTarefa.resx">
       <DependentUpon>frmDetalhesTarefa.cs</DependentUpon>

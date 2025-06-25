@@ -36,6 +36,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lstListaGestores = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btEliminarGestor = new System.Windows.Forms.Button();
+            this.btEditarGestor = new System.Windows.Forms.Button();
             this.chkGereUtilizadores = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtPasswordGestor = new System.Windows.Forms.TextBox();
@@ -44,7 +46,9 @@
             this.txtUsernameGestor = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btEliminarProg = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
+            this.btEditarProg = new System.Windows.Forms.Button();
             this.cbGestorProg = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.btGravarProg = new System.Windows.Forms.Button();
@@ -126,9 +130,12 @@
             this.lstListaGestores.Name = "lstListaGestores";
             this.lstListaGestores.Size = new System.Drawing.Size(268, 436);
             this.lstListaGestores.TabIndex = 0;
+            this.lstListaGestores.SelectedIndexChanged += new System.EventHandler(this.lstListaGestores_SelectedIndexChanged);
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btEliminarGestor);
+            this.groupBox2.Controls.Add(this.btEditarGestor);
             this.groupBox2.Controls.Add(this.chkGereUtilizadores);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.btGravarGestor);
@@ -148,6 +155,26 @@
             this.groupBox2.TabIndex = 38;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Gestores";
+            // 
+            // btEliminarGestor
+            // 
+            this.btEliminarGestor.Location = new System.Drawing.Point(294, 341);
+            this.btEliminarGestor.Name = "btEliminarGestor";
+            this.btEliminarGestor.Size = new System.Drawing.Size(201, 23);
+            this.btEliminarGestor.TabIndex = 45;
+            this.btEliminarGestor.Text = "Eliminar";
+            this.btEliminarGestor.UseVisualStyleBackColor = true;
+            this.btEliminarGestor.Click += new System.EventHandler(this.btEliminarGestor_Click);
+            // 
+            // btEditarGestor
+            // 
+            this.btEditarGestor.Location = new System.Drawing.Point(294, 312);
+            this.btEditarGestor.Name = "btEditarGestor";
+            this.btEditarGestor.Size = new System.Drawing.Size(201, 23);
+            this.btEditarGestor.TabIndex = 44;
+            this.btEditarGestor.Text = "Editar";
+            this.btEditarGestor.UseVisualStyleBackColor = true;
+            this.btEditarGestor.Click += new System.EventHandler(this.btEditarGestor_Click);
             // 
             // chkGereUtilizadores
             // 
@@ -210,7 +237,9 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btEliminarProg);
             this.groupBox3.Controls.Add(this.label11);
+            this.groupBox3.Controls.Add(this.btEditarProg);
             this.groupBox3.Controls.Add(this.cbGestorProg);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.btGravarProg);
@@ -231,6 +260,16 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Programadores";
             // 
+            // btEliminarProg
+            // 
+            this.btEliminarProg.Location = new System.Drawing.Point(293, 341);
+            this.btEliminarProg.Name = "btEliminarProg";
+            this.btEliminarProg.Size = new System.Drawing.Size(201, 23);
+            this.btEliminarProg.TabIndex = 47;
+            this.btEliminarProg.Text = "Eliminar";
+            this.btEliminarProg.UseVisualStyleBackColor = true;
+            this.btEliminarProg.Click += new System.EventHandler(this.btEliminarProg_Click);
+            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -239,6 +278,16 @@
             this.label11.Size = new System.Drawing.Size(41, 13);
             this.label11.TabIndex = 44;
             this.label11.Text = "Gestor:";
+            // 
+            // btEditarProg
+            // 
+            this.btEditarProg.Location = new System.Drawing.Point(293, 312);
+            this.btEditarProg.Name = "btEditarProg";
+            this.btEditarProg.Size = new System.Drawing.Size(201, 23);
+            this.btEditarProg.TabIndex = 46;
+            this.btEditarProg.Text = "Editar";
+            this.btEditarProg.UseVisualStyleBackColor = true;
+            this.btEditarProg.Click += new System.EventHandler(this.btEditarProg_Click);
             // 
             // cbGestorProg
             // 
@@ -325,6 +374,7 @@
             this.lstListaProgramadores.Name = "lstListaProgramadores";
             this.lstListaProgramadores.Size = new System.Drawing.Size(268, 436);
             this.lstListaProgramadores.TabIndex = 0;
+            this.lstListaProgramadores.SelectedIndexChanged += new System.EventHandler(this.lstListaProgramadores_SelectedIndexChanged);
             // 
             // txtIdProg
             // 
@@ -411,5 +461,9 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox cbGestorProg;
+        private System.Windows.Forms.Button btEliminarGestor;
+        private System.Windows.Forms.Button btEditarGestor;
+        private System.Windows.Forms.Button btEliminarProg;
+        private System.Windows.Forms.Button btEditarProg;
     }
 }

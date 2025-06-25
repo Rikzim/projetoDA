@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +12,7 @@ namespace iTasks.Models
     {
         public int id { get; set; }
         public string nome { get; set; }
-        public string username { get; set; }
+        [MaxLength(100)] [Index(IsUnique = true)] public string username { get; set; }
         public string password { get; set; }
 
         public Utilizador() { }

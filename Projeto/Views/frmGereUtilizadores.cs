@@ -1,4 +1,4 @@
-﻿using iTasks.Controllers;
+using iTasks.Controllers;
 using iTasks.Models;
 using System;
 using System.Collections.Generic;
@@ -20,26 +20,22 @@ namespace iTasks
         {
             InitializeComponent();
             this.utilizadorRecebido = utilizadorRecebido;
-
-            // Se for um gestor SEM permissões para gerir utilizadores
+            
+             // Se for um gestor SEM permissões para gerir utilizadores
             if (utilizadorRecebido is Gestor gestor && gestor.gereUtilizadores == false)
             {
-                // Desativa os campos e botões para criação de gestores
                 txtNomeGestor.Enabled = false;
                 txtPasswordGestor.Enabled = false;
                 txtUsernameGestor.Enabled = false;
                 cbDepartamento.Enabled = false;
                 btGravarGestor.Enabled = false;
             }
-<<<<<<< Updated upstream
-=======
+            
             // Atualiza todos os dados visuais do formulário
             ReloadData();
         }
-
-        // ==========================
-        //    EVENTOS DE GUARDAR
-        // ==========================
+        
+        // Eventos Guardar
         private void btGravarProg_Click(object sender, EventArgs e)
         {
             try
@@ -51,7 +47,7 @@ namespace iTasks
                     throw new Exception("Por favor, selecione um gestor.");
                 if (cbNivelProg.SelectedItem == null)
                     throw new Exception("Por favor, selecione um nivel.");
-
+                    
                 // Guarda o novo programador
                 ProgramadorController.GravarProgramador(
                     txtNomeProg.Text, 
@@ -69,20 +65,21 @@ namespace iTasks
             }
             finally
             {
-                ReloadData(); // Atualiza o formulário
+                ReloadData();
             }
         }
+        
         private void btGravarGestor_Click(object sender, EventArgs e)
         {
             try
             {
-                // Verifica campos obrigatórios
+                  // Verifica campos obrigatórios
                 if (string.IsNullOrWhiteSpace(txtNomeGestor.Text) || string.IsNullOrWhiteSpace(txtUsernameGestor.Text) || string.IsNullOrWhiteSpace(txtPasswordGestor.Text))
                     throw new Exception("Por favor, preencha todos os campos.");
                 if (cbDepartamento.SelectedItem == null)
                     throw new Exception("Por favor, selecione um departamento.");
-
-                // Guarda o novo gestor
+                    
+                // Guardar novo gestor
                 GestorController.GravarGestor(
                     txtNomeGestor.Text, 
                     txtUsernameGestor.Text, 
@@ -102,29 +99,25 @@ namespace iTasks
                 ReloadData();
             }
         }
-
-
-        // ==========================
-        //     EVENTOS DE EDITAR
-        // ==========================
+        // Eventos Editar
         private void btEditarProg_Click(object sender, EventArgs e)
         {
             try
             {
-                // Valida os campos obrigatórios
+                //Verifica campos obrigatórios
                 if (string.IsNullOrWhiteSpace(txtNomeProg.Text) || string.IsNullOrWhiteSpace(txtUsernameProg.Text) || string.IsNullOrWhiteSpace(txtPasswordProg.Text))
                     throw new Exception("Por favor, preencha todos os campos.");
                 if (cbNivelProg.SelectedItem == null)
                     throw new Exception("Por favor, selecione um nivel de experiencia");
-
-                // Obtém o programador selecionado
+                    
+                //Busca programador selecionado
                 Programador progSelecionado = (Programador)lstListaProgramadores.SelectedItem;
                 NivelExperiencia nivelExperiencia = (NivelExperiencia)cbNivelProg.SelectedItem;
 
                 if (progSelecionado == null)
                     throw new Exception("Por favor, selecione um programador da lista.");
-
-                // Atualiza os dados do programador
+                    
+                //Edita o programador selecionado
                 ProgramadorController.EditarProgramador(
                     progSelecionado,
                     txtNomeProg.Text,
@@ -148,20 +141,20 @@ namespace iTasks
         {
             try
             {
-                // Valida os campos obrigatórios
+                //Verifica campos obrigatórios
                 if (txtNomeGestor.Text == null || txtUsernameGestor.Text == null || txtPasswordGestor.Text == null)
                     throw new Exception("Por favor, preencha todos campos.");
                 if (cbDepartamento.SelectedItem == null)
                     throw new Exception("Por favor, selecione um departamento.");
-
-                // Obtém o gestor selecionado da lista
+                
+                //Busca gestor selecionado
                 Gestor gestorSelecionado = (Gestor)lstListaGestores.SelectedItem;
                 Departamento departamento = (Departamento)cbDepartamento.SelectedItem;
 
                 if (gestorSelecionado == null)
                     throw new Exception("Por favor, selecione um gestor da lista.");
-
-                // Atualiza os dados do gestor
+                    
+                //Edita Gestor
                 GestorController.EditarGestor(
                     gestorSelecionado,
                     txtNomeGestor.Text,
@@ -181,23 +174,17 @@ namespace iTasks
                 ReloadData();
             }
         }
-
-
-        // ==========================
-        //    EVENTOS DE ELIMINAR
-        // ==========================
-
+        // Eventos de Eliminar
         private void btEliminarProg_Click(object sender, EventArgs e)
         {
             try
             {
-                //Busca programador selecionado
+                // Busca programador selecionado
                 Programador progSelecionado = (Programador)lstListaProgramadores.SelectedItem;
 
-                //Verifica se tem algum programador selecionado
                 if (progSelecionado == null)
                     throw new Exception("Por favor, selecione um programador da lista.");
-
+                    
                 //Elimina programador selecionado
                 ProgramadorController.EliminarProgramador(progSelecionado);
 
@@ -219,11 +206,11 @@ namespace iTasks
                 //Busca gestor selecionado
                 Gestor gestorSelecionado = (Gestor)lstListaGestores.SelectedItem;
 
-                // Verifica se existe algum gestor selecionado
                 if (gestorSelecionado == null)
                     throw new Exception("Por favor, selecione um gestor da lista.");
-
-                //Elimina o gestor selecionado
+                    
+                    
+                //Elemina gestor selecionado
                 GestorController.EliminarGestor(gestorSelecionado, utilizadorRecebido);
 
                 MessageBox.Show("Gestor eliminado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -237,10 +224,7 @@ namespace iTasks
                 ReloadData();
             }
         }
-
-        // =====================================
-        //     EVENTOS DE ATUALIZAÇÃO DE LISTA
-        // =====================================
+        // Eventos de Atualização
         private void lstListaGestores_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -250,7 +234,7 @@ namespace iTasks
 
                 if (gestorSelecionado == null)
                     return; // Se não houver gestor selecionado, não faz nada
-
+                
                 // Preenche os campos com os dados do gestor
                 txtIdGestor.Text = gestorSelecionado.id.ToString();
                 txtNomeGestor.Text = gestorSelecionado.nome;
@@ -273,7 +257,7 @@ namespace iTasks
 
                 if (progSelecionado == null)
                     return; // Se não houver programador selecionado, não faz nada
-
+                
                 // Preenche os campos com os dados do programador
                 txtIdProg.Text = progSelecionado.id.ToString();
                 txtNomeProg.Text = progSelecionado.nome;
@@ -287,46 +271,30 @@ namespace iTasks
                 MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
-        // ==========================
-        //     FUNÇÕES AUXILIARES
-        // ==========================
+        // Funções Auxiliares
         private void ReloadData()
         {
->>>>>>> Stashed changes
             // Atualiza a combobox dos departamentos disponivies aos gestores
             cbDepartamento.DataSource = null;
             cbDepartamento.DataSource = Enum.GetValues(typeof(Departamento));
-
             // Atualiza a combobox dos niveis de experiencia disponiveis aos programadores
             cbNivelProg.DataSource = null;
             cbNivelProg.DataSource = Enum.GetValues(typeof(NivelExperiencia));
-
             // Atualiza a combobox dos gestores disponiveis aos programadores
             cbGestorProg.DataSource = null;
             cbGestorProg.DataSource = GestorController.ListarGestores();
-
             // Atualiza a lista de Gestores
             lstListaGestores.DataSource = null;
             lstListaGestores.DataSource = GestorController.ListarGestores();
-
             // Atualiza a lista de Programadores
             lstListaProgramadores.DataSource = null;
             lstListaProgramadores.DataSource = ProgramadorController.ListarProgramadores();
-
             // Atualiza os IDs dos gestores e programadores
-<<<<<<< Updated upstream
-            txtIdProg.Text = ProgramadorController.countProgramador().ToString();
-            txtIdGestor.Text = GestorController.countGestor().ToString();
-=======
             txtIdProg.Text = UserController.countId().ToString();
             txtIdGestor.Text = UserController.countId().ToString();
-
             // Deseleciona as list box
             lstListaGestores.SelectedIndex = -1;
             lstListaProgramadores.SelectedIndex = -1;
-
             // Limpar todos os campos
             txtNomeProg.Clear();
             txtNomeGestor.Clear();
@@ -334,33 +302,8 @@ namespace iTasks
             txtUsernameGestor.Clear();
             txtPasswordProg.Clear();
             txtPasswordGestor.Clear();
->>>>>>> Stashed changes
 
-        }
-
-        private void btGravarGestor_Click(object sender, EventArgs e)
-        {
             
-            GestorController.GravarGestor(txtNomeGestor.Text, txtUsernameGestor.Text, txtPasswordGestor.Text, (Departamento)cbDepartamento.SelectedItem, chkGereUtilizadores.Checked);
-            MessageBox.Show("Gestor gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            lstListaGestores.DataSource = null;
-            lstListaGestores.DataSource = GestorController.ListarGestores();
-
-            // Atualiza os ID do gestor
-            txtIdGestor.Text = GestorController.countGestor().ToString();
-        }
-
-        private void btGravarProg_Click(object sender, EventArgs e)
-        {
-            ProgramadorController.GravarProgramador(txtNomeProg.Text, txtUsernameProg.Text, txtPasswordProg.Text, (NivelExperiencia)cbNivelProg.SelectedItem, (Gestor)cbGestorProg.SelectedItem);
-            MessageBox.Show("Programador gravado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            lstListaProgramadores.DataSource = null;
-            lstListaProgramadores.DataSource = ProgramadorController.ListarProgramadores();
-
-            // Atualiza os ID do programador
-            txtIdProg.Text = ProgramadorController.countProgramador().ToString();
         }
     }
 }

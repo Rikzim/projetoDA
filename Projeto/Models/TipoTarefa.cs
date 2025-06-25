@@ -20,7 +20,7 @@ namespace iTasks.Models
         }
         public override string ToString()
         {
-            return $"{Nome}";
+            return $"[{Id}] - {Nome}";
         }
     }
 }

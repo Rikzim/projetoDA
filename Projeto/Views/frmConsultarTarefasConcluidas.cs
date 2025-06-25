@@ -20,10 +20,10 @@ namespace iTasks
         public frmConsultarTarefasConcluidas(Utilizador utilizador)
         {
             InitializeComponent();
-<<<<<<< Updated upstream
+
             this.utilizadorRecebido = utilizador;
             gvTarefasConcluidas.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Done, utilizadorRecebido);
-=======
+
             try
             {
 
@@ -37,6 +37,17 @@ namespace iTasks
                     t.Id,
                     IdGestor = t.IdGestor?.id ?? 0, // Se o gestor for nulo, usa 0
                     IdProgramador = t.IdProgramador?.id ?? 0, // Se o programador for nulo, usa 0
+
+            try
+            {
+                this.utilizadorRecebido = utilizador;
+                var tarefas = TarefaController.ListarTarefasPorEstadoProgramador(Tarefa.Estado.Done, utilizadorRecebido);
+
+                var tarefasComTempo = tarefas.Select(t => new
+                {
+                    t.Id,
+                    IdGestor = t.IdGestor?.id ?? 0,
+                    IdProgramador = t.IdProgramador?.id ?? 0,
                     t.OrdemExecucao,
                     t.Descricao,
                     t.DataPrevistaInicio,
@@ -49,6 +60,7 @@ namespace iTasks
                     t.EstadoAtual,
                     DiasExecucao = t.DataRealInicio != null && t.DataRealFim != null
                         ? (t.DataRealFim.Value - t.DataRealInicio.Value).TotalDays.ToString("0.## Dias")
+
                         : "N/A" // Calcula os dias de execução ou mostra "N/A"6
                 }).ToList();
 
@@ -59,12 +71,19 @@ namespace iTasks
             {
                 MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
->>>>>>> Stashed changes
-        }
 
+        }
+        
         private void btFechar_Click(object sender, EventArgs e)
         {
-            this.Close();
+            try
+            {
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao fechar a janela: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

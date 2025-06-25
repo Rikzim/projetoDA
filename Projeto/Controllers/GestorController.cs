@@ -1,9 +1,11 @@
 ﻿using iTasks.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace iTasks.Controllers
 {
@@ -12,53 +14,71 @@ namespace iTasks.Controllers
         // Método para gravar um novo gestor na base de dados
         public static void GravarGestor(string nome, string username, string password, Departamento departamento, bool GereUtilizadores)
         {
-            try
+            // Cria uma instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            if (db.Utilizador.Any(u => u.username == username))
             {
-                // Cria uma instância da base de dados
-                BasedeDados db = BasedeDados.Instance;
-                // Verifica se o gestor já existe
-                db.Utilizador.Add(new Gestor(nome, username, password, departamento, GereUtilizadores));
+                throw new Exception("Já existe um utilizador com esse username. Por favor, escolha outro.");
+            }
+            // Verifica se o gestor já existe
+            db.Utilizador.Add(new Gestor(nome, username, password, departamento, GereUtilizadores));
                 // Adiciona o novo gestor à tabela de utilizadores
+            db.SaveChanges();
+        }
+        public static void EditarGestor(Gestor gestorSelecionado, string nome, string username, string password, Departamento departamento, bool GereUtilizadores)
+        {
+            // Obtém a instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            // Encontra o gestor pelo ID
+            Gestor gestor = db.Gestor.Find(gestorSelecionado.id);
+            if (gestor != null)
+            {
+                // Atualiza os dados do gestor
+                gestor.nome = nome;
+                gestor.username = username;
+                gestor.password = password;
+                gestor.departamento = departamento;
+                gestor.gereUtilizadores = GereUtilizadores;
+                // Salva as alterações na base de dados
                 db.SaveChanges();
             }
-            catch (Exception ex)
+        }
+        public static void EliminarGestor(Gestor gestorSelecionado, Utilizador gestorLogado)
+        {
+            // Obtém a instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+
+            // Encontra o gestor pelo ID
+            Gestor gestor = db.Gestor.Find(gestorSelecionado.id);
+
+            // Verifica se o gestor a eliminar é o gestor logado
+            if (gestorLogado != null && gestor.id == gestorLogado.id)
             {
-                // Lança uma exceção se ocorrer um erro ao gravar o gestor
-                throw new Exception("Erro ao gravar gestor: " + ex.Message);
+                // Não permite eliminar o próprio gestor logado
+                throw new InvalidOperationException("Não é possível eliminar o gestor logado.");
             }
+
+            // Remove o gestor da base de dados
+            db.Gestor.Remove(gestor);
+            // Salva as alterações na base de dados
+            db.SaveChanges();
         }
         // Método para listar todos os gestores na base de dados
         public static List<Gestor> ListarGestores()
         {
-            try
-            {
-                // Obtém a instância da base de dados
-                BasedeDados db = BasedeDados.Instance;
-                // Retorna uma lista de gestores filtrando a tabela de utilizadores
-                return db.Utilizador.OfType<Gestor>().ToList();
-            }
-            catch (Exception ex)
-            {
-                // Lança uma exceção se ocorrer um erro ao listar os gestores
-                throw new Exception("Erro ao listar gestores: " + ex.Message);
-            }
+            // Obtém a instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            // Retorna uma lista de gestores filtrando a tabela de utilizadores
+            return db.Utilizador.OfType<Gestor>().ToList();
         }
         // Método para contar o número de gestores na base de dados
         public static int countGestor()
         {
-            try
-            {
-                // Obtém a instância da base de dados
-                BasedeDados db = BasedeDados.Instance;
-                // Conta o número de gestores na base de dados e adiciona 1, começando em 1 se não houver nenhum
-                int count = db.Gestor.Count();
-                return count + 1;
-            }
-            catch (Exception ex) 
-            {
-                // Lança uma exceção se ocorrer um erro ao contar os gestores
-                throw new Exception("Erro ao contar gestores" + ex.Message);
-            }
+            // Obtém a instância da base de dados
+            BasedeDados db = BasedeDados.Instance;
+            // Conta o número de gestores na base de dados e adiciona 1, começando em 1 se não houver nenhum
+            int count = db.Gestor.Count();
+            return count + 1;
         }
     }
 }

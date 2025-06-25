@@ -30,24 +30,73 @@ namespace iTasks
 
         private void btGravar_Click(object sender, EventArgs e)
         {
-            if (txtDesc.Text != null)
+            try
             {
-                TipoTarefa tipoTarefa = new TipoTarefa(txtDesc.Text);
+                if (txtDesc.Text != null)
+                {
+                    TipoTarefaController.GravarTipoTarefa(txtDesc.Text);
 
-                // Adiciona o tipo de tarefa à base de dados
-                db.TipoTarefa.Add(tipoTarefa);
-                db.SaveChanges();
+                    // Preenche o campo de id
+                    txtId.Text = TipoTarefaController.contaTipoTarefa();
 
-                // Atualiza a lista
-                db.TipoTarefa.Load();
-                lstLista.DataSource = db.TipoTarefa.Local.ToBindingList();
-
-                // Preenche o campo de id
-                txtId.Text = TipoTarefaController.contaTipoTarefa();
+                    lstLista.DataSource = null;
+                    lstLista.DataSource = TipoTarefaController.ListarTipoTarefa();
+                }
+                else
+                {
+                    throw new Exception("Campo de descrição não pode ser nulo.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Preencha o campo de descrição.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btEditar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lstLista.SelectedItem != null)
+                {
+                    TipoTarefa tipoTarefaSelecionada = (TipoTarefa)lstLista.SelectedItem;
+                    TipoTarefaController.EditarTipoTarefa(tipoTarefaSelecionada, txtDesc.Text);
+
+                    lstLista.DataSource = null;
+                    lstLista.DataSource = TipoTarefaController.ListarTipoTarefa();
+                }
+                else
+                {
+                    throw new Exception("Nenhum tipo de tarefa selecionado.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lstLista.SelectedItem != null)
+                {
+                    TipoTarefa tipoTarefaSelecionada = (TipoTarefa)lstLista.SelectedItem;
+                    TipoTarefaController.EliminarTipoTarefa(tipoTarefaSelecionada);
+                    
+
+                    lstLista.DataSource = null;
+                    lstLista.DataSource = TipoTarefaController.ListarTipoTarefa();
+                }
+                else
+                {
+                    throw new Exception("Nenhum tipo de tarefa selecionado.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
