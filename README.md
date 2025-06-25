@@ -38,3 +38,19 @@ Unidade Curricular: Desenvolvimento de Aplicações
 
 ---
 
+## Instalação do SQL Server
+
+# Instalar SQL Server para iTasks
+
+## Passos
+1. Abrir **Visual Studio Installer**
+2. Clicar **"Modify"** no Visual Studio
+3. Ir a **"Individual components"**
+4. Marcar **"SQL Server Express LocalDB"**
+5. Clicar **"Modify"** para instalar
+
+## Verificar
+- Abrir Visual Studio
+- **View** → **SQL Server Object Explorer**
+- Deve aparecer `(localdb)\MSSQLLocalDB`
+
