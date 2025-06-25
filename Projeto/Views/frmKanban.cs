@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,10 +23,11 @@ namespace iTasks
             InitializeComponent();
 
             this.utilizadorRecebido = utilizadorRecebido;
-
+            
+            // Exibe o nome do utilizador logado
             label1.Text = "Bem-Vindo, " + utilizadorRecebido.nome;
 
-            // Verifica se o utilizador é um gestor
+            // Se for programador, limita as permissões
             if (utilizadorRecebido is Programador programador)
             {
                 // Menu ToolStrip
@@ -42,6 +43,7 @@ namespace iTasks
         {
             try
             {
+                // Abre o formulário de previsão de tarefas
                 frmDetalhesPrevisao MostrarPrevisao = new frmDetalhesPrevisao(utilizadorRecebido);
                 MostrarPrevisao.ShowDialog();
             }
@@ -55,6 +57,8 @@ namespace iTasks
             try
             {
                 lstTodo.SelectedIndex = -1; // Limpa a seleção da lista de tarefas
+                
+                // Só gestores podem criar novas tarefas
                 if (utilizadorRecebido is Gestor gestor)
                 {
                     frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, frmDetalhesTarefa.DetalhesTarefaState.Novo);
@@ -75,7 +79,7 @@ namespace iTasks
         {
             try
             {
-                ReloadData();
+                ReloadData(); // Atualiza a interface
             }
             catch (Exception ex)
             {
@@ -87,13 +91,16 @@ namespace iTasks
             try
             {
                 var tarefaSelecionada = lstTodo.SelectedItem as Tarefa; // Obtem a tarefa que foi seleciona na listbox todo
-
+                
+                //Verifica se está na ordem correta
                 if (!TarefaController.VerificarOrdem(tarefaSelecionada, Tarefa.Estado.Doing))
                     throw new Exception("A tarefa não pode ser movida para Doing porque não está na ordem correta de execução.");
-
+                    
+                // Limita a 2 tarefas em Doing por programador
                 if (TarefaController.countTarefasPorEstadoProgramador(Tarefa.Estado.Doing, utilizadorRecebido) >= 2)
                     throw new Exception("Não é possível mover a tarefa para Doing porque já existem 2 tarefas em Doing atribuídas a si.");
-
+                
+                // Altera o estado da tarefa
                 TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Doing, utilizadorRecebido); // Muda o estado da tarefa para Doing
                 MessageBox.Show("Tarefa movida para Doing.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ReloadData(); // Atualiza a lista após a mudança de estado
@@ -107,10 +114,12 @@ namespace iTasks
         {
             try
             {
-                var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
-
+                var tarefaSelecionada = lstDoing.SelectedItem as Tarefa; //Tarefa seleciona em doing
+                
+                // Valida ordem correta de execução
                 if (!TarefaController.VerificarOrdem(tarefaSelecionada, Tarefa.Estado.Done))
                     throw new Exception("A tarefa não pode ser movida para Done porque não está na ordem correta de execução.");
+                    
                 // Muda o estado da tarefa para Done
                 TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.Done, utilizadorRecebido);
                 MessageBox.Show("Tarefa movida para Done.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -125,9 +134,9 @@ namespace iTasks
         {
             try
             {
-                var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
+                var tarefaSelecionada = lstDoing.SelectedItem as Tarefa; //Tarefa selecionada em doing
+                
                 // Muda o estado da tarefa para Todo
-
                 TarefaController.MudarEstadoTarefa(tarefaSelecionada, Tarefa.Estado.ToDo, utilizadorRecebido);
                 MessageBox.Show("Tarefa movida para ToDo.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ReloadData(); // Atualiza a lista após a mudança de estado
@@ -142,6 +151,7 @@ namespace iTasks
         {
             try
             {
+                //Abre a vista de gerir utilizadores
                 frmGereUtilizadores gereUtilizadores = new frmGereUtilizadores(utilizadorRecebido);
                 gereUtilizadores.ShowDialog();
             }
@@ -155,6 +165,7 @@ namespace iTasks
             // Abre o formulário de gestão de tipos de tarefas
             try
             {
+                //Abre a vista de gerir tipos de tarefas
                 frmGereTiposTarefas gereTiposTarefas = new frmGereTiposTarefas();
                 gereTiposTarefas.ShowDialog();
             }
@@ -169,9 +180,11 @@ namespace iTasks
             try
             {
                 DialogResult result = MessageBox.Show("Tem a certeza que deseja sair?", "Sair", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                
+                //Verifica a resposta de saida
                 if (result == DialogResult.Yes)
                 {
-                    Application.Exit();
+                    Application.Exit(); //Termina a aplicação
                 }
             }
             catch (Exception ex)
@@ -183,6 +196,7 @@ namespace iTasks
         {
             try
             {
+                //Abre vista de tarefas concluidas
                 frmConsultarTarefasConcluidas tarefasConcluidas = new frmConsultarTarefasConcluidas(utilizadorRecebido);
                 tarefasConcluidas.ShowDialog();
             }
@@ -195,8 +209,10 @@ namespace iTasks
         {
             try
             {
+                //Se for gestor
                 if (utilizadorRecebido is Gestor)
                 {
+                    //Abre a vista de tarefas em curso
                     frmConsultaTarefasEmCurso tarefasEmCurso = new frmConsultaTarefasEmCurso(utilizadorRecebido);
                     tarefasEmCurso.ShowDialog();
                 }
@@ -214,8 +230,10 @@ namespace iTasks
         {
             try
             {
+                //Se for gestor 
                 if (utilizadorRecebido is Gestor gestor)
                 {
+                    //Exporta tarefas concluidas em CSV
                     if (TarefaController.ExportarCSV(gestor))
                     {
                         MessageBox.Show("Tarefas exportadas com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -233,8 +251,10 @@ namespace iTasks
             try
             {
                 var tarefaSelecionada = lstTodo.SelectedItem as Tarefa;
+                
                 if (tarefaSelecionada != null)
                 {
+                    //Abre vista de detalhes de tarefa
                     frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, frmDetalhesTarefa.DetalhesTarefaState.Editar, tarefaSelecionada);
                     detalhesTarefa.ShowDialog();
                     ReloadData(); // Atualiza a lista após possíveis alterações
@@ -252,6 +272,7 @@ namespace iTasks
                 var tarefaSelecionada = lstDoing.SelectedItem as Tarefa;
                 if (tarefaSelecionada != null)
                 {
+                    //Abre vista de detalhes de tarefa
                     frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, frmDetalhesTarefa.DetalhesTarefaState.Editar , tarefaSelecionada);
                     detalhesTarefa.ShowDialog();
                     ReloadData(); // Atualiza a lista após possíveis alterações
@@ -266,9 +287,11 @@ namespace iTasks
         {
             try
             {
-                var tarefaSelecionada = lstDone.SelectedItem as Tarefa;
+                var tarefaSelecionada = lstDone.SelectedItem as Tarefa; //Tarefa selecionada em done
+                
                 if (tarefaSelecionada != null)
                 {
+                    //Abre vista de detalhes de tarefa
                     frmDetalhesTarefa detalhesTarefa = new frmDetalhesTarefa(utilizadorRecebido, frmDetalhesTarefa.DetalhesTarefaState.Editar, tarefaSelecionada);
                     detalhesTarefa.ShowDialog();
                     ReloadData(); // Atualiza a lista após possíveis alterações
@@ -307,4 +330,3 @@ namespace iTasks
         }        
     } 
 }
-

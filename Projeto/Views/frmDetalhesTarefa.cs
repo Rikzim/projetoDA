@@ -17,6 +17,8 @@ namespace iTasks
         // Inicializa os campos necessários
         Utilizador utilizadorRecebido;
         Tarefa tarefaSelecionada;
+        
+        //Enum para representar os detalhes de tarefa
         public enum DetalhesTarefaState
         {
             Novo,
@@ -27,6 +29,7 @@ namespace iTasks
         private DetalhesTarefaState state;
         public frmDetalhesTarefa(Utilizador utilizadorRecebido, DetalhesTarefaState state, Tarefa tarefaSelecionada = null)
         {
+        
             InitializeComponent();
 
             // Recebe o utilizador e a tarefa selecionada (se houver)
@@ -34,6 +37,7 @@ namespace iTasks
             this.tarefaSelecionada = tarefaSelecionada;
             this.state = state;
             
+             // Se o utilizador for Programador, força o modo só de leitura
             if (utilizadorRecebido is Programador)
             {
                 this.state = DetalhesTarefaState.ReadOnly;

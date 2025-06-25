@@ -14,10 +14,30 @@ namespace iTasks
 {
     public partial class frmConsultarTarefasConcluidas : Form
     {
-        Utilizador utilizadorRecebido;
+        Utilizador utilizadorRecebido; // Variável para guardar o utilizador/programador passado ao formulário
+
+        // Construtor do formulário que recebe o utilizador como parâmetro
         public frmConsultarTarefasConcluidas(Utilizador utilizador)
         {
             InitializeComponent();
+
+            this.utilizadorRecebido = utilizador;
+            gvTarefasConcluidas.DataSource = TarefaController.ListarTarefasPorEstado(Tarefa.Estado.Done, utilizadorRecebido);
+
+            try
+            {
+
+                this.utilizadorRecebido = utilizador;
+                // Obtém a lista de tarefas concluídas ("Done") para o programador
+                var tarefas = TarefaController.ListarTarefasPorEstadoProgramador(Tarefa.Estado.Done, utilizadorRecebido);
+
+                // Cria uma lista com os dados formatados para exibir na tabela
+                var tarefasComTempo = tarefas.Select(t => new
+                {
+                    t.Id,
+                    IdGestor = t.IdGestor?.id ?? 0, // Se o gestor for nulo, usa 0
+                    IdProgramador = t.IdProgramador?.id ?? 0, // Se o programador for nulo, usa 0
+
             try
             {
                 this.utilizadorRecebido = utilizador;
@@ -34,22 +54,26 @@ namespace iTasks
                     t.DataPrevistaFim,
                     t.TipoTarefa,
                     t.StoryPoints,
-                    DataInicio = t.DataRealInicio?.ToString("dd/MM/yyyy HH:mm") ?? "N/A",
+                    DataInicio = t.DataRealInicio?.ToString("dd/MM/yyyy HH:mm") ?? "N/A", // Data formatada ou "N/A"
                     DataFim = t.DataRealFim?.ToString("dd/MM/yyyy HH:mm") ?? "N/A",
                     t.DataCriacao,
                     t.EstadoAtual,
                     DiasExecucao = t.DataRealInicio != null && t.DataRealFim != null
                         ? (t.DataRealFim.Value - t.DataRealInicio.Value).TotalDays.ToString("0.## Dias")
-                        : "N/A"
+
+                        : "N/A" // Calcula os dias de execução ou mostra "N/A"6
                 }).ToList();
 
+                // Define a fonte de dados do DataGridView com as tarefas formatadas
                 gvTarefasConcluidas.DataSource = tarefasComTempo;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
+        
         private void btFechar_Click(object sender, EventArgs e)
         {
             try
