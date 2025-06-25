@@ -16,12 +16,27 @@ namespace iTasks
     {
         Utilizador utilizadorRecebido;
         Tarefa tarefaSelecionada;
+<<<<<<< Updated upstream
         public frmDetalhesTarefa(Utilizador utilizadorRecebido, Tarefa tarefaSelecionada = null)
+=======
+
+        // Enum para representar o modo do formulário
+        public enum DetalhesTarefaState
+        {
+            Novo,
+            Editar,
+            ReadOnly
+        }
+
+        private DetalhesTarefaState state;
+        public frmDetalhesTarefa(Utilizador utilizadorRecebido, DetalhesTarefaState state, Tarefa tarefaSelecionada = null)
+>>>>>>> Stashed changes
         {
             InitializeComponent();
 
             // Define o utilizador recebido
             this.utilizadorRecebido = utilizadorRecebido;
+<<<<<<< Updated upstream
 
             //Atualizar a combobox com os tipos de tarefa
             cbTipoTarefa.DataSource = null;
@@ -71,13 +86,147 @@ namespace iTasks
             }
         }
 
+=======
+            this.tarefaSelecionada = tarefaSelecionada;
+            this.state = state;
+
+            // Se o utilizador for Programador, força o modo só de leitura
+            if (utilizadorRecebido is Programador)
+            {
+                this.state = DetalhesTarefaState.ReadOnly;
+                state = this.state;
+            }
+
+            // Configura os botões de acordo com o estado da tarefa
+            ConfigurarBotoes(state);
+
+            //Inicializa os comboboxes com os dados necessários
+            InicializarComboboxes();
+
+            // Verifica se uma tarefa foi selecionada
+            if (tarefaSelecionada != null)
+            {
+                // Se uma tarefa foi selecionada, preenche os campos com os dados da tarefa
+                PreencherCamposImutaveis();// Preenche campos só de leitura (ID, Estado, etc.)
+                PreencherCamposMutaveis();
+            }
+            else
+            {
+                // Se não há tarefa selecionada, prepara o formulário para criar uma nova tarefa
+                PrepararNovaTarefa(); 
+            }
+        }
+
+        private void ConfigurarBotoes(DetalhesTarefaState state)
+        {
+            // Configura os botões de acordo com o estado da tarefa
+            switch (state)
+            {
+                case DetalhesTarefaState.Novo:
+                    btGravar.Enabled = true;
+                    btEditarTarefa.Enabled = false;
+                    btApagarTarefa.Enabled = false;
+                    break;
+                case DetalhesTarefaState.Editar:
+                    btGravar.Enabled = false;
+                    btEditarTarefa.Enabled = true;
+                    btApagarTarefa.Enabled = true;
+                    break;
+                case DetalhesTarefaState.ReadOnly:
+                    readOnlyUtilizador(); // Desativa campos e botões para o programador
+                    break;
+            }
+        }
+
+        // Impede alterações no formulário
+        private void readOnlyUtilizador() 
+        {
+            // Se o utilizador for um programador, desabilita CRUD de tarefas
+            btGravar.Enabled = false;
+            btEditarTarefa.Enabled = false;
+            btApagarTarefa.Enabled = false;
+
+            // Campos readonly
+            txtDesc.ReadOnly = true;
+            txtOrdem.ReadOnly = true;
+            txtStoryPoints.ReadOnly = true;
+
+            // ComboBoxes readonly
+            cbProgramador.Enabled = false;
+            cbTipoTarefa.Enabled = false;
+
+            // DateTimePickers readonly
+            dtInicio.Enabled = false;
+            dtFim.Enabled = false;
+
+        }
+        private void InicializarComboboxes()
+        {
+            // Preenche os comboboxes com os dados necessários
+            cbTipoTarefa.DataSource = null;
+            cbTipoTarefa.DataSource = TipoTarefaController.ListarTipoTarefa();
+
+            cbProgramador.DataSource = null;
+            cbProgramador.DataSource = ProgramadorController.ListarProgramadoresPorGestor(utilizadorRecebido);
+        }
+
+        private void PreencherCamposImutaveis()
+        {
+            // Preenche os campos imutáveis com os dados da tarefa selecionada
+            txtId.Text = tarefaSelecionada.Id.ToString();
+            txtEstado.Text = tarefaSelecionada.EstadoAtual.ToString();
+            txtDataCriacao.Text = tarefaSelecionada.DataCriacao.ToString("dd/MM/yyyy");
+
+            txtDataRealini.Text = tarefaSelecionada.DataRealInicio?.ToString("dd/MM/yyyy HH:mm") ?? "N/A";
+            txtdataRealFim.Text = tarefaSelecionada.DataRealFim?.ToString("dd/MM/yyyy HH:mm") ?? "N/A";
+        }
+
+        private void PreencherCamposMutaveis()
+        {
+            // Preenche os campos mutáveis com os dados da tarefa selecionada
+            txtDesc.Text = tarefaSelecionada.Descricao;
+            cbTipoTarefa.SelectedItem = tarefaSelecionada.TipoTarefa;
+            cbProgramador.SelectedItem = tarefaSelecionada.IdProgramador;
+            txtOrdem.Text = tarefaSelecionada.OrdemExecucao.ToString();
+            txtStoryPoints.Text = tarefaSelecionada.StoryPoints.ToString();
+            dtInicio.Value = tarefaSelecionada.DataPrevistaInicio;
+            dtFim.Value = tarefaSelecionada.DataPrevistaFim;
+        }
+
+        private void PrepararNovaTarefa()
+        {
+            // Prepara o formulário para criar uma nova tarefa
+            txtId.Text = TarefaController.countTarefas().ToString();
+
+            txtDesc.Clear();
+            cbTipoTarefa.SelectedIndex = -1;
+            cbProgramador.SelectedIndex = -1;
+            txtOrdem.Clear();
+            txtStoryPoints.Clear();
+            dtInicio.Value = DateTime.Now;
+            dtFim.Value = DateTime.Now;
+        }
+
+>>>>>>> Stashed changes
         private void btGravar_Click(object sender, EventArgs e)
         {
             try
             {
+<<<<<<< Updated upstream
+=======
+                // Verifica se todos os campos obrigatórios estão preenchidos
+                if (string.IsNullOrWhiteSpace(txtDesc.Text) || cbTipoTarefa.SelectedIndex == -1 || cbProgramador.SelectedIndex == -1 || string.IsNullOrWhiteSpace(txtOrdem.Text) || string.IsNullOrWhiteSpace(txtStoryPoints.Text))
+                {
+                    throw new Exception("Por favor, preencha todos os campos obrigatórios.");
+                }
+
+                // Converte e envia dados ao controlador
+>>>>>>> Stashed changes
                 Programador programador = (Programador)cbProgramador.SelectedItem;
                 Gestor gestor = (Gestor)utilizadorRecebido;
                 TipoTarefa tipoTarefa = (TipoTarefa)cbTipoTarefa.SelectedItem;
+
+                //Grava a Tarefa
                 TarefaController.GravarTarefa(
                     gestor,
                     programador,
@@ -115,6 +264,7 @@ namespace iTasks
                     Programador programador = (Programador)cbProgramador.SelectedItem;
                     TipoTarefa tipoTarefa = (TipoTarefa)cbTipoTarefa.SelectedItem;
 
+                    //Edita a Tarefa
                     TarefaController.EditarTarefa(
                         tarefaSelecionada,
                         gestor,

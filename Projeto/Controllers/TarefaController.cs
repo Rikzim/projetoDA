@@ -288,6 +288,123 @@ namespace iTasks.Controllers
             catch (Exception ex)
             { 
                 throw new Exception("Erro ao verificar ordem de execução: " + ex.Message);
+=======
+            {
+                // Lança uma exceção se ocorrer um erro ao importar as tarefas do ficheiro texto
+                throw new Exception("Erro ao importar tarefas do ficheiro texto: " + ex.Message);
+            }
+        }*/ // Função para importar tarefas
+
+        public static double EstimarTempoTotalToDo()
+        {
+            // Obtém a instância única da base de dados
+            BasedeDados db = BasedeDados.Instance;
+
+            // 1. Filtra as tarefas que estão marcadas como "Done" e têm datas de início e fim reais
+            var concluidas = db.Tarefa
+                .Where(t => t.EstadoAtual == Tarefa.Estado.Done && t.DataRealInicio != null && t.DataRealFim != null)
+                .ToList();
+            // Agrupa essas tarefas por Story Points e calcula a média de horas que cada grupo demorou
+            var mediasPorSP = concluidas
+                .GroupBy(t => t.StoryPoints) // Agrupa por Story Points
+                .ToDictionary(
+                    g => g.Key, // Chave: número de Story Points
+                    g => g.Average(t => (t.DataRealFim.Value - t.DataRealInicio.Value).TotalHours)
+                );
+
+            // 2. Obtém todas as tarefas que ainda estão no estado "ToDo"
+            var tarefasToDo = db.Tarefa
+                .Where(t => t.EstadoAtual == Tarefa.Estado.ToDo)
+                .ToList();
+
+            // Inicializa a variável para acumular o tempo total estimado
+            double totalHoras = 0;
+
+            // Percorre cada tarefa "ToDo" para estimar o seu tempo com base nas médias
+            foreach (var tarefa in tarefasToDo)
+            {
+                int sp = tarefa.StoryPoints;
+                if (mediasPorSP.ContainsKey(sp))
+                {
+                    // Se houver média para os Story Points da tarefa, usa essa média
+                    totalHoras += mediasPorSP[sp];
+                }
+                else if (mediasPorSP.Count > 0)
+                {
+                    // Se não houver média exata, procura o valor com Story Points mais próximo
+                    int spMaisProximo = mediasPorSP.Keys.OrderBy(k => Math.Abs(k - sp)).First();
+                    totalHoras += mediasPorSP[spMaisProximo];
+                }
+                // Se não houver nenhuma tarefa concluída, não soma nada
+            }
+
+            // Retorna o tempo total estimado em horas
+            return totalHoras;
+        }
+
+        public static double CalcularMediaHorasPorStoryPoints(int storyPoints)
+        {
+            BasedeDados db = BasedeDados.Instance; // Obtém a instância da base de dados
+
+            // Busca tarefas concluídas com DataRealInicio e DataRealFim definidos
+            var concluidas = db.Tarefa
+                .Where(t => t.EstadoAtual == Tarefa.Estado.Done && t.DataRealInicio != null && t.DataRealFim != null)
+                .ToList();
+
+            // Agrupa por StoryPoints e calcula a média de horas
+            var mediasPorSP = concluidas
+                .GroupBy(t => t.StoryPoints)
+                .ToDictionary(
+                    g => g.Key, // chave do dicionário: número de Story Points
+                    g => g.Average(t => (t.DataRealFim.Value - t.DataRealInicio.Value).TotalHours)
+                );
+
+            if (mediasPorSP.Count == 0)
+                return 0; // Nenhuma tarefa concluída
+
+            if (mediasPorSP.ContainsKey(storyPoints))
+            {
+                return mediasPorSP[storyPoints]; // Não há tarefas concluídas, então retorna 0
+            }
+            else
+            {
+                // Se há uma média exata para os Story Points fornecidos, retorna-a
+                int spMaisProximo = mediasPorSP.Keys.OrderBy(k => Math.Abs(k - storyPoints)).First();
+                return mediasPorSP[spMaisProximo];
+            }
+        }
+        public static bool VerificarOrdem(Tarefa tarefaSelecionada, Estado novoEstado)
+        {
+            //Instanciar a base de dados
+            BasedeDados db = BasedeDados.Instance;
+
+            //Guardar as tarefas anteriores do programador selecionado
+            var tarefasAnteriores = db.Tarefa
+                .Where(t => t.IdProgramador.id == tarefaSelecionada.IdProgramador.id
+                         && t.OrdemExecucao < tarefaSelecionada.OrdemExecucao)
+                .OrderBy(t => t.OrdemExecucao)
+                .ToList();
+
+            // Se não existem tarefas anteriores, a mudança de estado é sempre permitida
+            if (!tarefasAnteriores.Any())
+                return true;
+
+            // Verifica se a transição de estado é válida de acordo com as tarefas anteriores
+            switch (novoEstado)
+            {
+                case Estado.ToDo:
+                    return true; // Pode sempre voltar para ToDo
+
+                case Estado.Doing: // Só pode passar para Doing se todas as tarefas anteriores estiverem em Doing ou Done
+                    return tarefasAnteriores.All(t => t.EstadoAtual == Estado.Doing ||
+                                                      t.EstadoAtual == Estado.Done);
+
+                case Estado.Done: // Só pode marcar como Done se todas as tarefas anteriores também estiverem Done
+                    return tarefasAnteriores.All(t => t.EstadoAtual == Estado.Done);
+
+                default: // Se o estado for inválido, lança uma exceção
+                    throw new Exception("Estado inválido: " + novoEstado);
+>>>>>>> Stashed changes
             }
         }
     }
