@@ -40,9 +40,6 @@ Unidade Curricular: Desenvolvimento de Aplicações
 
 ## Instalação do SQL Server
 
-# Instalar SQL Server para iTasks
-
-## Passos
 1. Abrir **Visual Studio Installer**
 2. Clicar **"Modify"** no Visual Studio
 3. Ir a **"Individual components"**
