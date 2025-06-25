@@ -286,6 +286,7 @@ namespace iTasks.Controllers
                 return true; // Todas as tarefas anteriores estão concluídas
             }
             catch (Exception ex)
+<<<<<<< Updated upstream
             { 
                 throw new Exception("Erro ao verificar ordem de execução: " + ex.Message);
 =======
