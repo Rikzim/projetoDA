@@ -24,12 +24,14 @@ Unidade Curricular: Desenvolvimento de Aplicações
 
 3. Executar a aplicação:
    - Após compilar, ir à pasta: `bin\Debug\`
-   - Executar o ficheiro `iTasks.exe` (ou nome equivalente).  
+   - Executar o ficheiro `iTasks.exe` (ou nome equivalente).
+   - Conta default: User: admin Pass: admin.  
 > 
 ---
 
 ## Observações
 
+- A aplicação necessita da instalação do SQL Server no Visual Studio.
 - Todos os dados são guardados numa base de dados local SQL Server.  
 - A aplicação abre com a janela de **Login**.  
 - As funcionalidades disponíveis variam conforme o tipo de utilizador: **Gestor** ou **Programador**.
