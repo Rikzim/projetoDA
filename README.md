@@ -17,7 +17,8 @@
 2. Clicar **"Modify"** no Visual Studio
 3. Ir a **"Individual components"**
 4. Marcar **"SQL Server Express LocalDB"**
-5. Clicar **"Modify"** para instalar
+5. Marcar **"SQL Server Data Tools"**
+6. Clicar **"Modify"** para instalar
 
 ### Verificar Instalação
 - Abrir Visual Studio
