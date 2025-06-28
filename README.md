@@ -1,5 +1,8 @@
 # Projeto de Desenvolvimento de Aplicações — iTasks
 
+![Logo](logo.png)
+
+
 **Curso Técnico Superior Profissional de Programação de Sistemas de Informação**  
 **Unidade Curricular:** Desenvolvimento de Aplicações
 
