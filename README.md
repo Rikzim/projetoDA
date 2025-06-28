@@ -1,6 +1,6 @@
 # Projeto de Desenvolvimento de Aplicações — iTasks
 
-![Logo](logo.png)
+![Logo](logowhite.png)
 
 
 **Curso Técnico Superior Profissional de Programação de Sistemas de Informação**  
